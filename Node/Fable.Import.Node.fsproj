@@ -1,0 +1,29 @@
+<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Base.fs" />
+    <Compile Include="Url.fs" />
+    <Compile Include="Querystring.fs" />
+    <Compile Include="Events.fs" />
+    <Compile Include="Buffer.fs" />
+    <Compile Include="Stream.fs" />
+    <Compile Include="Fs.fs" />
+    <Compile Include="Path.fs" />
+    <Compile Include="Net.fs" />
+    <Compile Include="Crypto.fs" />
+    <Compile Include="Tls.fs" />
+    <Compile Include="Http.fs" />
+    <Compile Include="Https.fs" />
+    <Compile Include="ChildProcess.fs" />
+    <Compile Include="Process.fs" />
+    <Compile Include="Globals.fs" />
+    <Compile Include="Exports.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

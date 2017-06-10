@@ -11117,17 +11117,17 @@ module Browser =
         let DateTimeFormat: DateTimeFormatType = jsNative
 
 
-    // TODO        
+    // TODO
     // [<AutoOpen>]
     // module Extensions =
     //     type [<AllowNullLiteral>] String =
     //         abstract localeCompare: that: string * locales: ResizeArray<string> * ?options: Intl.CollatorOptions -> float
     //         abstract localeCompare: that: string * locale: string * ?options: Intl.CollatorOptions -> float
-        
+
     //     and [<AllowNullLiteral>] Number =
     //         abstract toLocaleString: ?locales: ResizeArray<string> * ?options: Intl.NumberFormatOptions -> string
     //         abstract toLocaleString: ?locale: string * ?options: Intl.NumberFormatOptions -> string
-        
+
     //     and [<AllowNullLiteral>] Date =
     //         abstract toLocaleString: ?locales: ResizeArray<string> * ?options: Intl.DateTimeFormatOptions -> string
     //         abstract toLocaleDateString: ?locales: ResizeArray<string> * ?options: Intl.DateTimeFormatOptions -> string
