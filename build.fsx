@@ -256,6 +256,7 @@ let localDotnetExePath = dotnetSDKPath </> (if isWindows then "dotnet.exe" else 
 let packages = [
     "Browser"
     "Node"
+    "Express"
 ]
 
 // Targets

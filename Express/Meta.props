@@ -1,0 +1,10 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Description>Fable bindings for Express</Description>
+    <PackageProjectUrl>https://github.com/fable-compiler/fable-import</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/fable-compiler/fable-import/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/fable-compiler/fable-import.git</RepositoryUrl>
+    <PackageTags>express;fsharp;fable</PackageTags>
+    <Authors>Alfonso Garcia-Caro</Authors>
+  </PropertyGroup>
+</Project>
