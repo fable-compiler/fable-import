@@ -257,6 +257,9 @@ let packages = [
     "Browser"
     "Node"
     "Express"
+    "Pg"
+    "SocketIo"
+    "Uws"
 ]
 
 // Targets
