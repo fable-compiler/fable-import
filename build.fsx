@@ -10,6 +10,16 @@ open Fake.AssemblyInfoFile
 open Fake.Git
 open Fake.ReleaseNotesHelper
 
+let packages = [
+    "Browser"
+    "Node"
+    "Express"
+    "Pg"
+    "SocketIo"
+    "Uws"
+    "Mocha"
+]
+
 #if MONO
 // prevent incorrect output encoding (e.g. https://github.com/fsharp/FAKE/issues/1196)
 System.Console.OutputEncoding <- System.Text.Encoding.UTF8
@@ -252,15 +262,6 @@ let dotnetcliVersion = "1.0.4"
 let mutable dotnetExePath = environVarOrDefault "DOTNET" "dotnet"
 let dotnetSDKPath = FullName "./dotnetsdk"
 let localDotnetExePath = dotnetSDKPath </> (if isWindows then "dotnet.exe" else "dotnet")
-
-let packages = [
-    "Browser"
-    "Node"
-    "Express"
-    "Pg"
-    "SocketIo"
-    "Uws"
-]
 
 // Targets
 let installDotnetSdk () =
