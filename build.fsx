@@ -18,6 +18,7 @@ let packages = [
     "SocketIo"
     "Uws"
     "Mocha"
+    "VSCode"
 ]
 
 #if MONO
