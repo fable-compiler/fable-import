@@ -1,4 +1,4 @@
-Fable bindings for [Visual Studio Code](https://mochajs.org/).
+Fable bindings for [Visual Studio Code](https://code.visualstudio.com/).
 =======
 [![nuget](https://badge.fury.io/nu/Fable.Import.VSCode.svg)](https://badge.fury.io/nu/Fable.Import.VSCode)
 
