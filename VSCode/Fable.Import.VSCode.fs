@@ -6,6 +6,8 @@ open Fable.Core
 open Fable.Import.JS
 
 module vscode =
+    let [<Import("version","vscode")>] version: string = jsNative
+
     type Command =
         abstract title: string with get, set
         abstract command: string with get, set
@@ -237,6 +239,16 @@ module vscode =
         [<Emit("$0($1...)")>] abstract Invoke: listener: Func<'T, obj> * ?thisArgs: obj * ?disposables: ResizeArray<Disposable> -> Disposable
 
     and [<Import("EventEmitter","vscode")>] EventEmitter<'T>() =
+        member __.addListener(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
+        member __.on(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
+        member __.once(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
+        member __.removeListener(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
+        member __.removeAllListeners(?``event``: string): NodeJS.EventEmitter = jsNative
+        member __.setMaxListeners(n: int): unit = jsNative
+        member __.getMaxListeners(): int = jsNative
+        member __.listeners(``event``: string): ResizeArray<Function> = jsNative
+        member __.listenerCount(``type``: string): int = jsNative
+        member __.emit(``event``: string, [<ParamArray>] args: obj[]): bool = jsNative
         member __.``event`` with get(): Event<'T> = jsNative and set(v: Event<'T>): unit = jsNative
         member __.fire(?data: 'T): unit = jsNative
         member __.dispose(): unit = jsNative
@@ -293,7 +305,7 @@ module vscode =
         U3<string, DocumentFilter, ResizeArray<U2<string, DocumentFilter>>>
 
     and ProviderResult<'T> =
-        U3<'T, unit, obj>
+        U3<'T, unit, PromiseLike<U2<'T, unit>>>
 
     and CodeActionContext =
         abstract diagnostics: ResizeArray<Diagnostic> with get, set
@@ -509,6 +521,26 @@ module vscode =
         abstract provideDocumentLinks: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<DocumentLink>>
         abstract resolveDocumentLink: link: DocumentLink * token: CancellationToken -> ProviderResult<DocumentLink>
 
+    and TreeDataProvider<'T> =
+        abstract onDidChangeTreeData: Event<'T> with get
+        abstract getTreeItem: element:'T -> U2<TreeItem, PromiseLike<TreeItem>>
+        abstract getChildren: ?element:'T -> ProviderResult<ResizeArray<'T>>
+
+    and TreeIconPath =
+        abstract light: U2<string, Uri> with get, set
+        abstract dark: U2<string, Uri> with get, set
+
+    and TreeItemCollapsibleState =
+        | None = 0
+        | Collapsed = 1
+        | Expanded = 2
+
+    and [<Import("TreeItem","vscode")>] TreeItem(label: string, ?collapsibleState: TreeItemCollapsibleState) =
+        abstract label: string with get, set
+        abstract iconPath: U2<string, Uri, TreeIconPath> option with get, set
+        abstract contextValue: string option with get, set
+        abstract collapsibleState: TreeItemCollapsibleState option with get, set
+
     and CharacterPair =
         string * string
 
@@ -658,6 +690,10 @@ module vscode =
         abstract location: ProgressLocation with get, set
         abstract title: string option with get, set
 
+    and ProgressMessage =
+        abstract message: string option with get,set
+        abstract percentage: int option with get, set
+
     and TextDocumentContentChangeEvent =
         abstract range: Range with get, set
         abstract rangeLength: float with get, set
@@ -727,6 +763,8 @@ module vscode =
 
     type [<Import("commands","vscode")>] commands =
         static member registerCommand(command: string, callback: Func<obj, obj>, ?thisArg: obj): Disposable = jsNative
+        static member registerCommand(command: string, callback: Func<obj, obj, obj>, ?thisArg: obj): Disposable = jsNative
+        static member registerCommand(command: string, callback: Func<obj, obj, obj, obj>, ?thisArg: obj): Disposable = jsNative
         static member registerTextEditorCommand(command: string, callback: Func<TextEditor, TextEditorEdit, obj, unit>, ?thisArg: obj): Disposable = jsNative
         static member executeCommand(command: string, [<ParamArray>] rest: obj[]): PromiseLike<'T option> = jsNative
         static member getCommands(?filterInternal: bool): PromiseLike<ResizeArray<string>> = jsNative
@@ -763,7 +801,7 @@ module vscode =
         static member setStatusBarMessage(text: string, hideWhenDone: PromiseLike<obj>): Disposable = jsNative
         static member setStatusBarMessage(text: string): Disposable = jsNative
         static member withScmProgress(task: Func<Progress<float>, PromiseLike<'R>>): PromiseLike<'R> = jsNative
-        static member withProgress(options: ProgressOptions, task: Func<Progress<obj>, PromiseLike<'R>>): PromiseLike<'R> = jsNative
+        static member withProgress(options: ProgressOptions, task: Func<Progress<ProgressMessage>, PromiseLike<'R>>): PromiseLike<'R> = jsNative
         static member createStatusBarItem(?alignment: StatusBarAlignment, ?priority: float): StatusBarItem = jsNative
         static member createTerminal(?name: string, ?shellPath: string, ?shellArgs: ResizeArray<string>): Terminal = jsNative
         static member createTerminal(options: TerminalOptions): Terminal = jsNative
