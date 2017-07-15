@@ -26,8 +26,16 @@ type [<AllowNullLiteral>] ChildProcessStatic =
     [<Emit("new $0()")>] abstract Create: unit -> ChildProcess
 
 type ExecOptions = {
-    encoding : string option;
+    /// Default: 'utf8'
+    encoding : string option
+
+    /// Current working directory of the child process
+    cwd: string option
+
+    /// Timeout, in milliseconds. Default is zero (no timeout).
+    timeout: int option
 }
+    with static member Default = { encoding = None; cwd = None; timeout = None; maxBuffer = None }
 
 type IExports =
     abstract ChildProcess: ChildProcessStatic with get, set
