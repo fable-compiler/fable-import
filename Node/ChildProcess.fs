@@ -35,7 +35,7 @@ type ExecOptions = {
     /// Timeout, in milliseconds. Default is zero (no timeout).
     timeout: int option
 }
-    with static member Default = { encoding = None; cwd = None; timeout = None; maxBuffer = None }
+    with static member Default = { encoding = None; cwd = None; timeout = None }
 
 type IExports =
     abstract ChildProcess: ChildProcessStatic with get, set
