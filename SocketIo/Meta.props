@@ -5,6 +5,6 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/fable-compiler/fable-import/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/fable-compiler/fable-import.git</RepositoryUrl>
     <PackageTags>socket.io;fsharp;fable</PackageTags>
-    <Authors>Alfonso Garcia-Caro</Authors>
+    <Authors>Joe Grund</Authors>
   </PropertyGroup>
 </Project>

@@ -381,6 +381,16 @@ let pushNuget (releaseNotes: ReleaseNotes) (projFiles: string list) =
 
 Target "Clean" clean
 
+Target "Build" (fun () ->
+    installDotnetSdk ()
+    clean ()
+    for pkg in packages do
+        let projFile = __SOURCE_DIRECTORY__ </> pkg </> (sprintf "Fable.Import.%s.fsproj" pkg)
+        let projDir = Path.GetDirectoryName(projFile)
+        Util.run projDir dotnetExePath "restore"
+        Util.run projDir dotnetExePath "build"
+)
+
 Target "PublishPackages" (fun () ->
     installDotnetSdk ()
     clean ()
@@ -394,4 +404,4 @@ Target "PublishPackages" (fun () ->
 )
 
 // Start build
-RunTargetOrDefault "PublishPackages"
+RunTargetOrDefault "Build"

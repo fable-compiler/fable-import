@@ -4,7 +4,7 @@ open Fable.Core
 open Fable.Import.Node
 open Fable.Import.Node.Base
 
-type ExecError = 
+type ExecError =
     inherit NodeJS.Error
     abstract code: int with get, set
     abstract signal: string option with get, set
@@ -25,17 +25,15 @@ type [<AllowNullLiteral>] ChildProcess =
 type [<AllowNullLiteral>] ChildProcessStatic =
     [<Emit("new $0()")>] abstract Create: unit -> ChildProcess
 
-type ExecOptions = {
+type [<AllowNullLiteral>] ExecOptions =
     /// Default: 'utf8'
-    encoding : string option
+    abstract encoding : string option with get, set
 
     /// Current working directory of the child process
-    cwd: string option
+    abstract cwd: string option with get, set
 
     /// Timeout, in milliseconds. Default is zero (no timeout).
-    timeout: int option
-}
-    with static member Default = { encoding = None; cwd = None; timeout = None }
+    abstract timeout: int option with get, set
 
 type IExports =
     abstract ChildProcess: ChildProcessStatic with get, set
@@ -43,15 +41,15 @@ type IExports =
     abstract exec: command: string * ?options: ExecOptions * ?callback:(ExecError option -> U2<string, Buffer.Buffer> -> U2<string, Buffer.Buffer> -> unit) -> ChildProcessStatic
 
     abstract execFile: file: string * ?callback: (ExecError option -> Buffer.Buffer -> Buffer.Buffer -> unit) -> ChildProcess
-    
+
     abstract execFile: file: string * ?args: ResizeArray<string> * ?callback: (ExecError option -> Buffer.Buffer -> Buffer.Buffer -> unit) -> ChildProcess
-    
+
     abstract execFile :file: string * ?args: ResizeArray<string> * ?options: ExecOptions * ?callback: (ExecError option -> Buffer.Buffer -> Buffer.Buffer -> unit) -> ChildProcess
-    
+
     abstract fork: modulePath: string * ?args: ResizeArray<string> * ?options: obj -> ChildProcess
-    
+
     abstract execSync: command: string * ?options: obj -> U2<string, Buffer.Buffer>
-    
+
     abstract execFileSync: command: string * ?args: ResizeArray<string> * ?options: obj -> U2<string, Buffer.Buffer>
-    
+
     abstract spawnSync: command: string * ?args: ResizeArray<string> * ?options: obj -> obj
