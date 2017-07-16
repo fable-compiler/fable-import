@@ -239,11 +239,11 @@ module vscode =
         [<Emit("$0($1...)")>] abstract Invoke: listener: Func<'T, obj> * ?thisArgs: obj * ?disposables: ResizeArray<Disposable> -> Disposable
 
     and [<Import("EventEmitter","vscode")>] EventEmitter<'T>() =
-        member __.addListener(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
-        member __.on(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
-        member __.once(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
-        member __.removeListener(``event``: string, listener: Function): NodeJS.EventEmitter = jsNative
-        member __.removeAllListeners(?``event``: string): NodeJS.EventEmitter = jsNative
+        member __.addListener(``event``: string, listener: Function): Node.Events.EventEmitter = jsNative
+        member __.on(``event``: string, listener: Function): Node.Events.EventEmitter = jsNative
+        member __.once(``event``: string, listener: Function): Node.Events.EventEmitter = jsNative
+        member __.removeListener(``event``: string, listener: Function): Node.Events.EventEmitter = jsNative
+        member __.removeAllListeners(?``event``: string): Node.Events.EventEmitter = jsNative
         member __.setMaxListeners(n: int): unit = jsNative
         member __.getMaxListeners(): int = jsNative
         member __.listeners(``event``: string): ResizeArray<Function> = jsNative
@@ -536,10 +536,10 @@ module vscode =
         | Expanded = 2
 
     and [<Import("TreeItem","vscode")>] TreeItem(label: string, ?collapsibleState: TreeItemCollapsibleState) =
-        abstract label: string with get, set
-        abstract iconPath: U2<string, Uri, TreeIconPath> option with get, set
-        abstract contextValue: string option with get, set
-        abstract collapsibleState: TreeItemCollapsibleState option with get, set
+        member __.label with get(): string = jsNative and set(v: string) = jsNative
+        member __.iconPath with get(): U3<string, Uri, TreeIconPath> option = jsNative and set(v: U3<string, Uri, TreeIconPath> option) = jsNative
+        member __.contextValue with get(): string option = jsNative and set(v: string option) = jsNative
+        member __.collapsibleState with get(): TreeItemCollapsibleState option = jsNative and set(v: TreeItemCollapsibleState option) = jsNative
 
     and CharacterPair =
         string * string
@@ -752,8 +752,6 @@ module vscode =
         abstract statusBarCommands: ResizeArray<Command> option with get, set
         abstract createResourceGroup: id: string * label: string -> SourceControlResourceGroup
         abstract dispose: unit -> unit
-
-    let [<Import("version","vscode")>] version: string = jsNative
 
     type [<Import("env","vscode")>] env =
         static member appName with get(): string = jsNative and set(v: string): unit = jsNative
