@@ -11,14 +11,14 @@ open Fake.Git
 open Fake.ReleaseNotesHelper
 
 let packages = [
-    "Browser"
-    "Node"
-    "Express"
-    "Pg"
-    "SocketIo"
-    "Uws"
-    "Mocha"
-    "VSCode"
+    "Browser/Fable.Import.Browser"
+    "Node/Fable.Import.Node"
+    "Express/Fable.Import.Express"
+    "Pg/Fable.Import.Pg"
+    "SocketIo/Fable.Import.SocketIo"
+    "Uws/Fable.Import.Uws"
+    "Mocha/Fable.Import.Mocha"
+    "VSCode/Fable.Import.VSCode"
 ]
 
 #if MONO
@@ -182,6 +182,16 @@ module Util =
                         then Same
                         else Smaller
                 | Smaller -> Smaller)
+
+    let rec findFileUpwards fileName dir =
+        let fullPath = dir </> fileName
+        if File.Exists(fullPath)
+        then fullPath
+        else
+            let parent = Directory.GetParent(dir)
+            if isNull parent then
+                failwithf "Couldn't find %s directory" fileName
+            findFileUpwards fileName parent.FullName
 
 module Npm =
     let script workingDir script args =
@@ -385,23 +395,25 @@ Target "Build" (fun () ->
     installDotnetSdk ()
     clean ()
     for pkg in packages do
-        let projFile = __SOURCE_DIRECTORY__ </> pkg </> (sprintf "Fable.Import.%s.fsproj" pkg)
+        let projFile = __SOURCE_DIRECTORY__ </> (pkg + ".fsproj")
         let projDir = Path.GetDirectoryName(projFile)
         Util.run projDir dotnetExePath "restore"
         Util.run projDir dotnetExePath "build"
 )
 
-Target "PublishPackages" (fun () ->
+let publishPackages () =
     installDotnetSdk ()
     clean ()
     for pkg in packages do
+        let projFile = __SOURCE_DIRECTORY__ </> (pkg + ".fsproj")
+        let projDir = Path.GetDirectoryName(projFile)
         let release =
-            __SOURCE_DIRECTORY__ </> pkg </> "RELEASE_NOTES.md"
+            Util.findFileUpwards "RELEASE_NOTES.md" projDir
             |> ReleaseNotesHelper.LoadReleaseNotes
-        let projFile =
-            __SOURCE_DIRECTORY__ </> pkg </> (sprintf "Fable.Import.%s.fsproj" pkg)
         pushNuget release [projFile]
-)
+
+Target "PublishPackages" publishPackages
+Target "PublishPackage" publishPackages
 
 // Start build
 RunTargetOrDefault "Build"
