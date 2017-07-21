@@ -224,7 +224,7 @@ module vscode =
 
     and CancellationToken =
         abstract isCancellationRequested: bool with get, set
-        abstract onCancellationRequested: Event<obj> with get, set
+        abstract onCancellationRequested: Event<obj>
 
     and [<Import("CancellationTokenSource","vscode")>] CancellationTokenSource() =
         member __.token with get(): CancellationToken = jsNative and set(v: CancellationToken): unit = jsNative
@@ -249,7 +249,7 @@ module vscode =
         member __.listeners(``event``: string): ResizeArray<Function> = jsNative
         member __.listenerCount(``type``: string): int = jsNative
         member __.emit(``event``: string, [<ParamArray>] args: obj[]): bool = jsNative
-        member __.``event`` with get(): Event<'T> = jsNative and set(v: Event<'T>): unit = jsNative
+        member __.``event`` with get(): Event<'T> = jsNative
         member __.fire(?data: 'T): unit = jsNative
         member __.dispose(): unit = jsNative
 
@@ -259,12 +259,12 @@ module vscode =
         abstract ignoreCreateEvents: bool with get, set
         abstract ignoreChangeEvents: bool with get, set
         abstract ignoreDeleteEvents: bool with get, set
-        abstract onDidCreate: Event<Uri> with get, set
-        abstract onDidChange: Event<Uri> with get, set
-        abstract onDidDelete: Event<Uri> with get, set
+        abstract onDidCreate: Event<Uri>
+        abstract onDidChange: Event<Uri>
+        abstract onDidDelete: Event<Uri>
 
     and TextDocumentContentProvider =
-        abstract onDidChange: Event<Uri> option with get, set
+        abstract onDidChange: Event<Uri> option
         abstract provideTextDocumentContent: uri: Uri * token: CancellationToken -> ProviderResult<string>
 
     and QuickPickItem =
@@ -319,7 +319,7 @@ module vscode =
         member __.isResolved with get(): bool = jsNative and set(v: bool): unit = jsNative
 
     and CodeLensProvider =
-        abstract onDidChangeCodeLenses: Event<unit> option with get, set
+        abstract onDidChangeCodeLenses: Event<unit> option
         abstract provideCodeLenses: document: TextDocument * token: CancellationToken -> ProviderResult<ResizeArray<CodeLens>>
         abstract resolveCodeLens: codeLens: CodeLens * token: CancellationToken -> ProviderResult<CodeLens>
 
@@ -522,7 +522,7 @@ module vscode =
         abstract resolveDocumentLink: link: DocumentLink * token: CancellationToken -> ProviderResult<DocumentLink>
 
     and TreeDataProvider<'T> =
-        abstract onDidChangeTreeData: Event<'T> with get
+        abstract onDidChangeTreeData: Event<U2<'T, unit>> option
         abstract getTreeItem: element:'T -> U2<TreeItem, PromiseLike<TreeItem>>
         abstract getChildren: ?element:'T -> ProviderResult<ResizeArray<'T>>
 
@@ -770,12 +770,12 @@ module vscode =
     type [<Import("window","vscode")>] window =
         static member activeTextEditor with get(): TextEditor option = jsNative and set(v: TextEditor option): unit = jsNative
         static member visibleTextEditors with get(): ResizeArray<TextEditor> = jsNative and set(v: ResizeArray<TextEditor>): unit = jsNative
-        static member onDidChangeActiveTextEditor with get(): Event<TextEditor> = jsNative and set(v: Event<TextEditor>): unit = jsNative
-        static member onDidChangeVisibleTextEditors with get(): Event<ResizeArray<TextEditor>> = jsNative and set(v: Event<ResizeArray<TextEditor>>): unit = jsNative
-        static member onDidChangeTextEditorSelection with get(): Event<TextEditorSelectionChangeEvent> = jsNative and set(v: Event<TextEditorSelectionChangeEvent>): unit = jsNative
-        static member onDidChangeTextEditorOptions with get(): Event<TextEditorOptionsChangeEvent> = jsNative and set(v: Event<TextEditorOptionsChangeEvent>): unit = jsNative
-        static member onDidChangeTextEditorViewColumn with get(): Event<TextEditorViewColumnChangeEvent> = jsNative and set(v: Event<TextEditorViewColumnChangeEvent>): unit = jsNative
-        static member onDidCloseTerminal with get(): Event<Terminal> = jsNative and set(v: Event<Terminal>): unit = jsNative
+        static member onDidChangeActiveTextEditor with get(): Event<TextEditor> = jsNative
+        static member onDidChangeVisibleTextEditors with get(): Event<ResizeArray<TextEditor>> = jsNative
+        static member onDidChangeTextEditorSelection with get(): Event<TextEditorSelectionChangeEvent> = jsNative
+        static member onDidChangeTextEditorOptions with get(): Event<TextEditorOptionsChangeEvent> = jsNative
+        static member onDidChangeTextEditorViewColumn with get(): Event<TextEditorViewColumnChangeEvent> = jsNative
+        static member onDidCloseTerminal with get(): Event<Terminal> = jsNative
         static member showTextDocument(document: TextDocument, ?column: ViewColumn, ?preserveFocus: bool): PromiseLike<TextEditor> = jsNative
         static member showTextDocument(document: TextDocument, ?options: TextDocumentShowOptions): PromiseLike<TextEditor> = jsNative
         static member createTextEditorDecorationType(options: DecorationRenderOptions): TextEditorDecorationType = jsNative
@@ -807,12 +807,12 @@ module vscode =
     type [<Import("workspace","vscode")>] workspace =
         static member rootPath with get(): string option = jsNative and set(v: string option): unit = jsNative
         static member textDocuments with get(): ResizeArray<TextDocument> = jsNative and set(v: ResizeArray<TextDocument>): unit = jsNative
-        static member onDidOpenTextDocument with get(): Event<TextDocument> = jsNative and set(v: Event<TextDocument>): unit = jsNative
-        static member onDidCloseTextDocument with get(): Event<TextDocument> = jsNative and set(v: Event<TextDocument>): unit = jsNative
-        static member onDidChangeTextDocument with get(): Event<TextDocumentChangeEvent> = jsNative and set(v: Event<TextDocumentChangeEvent>): unit = jsNative
-        static member onWillSaveTextDocument with get(): Event<TextDocumentWillSaveEvent> = jsNative and set(v: Event<TextDocumentWillSaveEvent>): unit = jsNative
-        static member onDidSaveTextDocument with get(): Event<TextDocument> = jsNative and set(v: Event<TextDocument>): unit = jsNative
-        static member onDidChangeConfiguration with get(): Event<unit> = jsNative and set(v: Event<unit>): unit = jsNative
+        static member onDidOpenTextDocument with get(): Event<TextDocument> = jsNative
+        static member onDidCloseTextDocument with get(): Event<TextDocument> = jsNative
+        static member onDidChangeTextDocument with get(): Event<TextDocumentChangeEvent> = jsNative
+        static member onWillSaveTextDocument with get(): Event<TextDocumentWillSaveEvent> = jsNative
+        static member onDidSaveTextDocument with get(): Event<TextDocument> = jsNative
+        static member onDidChangeConfiguration with get(): Event<unit> = jsNative
         static member createFileSystemWatcher(globPattern: string, ?ignoreCreateEvents: bool, ?ignoreChangeEvents: bool, ?ignoreDeleteEvents: bool): FileSystemWatcher = jsNative
         static member asRelativePath(pathOrUri: U2<string, Uri>): string = jsNative
         static member findFiles(``include``: string, ?exclude: string, ?maxResults: float, ?token: CancellationToken): PromiseLike<ResizeArray<Uri>> = jsNative
