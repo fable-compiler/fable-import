@@ -27,7 +27,7 @@ module vscode =
         abstract fileName: string with get, set
         abstract isUntitled: bool with get, set
         abstract languageId: string with get, set
-        abstract version: float with get, set
+        abstract version: int with get, set
         abstract isDirty: bool with get, set
         abstract isClosed: bool with get, set
         abstract eol: EndOfLine with get, set
