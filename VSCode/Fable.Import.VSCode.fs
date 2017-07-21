@@ -626,7 +626,7 @@ module vscode =
         abstract appendLine: value: string -> unit
         abstract clear: unit -> unit
         abstract show: ?preserveFocus: bool -> unit
-        abstract show: ?column: ViewColumn * ?preserveFocus: bool -> unit
+        abstract show: column: ViewColumn * ?preserveFocus: bool -> unit
         abstract hide: unit -> unit
         abstract dispose: unit -> unit
 
