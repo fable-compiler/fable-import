@@ -650,7 +650,7 @@ module vscode =
 
     and Terminal =
         abstract name: string with get, set
-        abstract processId: PromiseLike<float> with get, set
+        abstract processId: PromiseLike<int> with get, set
         abstract sendText: text: string * ?addNewLine: bool -> unit
         abstract show: ?preserveFocus: bool -> unit
         abstract hide: unit -> unit
