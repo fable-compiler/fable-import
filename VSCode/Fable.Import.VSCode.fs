@@ -804,6 +804,7 @@ module vscode =
         static member createStatusBarItem(?alignment: StatusBarAlignment, ?priority: float): StatusBarItem = jsNative
         static member createTerminal(?name: string, ?shellPath: string, ?shellArgs: ResizeArray<string>): Terminal = jsNative
         static member createTerminal(options: TerminalOptions): Terminal = jsNative
+        static member registerTreeDataProvider(viewId: string, treeDataProvider: TreeDataProvider<'T>): Disposable = jsNative
 
     type [<Import("workspace","vscode")>] workspace =
         static member rootPath with get(): string option = jsNative and set(v: string option): unit = jsNative
