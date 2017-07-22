@@ -538,6 +538,7 @@ module vscode =
     and [<Import("TreeItem","vscode")>] TreeItem(label: string, ?collapsibleState: TreeItemCollapsibleState) =
         member __.label with get(): string = jsNative and set(v: string) = jsNative
         member __.iconPath with get(): U3<string, Uri, TreeIconPath> option = jsNative and set(v: U3<string, Uri, TreeIconPath> option) = jsNative
+        member __.command with get(): Command option = jsNative and set(v: Command option) = jsNative
         member __.contextValue with get(): string option = jsNative and set(v: string option) = jsNative
         member __.collapsibleState with get(): TreeItemCollapsibleState option = jsNative and set(v: TreeItemCollapsibleState option) = jsNative
 
