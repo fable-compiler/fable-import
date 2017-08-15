@@ -19,6 +19,7 @@ let packages = [
     "Uws/Fable.Import.Uws"
     "Mocha/Fable.Import.Mocha"
     "VSCode/Fable.Import.VSCode"
+    "Electron/Fable.Import.Electron"
 ]
 
 #if MONO

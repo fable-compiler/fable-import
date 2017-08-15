@@ -4,3 +4,5 @@ nuget FAKE
 nuget FSharp.Core
 nuget Fable.Core
 nuget Fable.Import.Node
+nuget Fable.Import.Browser
+nuget FSharp.NET.Sdk
