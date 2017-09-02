@@ -1,8 +1,10 @@
 source https://www.nuget.org/api/v2
+storage:none
 
-nuget FAKE
-nuget FSharp.Core
 nuget Fable.Core
 nuget Fable.Import.Node
 nuget Fable.Import.Browser
-nuget FSharp.NET.Sdk
+
+group Build
+  source https://nuget.org/api/v2
+  nuget FAKE
