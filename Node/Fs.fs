@@ -120,7 +120,7 @@ type FsConstants =
     abstract S_IROTH: float with get, set
     abstract S_IWOTH: float with get, set
     abstract S_IXOTH: float with get, set
-    
+
 type IExports =
     abstract watch: filename: string * ?listener: (string -> string -> unit) -> FSWatcher
     abstract watch: filename: string * encoding: FsWatcherEncoding * ?listener: (string -> string -> unit) -> FSWatcher
@@ -180,8 +180,9 @@ type IExports =
     abstract mkdir: path: U2<string, Buffer.Buffer> * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract mkdir: path: U2<string, Buffer.Buffer> * mode: float * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract mkdir: path: U2<string, Buffer.Buffer> * mode: string * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
-    abstract mkdirSync: path: U2<string, Buffer.Buffer> * ?mode: float -> unit
-    abstract mkdirSync: path: U2<string, Buffer.Buffer> * ?mode: string -> unit
+    abstract mkdirSync: path: U2<string, Buffer.Buffer> -> unit
+    abstract mkdirSync: path: U2<string, Buffer.Buffer> * mode: float -> unit
+    abstract mkdirSync: path: U2<string, Buffer.Buffer> * mode: string -> unit
     abstract mkdtemp: prefix: string * ?callback: (Base.NodeJS.ErrnoException option -> string -> unit) -> unit
     abstract mkdtempSync: prefix: string -> string
     abstract readdir: path: U2<string, Buffer.Buffer> * ?callback: (Base.NodeJS.ErrnoException option -> ResizeArray<string> -> unit) -> unit
@@ -232,6 +233,6 @@ type IExports =
     abstract access: path: U2<string, Buffer.Buffer> * callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract access: path: U2<string, Buffer.Buffer> * mode: float * callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract accessSync: path: U2<string, Buffer.Buffer> * ?mode: float -> unit
-    
+
     abstract fdatasync: fd: float * callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract fdatasyncSync: fd: float -> unit
