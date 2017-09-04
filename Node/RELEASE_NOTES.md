@@ -1,3 +1,7 @@
+### 0.1.5
+
+* Add OS module
+
 ### 0.1.4
 
 * Fix `Fs.mkDirSync` overloads
