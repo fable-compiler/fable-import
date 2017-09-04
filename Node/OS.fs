@@ -47,7 +47,7 @@ type IExports =
     abstract EOL: string with get, set
     /// The os.arch() method returns a string identifying the operating system CPU architecture for which the Node.js binary was compiled.
     abstract arch: unit -> NodeJS.Arch
-    /// Returns an object containing commonly used operating system specific constants for error codes, process signals, and so on. 
+    /// Returns an object containing commonly used operating system specific constants for error codes, process signals, and so on.
     abstract constants: Constants with get, set
     /// The os.cpus() method returns an array of objects containing information about each CPU/core installed.
     abstract cpus: unit -> ResizeArray<CpuInfo>
