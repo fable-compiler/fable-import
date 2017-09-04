@@ -28,7 +28,7 @@ module NodeJS =
         inherit NodeRequireFunction
         abstract cache: obj with get, set
         abstract extensions: obj with get, set
-        abstract main: obj with get, set
+        abstract main: NodeJS.NodeModule with get, set
         abstract resolve: id: string -> string
 
     type [<AllowNullLiteral>] NodeModule =

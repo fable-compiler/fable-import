@@ -39,11 +39,14 @@ type [<AllowNullLiteral>] Process =
       abstract abort: unit -> unit
       abstract chdir: directory: string -> unit
       abstract cwd: unit -> string
-      abstract exit: ?code: float -> unit
+      abstract exit: ?code: int -> unit
       abstract getgid: unit -> float
       abstract setgid: id: float -> unit
       abstract setgid: id: string -> unit
+      /// The process.getuid() method returns the numeric user identity of the process. (See getuid(2).)
       abstract getuid: unit -> float
+      /// The process.geteuid() method returns the numerical effective user identity of the process. (See geteuid(2).)    
+      abstract geteuid: unit -> float
       abstract setuid: id: float -> unit
       abstract setuid: id: string -> unit
       abstract kill: pid: float * ?signal: U2<string, float> -> unit
