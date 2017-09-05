@@ -177,12 +177,20 @@ type IExports =
     abstract unlinkSync: path: U2<string, Buffer.Buffer> -> unit
     abstract rmdir: path: U2<string, Buffer.Buffer> * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract rmdirSync: path: U2<string, Buffer.Buffer> -> unit
-    abstract mkdir: path: U2<string, Buffer.Buffer> * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
-    abstract mkdir: path: U2<string, Buffer.Buffer> * mode: float * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
-    abstract mkdir: path: U2<string, Buffer.Buffer> * mode: string * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
-    abstract mkdirSync: path: U2<string, Buffer.Buffer> -> unit
-    abstract mkdirSync: path: U2<string, Buffer.Buffer> * mode: float -> unit
-    abstract mkdirSync: path: U2<string, Buffer.Buffer> * mode: string -> unit
+    /// Asynchronous mkdir(2). No arguments other than a possible exception are given to the completion callback. mode defaults to 0o777.
+    abstract mkdir: path: string * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
+    abstract mkdir: path: Buffer.Buffer * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
+    abstract mkdir: path: string * mode: float * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
+    abstract mkdir: path: Buffer.Buffer * mode: float * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
+    abstract mkdir: path: string * mode: string * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
+    abstract mkdir: path: Buffer.Buffer * mode: string * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
+    /// Synchronous mkdir(2). Returns undefined.
+    abstract mkdirSync: path: string -> unit
+    abstract mkdirSync: path: Buffer.Buffer -> unit
+    abstract mkdirSync: path: string * mode: float -> unit
+    abstract mkdirSync: path: Buffer.Buffer * mode: float -> unit
+    abstract mkdirSync: path: string * mode: string -> unit
+    abstract mkdirSync: path: Buffer.Buffer * mode: string -> unit
     abstract mkdtemp: prefix: string * ?callback: (Base.NodeJS.ErrnoException option -> string -> unit) -> unit
     abstract mkdtempSync: prefix: string -> string
     abstract readdir: path: U2<string, Buffer.Buffer> * ?callback: (Base.NodeJS.ErrnoException option -> ResizeArray<string> -> unit) -> unit
