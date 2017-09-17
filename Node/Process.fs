@@ -7,19 +7,7 @@ open Fable.Import.Node.Base
 open Fable.Import.JS
 
 type [<AllowNullLiteral>] Process =
-      abstract addListener: ``event``: U2<string, Symbol> * listener: Function -> obj
-      abstract on: ``event``: U2<string, Symbol> * listener: Function -> obj
-      abstract once: ``event``: U2<string, Symbol> * listener: Function -> obj
-      abstract removeListener: ``event``: U2<string, Symbol> * listener: Function -> obj
-      abstract removeAllListeners: ?``event``: U2<string, Symbol> -> obj
-      abstract setMaxListeners: n: float -> obj
-      abstract getMaxListeners: unit -> float
-      abstract listeners: ``event``: U2<string, Symbol> -> ResizeArray<Function>
-      abstract emit: ``event``: U2<string, Symbol> * [<ParamArray>] args: obj[] -> bool
-      abstract listenerCount: ``type``: U2<string, Symbol> -> float
-      abstract prependListener: ``event``: U2<string, Symbol> * listener: Function -> obj
-      abstract prependOnceListener: ``event``: U2<string, Symbol> * listener: Function -> obj
-      abstract eventNames: unit -> ResizeArray<U2<string, Symbol>>
+      inherit Events.EventEmitter
       abstract stdout: Stream.Writable<string> with get, set
       abstract stderr: Stream.Writable<string> with get, set
       abstract stdin: Stream.Readable<string> with get, set
