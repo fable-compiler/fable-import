@@ -230,23 +230,7 @@ module PIXI =
   and [<AllowNullLiteral>] HitArea =
       abstract contains: x: float * y: float -> bool
   
-  and RendererOptions =
-    | Width of float
-    | Height of float 
-    | View of HTMLCanvasElement 
-    | Transparent of bool 
-    | Antialias of bool 
-    | PreserveDrawingBuffer of bool 
-    | Resolution of float 
-    | ForceCanvas of bool 
-    | BackgroundColor of int // float 
-    | ClearBeforeRender of bool 
-    | RoundPixels of bool 
-    | ForceFXAA of bool 
-    | Legacy of bool 
-    | Context of WebGLRenderingContext 
-    | AutoResize of bool 
-    | PowerPreference of string 
+  and RendererOptions = ApplicationOptions
 
   and WebGLRendererOptions = RendererOptions
 
@@ -951,25 +935,25 @@ module PIXI =
       member __.contains(x: float, y: float): bool = jsNative
 
   and ApplicationOptions = 
-    | Width of float
-    | Height of float 
-    | View of HTMLCanvasElement 
-    | Transparent of bool 
-    | Antialias of bool 
-    | PreserveDrawingBuffer of bool 
-    | Resolution of float 
-    | ForceCanvas of bool 
-    | BackgroundColor of int // float 
-    | ClearBeforeRender of bool 
-    | RoundPixels of bool 
-    | ForceFXAA of bool 
-    | Legacy of bool 
-    | Context of WebGLRenderingContext 
-    | AutoResize of bool 
-    | PowerPreference of string 
-    | SharedTicker of bool
-    | SharedLoader of bool
-    | AutoStart of bool
+    abstract width: float option with get, set
+    abstract height: float option with get, set
+    abstract view: HTMLCanvasElement option with get, set
+    abstract transparent: bool option with get, set
+    abstract antialias: bool option with get, set
+    abstract preserveDrawingBuffer: bool option with get, set
+    abstract resolution: float option with get, set
+    abstract forceCanvas: bool option with get, set
+    abstract backgroundColor: int option with get, set
+    abstract clearBeforeRender: bool option with get, set
+    abstract roundPixels: bool option with get, set
+    abstract forceFXAA: bool option with get, set
+    abstract legacy: bool option with get, set
+    abstract context: WebGLRenderingContext option with get, set
+    abstract autoResize: bool option with get, set
+    abstract powerPreference: string option with get, set
+    abstract sharedTicker: bool option with get, set
+    abstract sharedLoader: bool option with get, set
+    abstract autoStart: bool option with get, set
      
 
   and [<AllowNullLiteral>] [<Import("CanvasRenderer","PIXI")>] CanvasRenderer(?screenWidth: float, ?screenHeight: float, ?options: RendererOptions) =
