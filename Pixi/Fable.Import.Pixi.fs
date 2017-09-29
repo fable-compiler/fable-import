@@ -1,5 +1,4 @@
 namespace rec Fable.Import.Pixi 
-//namespace Fable.Import.Pixi 
 
 open System
 open System.Text.RegularExpressions
@@ -408,7 +407,7 @@ module PIXI =
       member __._backgroundColorString with get(): string = jsNative and set(v: string): unit = jsNative
       member __._tempDisplayObjectParent with get(): Container = jsNative and set(v: Container): unit = jsNative
       member __._lastObjectRendered with get(): DisplayObject = jsNative and set(v: DisplayObject): unit = jsNative
-      member __.backgroundColor with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.backgroundColor with get(): int = jsNative and set(v: int): unit = jsNative
       member __.resize(screenWidth: float, screenHeight: float): unit = jsNative
       member __.generateTexture(displayObject: DisplayObject, ?scaleMode: float, ?resolution: float): RenderTexture = jsNative
       member __.render([<ParamArray>] args: obj[]): unit = jsNative
@@ -550,29 +549,23 @@ module PIXI =
       member __.destroy(?options: U2<DestroyOptions, bool>): unit = jsNative
       member __.once(``event``: (* TODO StringEnum added | removed *) string, fn: DisplayObject->unit, ?context: obj): obj = jsNative
       member __.once(``event``: string, fn: Function, ?context: obj): obj = jsNative
-      member __.on(``event``: (* TODO StringEnum added | removed *) string, fn: DisplayObject->unit, ?context: obj): obj = jsNative
-      member __.on(``event``: string, fn: Function, ?context: obj): obj = jsNative
+//      member __.on(``event``: (* TODO StringEnum added | removed *) string, fn: DisplayObject->unit, ?context: obj): obj = jsNative
+      member __.on(``event``: string, fn: unit -> unit, ?context: obj): obj = jsNative
       member __.off(``event``: (* TODO StringEnum added | removed |  *) string, ?fn: Function, ?context: obj): obj = jsNative
 
   and [<AllowNullLiteral>] [<Import("DisplayObject","PIXI")>] DisplayObject() =
       inherit utils.EventEmitter()
-      (*
-      interface InteractiveTarget with
-          member __.interactive with get(): bool = jsNative and set(v: bool): unit = jsNative
-          member __.interactiveChildren with get(): bool = jsNative and set(v: bool): unit = jsNative
-          member __.hitArea with get(): obj = jsNative and set(v: obj): unit = jsNative
-          member __.buttonMode with get(): bool = jsNative and set(v: bool): unit = jsNative
-          member __.cursor with get(): string = jsNative and set(v: string): unit = jsNative
-          member __.defaultCursor with get(): string = jsNative and set(v: string): unit = jsNative
-          member __.trackedPointers(): obj = jsNative
-      interface AccessibleTarget with
-          member __.accessible with get(): bool = jsNative and set(v: bool): unit = jsNative
-          member __.accessibleTitle with get(): U2<string, obj> = jsNative and set(v: U2<string, obj>): unit = jsNative
-          member __.``null`` with get(): obj = jsNative and set(v: obj): unit = jsNative
-          member __.accessibleHint with get(): U2<string, obj> = jsNative and set(v: U2<string, obj>): unit = jsNative
-          member __.``null`` with get(): obj = jsNative and set(v: obj): unit = jsNative
-          member __.tabIndex with get(): float = jsNative and set(v: float): unit = jsNative
-      *)
+      member __.interactive with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.interactiveChildren with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.hitArea with get(): obj = jsNative and set(v: obj): unit = jsNative
+      member __.buttonMode with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.cursor with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.defaultCursor with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.trackedPointers(): obj = jsNative
+      member __.accessible with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.accessibleTitle with get(): U2<string, obj> = jsNative and set(v: U2<string, obj>): unit = jsNative
+      member __.accessibleHint with get(): U2<string, obj> = jsNative and set(v: U2<string, obj>): unit = jsNative
+      member __.tabIndex with get(): float = jsNative and set(v: float): unit = jsNative
       member __._cacheAsBitmap with get(): bool = jsNative and set(v: bool): unit = jsNative
       member __._cacheData with get(): bool = jsNative and set(v: bool): unit = jsNative
       member __.cacheAsBitmap with get(): bool = jsNative and set(v: bool): unit = jsNative
@@ -829,14 +822,14 @@ module PIXI =
       member __._fastRect with get(): bool = jsNative and set(v: bool): unit = jsNative
       member __._SPRITE_TEXTURE with get(): Texture = jsNative and set(v: Texture): unit = jsNative
       member __.clone(): Graphics = jsNative
-      member __.lineStyle(?lineWidth: float, ?color: float, ?alpha: float): Graphics = jsNative
+      member __.lineStyle(?lineWidth: float, ?color: int, ?alpha: float): Graphics = jsNative
       member __.moveTo(x: float, y: float): Graphics = jsNative
       member __.lineTo(x: float, y: float): Graphics = jsNative
       member __.quadraticCurveTo(cpX: float, cpY: float, toX: float, toY: float): Graphics = jsNative
       member __.bezierCurveTo(cpX: float, cpY: float, cpX2: float, cpY2: float, toX: float, toY: float): Graphics = jsNative
       member __.arcTo(x1: float, y1: float, x2: float, y2: float, radius: float): Graphics = jsNative
       member __.arc(cx: float, cy: float, radius: float, startAngle: float, endAngle: float, ?anticlockwise: bool): Graphics = jsNative
-      member __.beginFill(color: float, ?alpha: float): Graphics = jsNative
+      member __.beginFill(color: int, ?alpha: float): Graphics = jsNative
       member __.endFill(): Graphics = jsNative
       member __.drawRect(x: float, y: float, width: float, height: float): Graphics = jsNative
       member __.drawRoundedRect(x: float, y: float, width: float, height: float, radius: float): Graphics = jsNative
@@ -1335,34 +1328,34 @@ module PIXI =
           member __.wordWrapWidth with get(): float option = jsNative and set(v: float option): unit = jsNative
           member __.leading with get(): float option = jsNative and set(v: float option): unit = jsNative
       member __.styleID with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._align with get(): string = jsNative and set(v: string): unit = jsNative
-      member __._breakWords with get(): bool = jsNative and set(v: bool): unit = jsNative
-      member __._dropShadow with get(): bool = jsNative and set(v: bool): unit = jsNative
-      member __._dropShadowAlpha with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._dropShadowAngle with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._dropShadowBlur with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._dropShadowColor with get(): U2<string, float> = jsNative and set(v: U2<string, float>): unit = jsNative
-      member __._dropShadowDistance with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._fill with get(): obj = jsNative and set(v: obj): unit = jsNative
-      member __._fillGradientType with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._fillGradientStops with get(): ResizeArray<float> = jsNative and set(v: ResizeArray<float>): unit = jsNative
-      member __._fontFamily with get(): U2<string, ResizeArray<string>> = jsNative and set(v: U2<string, ResizeArray<string>>): unit = jsNative
-      member __._fontSize with get(): U2<float, string> = jsNative and set(v: U2<float, string>): unit = jsNative
-      member __._fontStyle with get(): string = jsNative and set(v: string): unit = jsNative
-      member __._fontVariant with get(): string = jsNative and set(v: string): unit = jsNative
-      member __._fontWeight with get(): string = jsNative and set(v: string): unit = jsNative
-      member __._leading with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._letterSpacing with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._lineHeight with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._lineJoin with get(): string = jsNative and set(v: string): unit = jsNative
-      member __._miterLimit with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._padding with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._stroke with get(): U2<string, float> = jsNative and set(v: U2<string, float>): unit = jsNative
-      member __._strokeThickness with get(): float = jsNative and set(v: float): unit = jsNative
-      member __._textBaseline with get(): string = jsNative and set(v: string): unit = jsNative
-      member __._trim with get(): bool = jsNative and set(v: bool): unit = jsNative
-      member __._wordWrap with get(): bool = jsNative and set(v: bool): unit = jsNative
-      member __._wordWrapWidth with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.align with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.breakWords with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.dropShadow with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.dropShadowAlpha with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.dropShadowAngle with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.dropShadowBlur with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.dropShadowColor with get(): U2<string, float> = jsNative and set(v: U2<string, float>): unit = jsNative
+      member __.dropShadowDistance with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.fill with get(): obj = jsNative and set(v: obj): unit = jsNative
+      member __.fillGradientType with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.fillGradientStops with get(): ResizeArray<float> = jsNative and set(v: ResizeArray<float>): unit = jsNative
+      member __.fontFamily with get(): U2<string, ResizeArray<string>> = jsNative and set(v: U2<string, ResizeArray<string>>): unit = jsNative
+      member __.fontSize with get(): U2<float, string> = jsNative and set(v: U2<float, string>): unit = jsNative
+      member __.fontStyle with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.fontVariant with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.fontWeight with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.leading with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.letterSpacing with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.lineHeight with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.lineJoin with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.miterLimit with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.padding with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.stroke with get(): U2<string, float> = jsNative and set(v: U2<string, float>): unit = jsNative
+      member __.strokeThickness with get(): float = jsNative and set(v: float): unit = jsNative
+      member __.textBaseline with get(): string = jsNative and set(v: string): unit = jsNative
+      member __.trim with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.wordWrap with get(): bool = jsNative and set(v: bool): unit = jsNative
+      member __.wordWrapWidth with get(): float = jsNative and set(v: float): unit = jsNative
       member __.clone(): TextStyle = jsNative
       member __.reset(): unit = jsNative
       member __.toFontString(): string = jsNative
@@ -1474,64 +1467,58 @@ module PIXI =
       member __.detach(node: MiniSignalBinding): MiniSignal = jsNative
       member __.detachAll(): MiniSignal = jsNative
 
-  module PIXI =
-      type [<Import("*","PIXI")>] Globals =
-          static member VERSION with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member PI_2 with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member RAD_TO_DEG with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member DEG_TO_RAD with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member RENDERER_TYPE with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member BLEND_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member DRAW_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member SCALE_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member WRAP_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member TRANSFORM_MODE_O with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member PRECISION_O with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member GC_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member SHAPES with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member TEXT_GRADIENT with get(): obj = jsNative and set(v: obj): unit = jsNative
-          static member UPDATE_PRIORITY with get(): obj = jsNative and set(v: obj): unit = jsNative
-  //          static member loader with get(): undefined.Loader = jsNative and set(v: undefined.Loader): unit = jsNative
-          static member TRANSFORM_MODE with get(): float = jsNative and set(v: float): unit = jsNative
-          static member GC_MODE with get(): float = jsNative and set(v: float): unit = jsNative
-          static member GC_MAX_IDLE with get(): float = jsNative and set(v: float): unit = jsNative
-          static member GC_MAX_CHECK_COUNT with get(): float = jsNative and set(v: float): unit = jsNative
-          static member WRAP_MODE with get(): float = jsNative and set(v: float): unit = jsNative
-          static member SCALE_MODE with get(): float = jsNative and set(v: float): unit = jsNative
-          static member PRECISION_VERTEX with get(): string = jsNative and set(v: string): unit = jsNative
-          static member PRECISION_FRAGMENT with get(): string = jsNative and set(v: string): unit = jsNative
-          static member PRECISION_S with get(): string = jsNative and set(v: string): unit = jsNative
-          static member UPLOADS_PER_FRAME with get(): float = jsNative and set(v: float): unit = jsNative
-          static member CAN_UPLOAD_SAME_BUFFER with get(): bool = jsNative and set(v: bool): unit = jsNative
-          static member autoDetectRenderer(width: float, height: float, ?options: RendererOptions, ?forceCanvas: bool): U2<WebGLRenderer, CanvasRenderer> = jsNative
-          static member autoDetectRenderer(?options: RendererOptions): U2<WebGLRenderer, CanvasRenderer> = jsNative
+  and [<Import("*","PIXI")>] Globals =
+      static member VERSION with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member PI_2 with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member RAD_TO_DEG with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member DEG_TO_RAD with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member RENDERER_TYPE with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member BLEND_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member DRAW_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member SCALE_MODES with get(): float = jsNative and set(v: float): unit = jsNative
+      static member WRAP_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member TRANSFORM_MODE_O with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member PRECISION_O with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member GC_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member SHAPES with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member TEXT_GRADIENT with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member UPDATE_PRIORITY with get(): obj = jsNative and set(v: obj): unit = jsNative
+//          static member loader with get(): undefined.Loader = jsNative and set(v: undefined.Loader): unit = jsNative
+      static member TRANSFORM_MODE with get(): float = jsNative and set(v: float): unit = jsNative
+      static member GC_MODE with get(): float = jsNative and set(v: float): unit = jsNative
+      static member GC_MAX_IDLE with get(): float = jsNative and set(v: float): unit = jsNative
+      static member GC_MAX_CHECK_COUNT with get(): float = jsNative and set(v: float): unit = jsNative
+      static member WRAP_MODE with get(): float = jsNative and set(v: float): unit = jsNative
+      static member PRECISION_VERTEX with get(): string = jsNative and set(v: string): unit = jsNative
+      static member PRECISION_FRAGMENT with get(): string = jsNative and set(v: string): unit = jsNative
+      static member PRECISION_S with get(): string = jsNative and set(v: string): unit = jsNative
+      static member UPLOADS_PER_FRAME with get(): float = jsNative and set(v: float): unit = jsNative
+      static member CAN_UPLOAD_SAME_BUFFER with get(): bool = jsNative and set(v: bool): unit = jsNative
+      static member autoDetectRenderer(width: float, height: float, ?options: RendererOptions, ?forceCanvas: bool): U2<WebGLRenderer, CanvasRenderer> = jsNative
+      static member autoDetectRenderer(?options: RendererOptions): U2<WebGLRenderer, CanvasRenderer> = jsNative
 
-      module settings =
-          type [<AllowNullLiteral>] RENDER_OPTIONSType =
-              abstract view: U2<HTMLCanvasElement, obj> with get, set
+  module settings =
+    type [<AllowNullLiteral>] RENDER_OPTIONSType =
+        abstract view: U2<HTMLCanvasElement, obj> with get, set
 
-          type [<Import("settings","PIXI")>] Globals =
-              static member TARGET_FPMS with get(): float = jsNative and set(v: float): unit = jsNative
-              static member MIPMAP_TEXTURES with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member RESOLUTION with get(): float = jsNative and set(v: float): unit = jsNative
-              static member FILTER_RESOLUTION with get(): float = jsNative and set(v: float): unit = jsNative
-              static member SPRITE_MAX_TEXTURES with get(): float = jsNative and set(v: float): unit = jsNative
-              static member SPRITE_BATCH_SIZE with get(): float = jsNative and set(v: float): unit = jsNative
-              static member RETINA_PREFIX with get(): Regex = jsNative and set(v: Regex): unit = jsNative
-              static member RENDER_OPTIONS with get(): RENDER_OPTIONSType = jsNative and set(v: RENDER_OPTIONSType): unit = jsNative
-              static member antialias with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member forceFXAA with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member autoResize with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member transparent with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member backgroundColor with get(): float = jsNative and set(v: float): unit = jsNative
-              static member clearBeforeRender with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member preserveDrawingBuffer with get(): bool = jsNative and set(v: bool): unit = jsNative
-              static member roundPixels with get(): bool = jsNative and set(v: bool): unit = jsNative
-
-
-
-
-
+    type [<Import("*","PIXI.settings")>] Globals =
+        static member SCALE_MODE with get(): float = jsNative and set(v: float): unit = jsNative
+        static member TARGET_FPMS with get(): float = jsNative and set(v: float): unit = jsNative
+        static member MIPMAP_TEXTURES with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member RESOLUTION with get(): float = jsNative and set(v: float): unit = jsNative
+        static member FILTER_RESOLUTION with get(): float = jsNative and set(v: float): unit = jsNative
+        static member SPRITE_MAX_TEXTURES with get(): float = jsNative and set(v: float): unit = jsNative
+        static member SPRITE_BATCH_SIZE with get(): float = jsNative and set(v: float): unit = jsNative
+        static member RETINA_PREFIX with get(): Regex = jsNative and set(v: Regex): unit = jsNative
+        static member RENDER_OPTIONS with get(): RENDER_OPTIONSType = jsNative and set(v: RENDER_OPTIONSType): unit = jsNative
+        static member antialias with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member forceFXAA with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member autoResize with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member transparent with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member backgroundColor with get(): int = jsNative and set(v: int): unit = jsNative
+        static member clearBeforeRender with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member preserveDrawingBuffer with get(): bool = jsNative and set(v: bool): unit = jsNative
+        static member roundPixels with get(): bool = jsNative and set(v: bool): unit = jsNative
 
   module CONST =
       type [<AllowNullLiteral>] RENDERER_TYPEType =
@@ -1666,11 +1653,11 @@ module PIXI =
           static member convertTintToImage with get(): bool = jsNative and set(v: bool): unit = jsNative
           static member canUseMultiply with get(): bool = jsNative and set(v: bool): unit = jsNative
           static member tintMethod with get(): float = jsNative and set(v: float): unit = jsNative
-          static member getTintedTexture(sprite: Sprite, color: float): HTMLCanvasElement = jsNative
-          static member tintWithMultiply(texture: Texture, color: float, canvas: HTMLCanvasElement): unit = jsNative
-          static member tintWithOverlay(texture: Texture, color: float, canvas: HTMLCanvasElement): unit = jsNative
-          static member tintWithPerPixel(texture: Texture, color: float, canvas: HTMLCanvasElement): unit = jsNative
-          static member roundColor(color: float): float = jsNative
+          static member getTintedTexture(sprite: Sprite, color: int): HTMLCanvasElement = jsNative
+          static member tintWithMultiply(texture: Texture, color: int, canvas: HTMLCanvasElement): unit = jsNative
+          static member tintWithOverlay(texture: Texture, color: int, canvas: HTMLCanvasElement): unit = jsNative
+          static member tintWithPerPixel(texture: Texture, color: int, canvas: HTMLCanvasElement): unit = jsNative
+          static member roundColor(color: int): float = jsNative
 
 
 
@@ -1906,7 +1893,7 @@ module PIXI =
           abstract metaData: obj option with get, set
 
       and [<AllowNullLiteral>] ResourceDictionary =
-          [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: string -> obj with get, set
+          [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: string -> Resource with get, set
   //          [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: string -> extras.Resource with get, set
 
       and [<AllowNullLiteral>] [<Import("Loader","PIXI.loaders")>] Loader(?baseUrl: string, ?concurrency: float) =
@@ -1936,7 +1923,8 @@ module PIXI =
           member __.pre(fn: Function): obj = jsNative
           member __.``use``(fn: Function): obj = jsNative
           member __.reset(): obj = jsNative
-          member __.load(?cb: Function): obj = jsNative
+          member __.load(?cb: unit->unit): obj = jsNative
+          member __.load(?cb: Loader->Resource->unit): obj = jsNative
           member __._prepareUrl(url: string): string = jsNative
           member __._loadResource(resource: Resource, dequeue: Function): unit = jsNative
           member __._onComplete(): unit = jsNative
@@ -2414,10 +2402,11 @@ module PIXI =
       and PRECISION =
           string
 
+(*
   module settings =
       type PRECISION =
           float
-
+*)          
   module pixi =
       type [<Import("*","PIXI")>] Globals =
           static member gl with get(): obj = jsNative and set(v: obj): unit = jsNative
