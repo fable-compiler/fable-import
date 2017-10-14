@@ -8563,6 +8563,7 @@ module Browser =
         abstract rangeUnderflow: bool with get, set
         abstract stepMismatch: bool with get, set
         abstract tooLong: bool with get, set
+        abstract tooShort: bool with get, set
         abstract typeMismatch: bool with get, set
         abstract valid: bool with get, set
         abstract valueMissing: bool with get, set
