@@ -1167,26 +1167,26 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: typeArg: string * ?eventInitDict: CompositionEventInit -> CompositionEvent
 
     and [<AllowNullLiteral>] Console =
-        abstract ``assert``: ?test: bool * ?message: string * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract ``assert``: test: bool * message: string * [<ParamArray>] optionalParams: obj[] -> unit
         abstract clear: unit -> unit
         abstract count: ?countTitle: string -> unit
-        abstract debug: ?message: string * [<ParamArray>] optionalParams: obj[] -> unit
-        abstract dir: ?value: obj * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract debug: message: string * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract dir: value: obj * [<ParamArray>] optionalParams: obj[] -> unit
         abstract dirxml: value: obj -> unit
-        abstract error: ?message: obj * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract error: message: obj * [<ParamArray>] optionalParams: obj[] -> unit
         abstract group: ?groupTitle: string -> unit
         abstract groupCollapsed: ?groupTitle: string -> unit
         abstract groupEnd: unit -> unit
-        abstract info: ?message: obj * [<ParamArray>] optionalParams: obj[] -> unit
-        abstract log: ?message: obj * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract info: message: obj * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract log: message: obj * [<ParamArray>] optionalParams: obj[] -> unit
         abstract msIsIndependentlyComposed: element: Element -> bool
         abstract profile: ?reportName: string -> unit
         abstract profileEnd: unit -> unit
         abstract select: element: Element -> unit
         abstract time: ?timerName: string -> unit
         abstract timeEnd: ?timerName: string -> unit
-        abstract trace: ?message: obj * [<ParamArray>] optionalParams: obj[] -> unit
-        abstract warn: ?message: obj * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract trace: message: obj * [<ParamArray>] optionalParams: obj[] -> unit
+        abstract warn: message: obj * [<ParamArray>] optionalParams: obj[] -> unit
 
     and [<AllowNullLiteral>] ConsoleType =
         abstract prototype: Console with get, set
@@ -10270,8 +10270,8 @@ module Browser =
         inherit WindowTimersExtension
         abstract clearInterval: handle: float -> unit
         abstract clearTimeout: handle: float -> unit
-        abstract setInterval: handler: obj * ?timeout: obj * [<ParamArray>] args: obj[] -> float
-        abstract setTimeout: handler: obj * ?timeout: obj * [<ParamArray>] args: obj[] -> float
+        abstract setInterval: handler: obj * timeout: int * [<ParamArray>] args: obj[] -> float
+        abstract setTimeout: handler: obj * timeout: int * [<ParamArray>] args: obj[] -> float
 
     and [<AllowNullLiteral>] WindowTimersExtension =
         abstract clearImmediate: handle: float -> unit
