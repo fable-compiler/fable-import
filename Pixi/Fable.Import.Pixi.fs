@@ -65,7 +65,7 @@ module PIXI =
           member __.listeners(``event``: U2<string, Symbol>): ResizeArray<Function> = jsNative
           member __.listeners(``event``: U2<string, Symbol>, exists: bool): bool = jsNative
           member __.emit(``event``: U2<string, Symbol>, [<ParamArray>] args: obj[]): bool = jsNative
-          member __.on(``event``: U2<string, Symbol>, fn: Function, ?context: obj): obj = jsNative
+          member __.on(``event``: U2<string, Symbol>, fn: interaction.InteractionEvent->unit, ?context: obj): obj = jsNative
           member __.once(``event``: U2<string, Symbol>, fn: Function, ?context: obj): obj = jsNative
           member __.removeListener(``event``: U2<string, Symbol>, ?fn: Function, ?context: obj, ?once: bool): obj = jsNative
           member __.removeAllListeners(?``event``: U2<string, Symbol>): obj = jsNative
@@ -621,7 +621,7 @@ module PIXI =
       member __.setParent(container: Container): Container = jsNative
       member __.setTransform(?x: float, ?y: float, ?scaleX: float, ?scaleY: float, ?rotation: float, ?skewX: float, ?skewY: float, ?pivotX: float, ?pivotY: float): DisplayObject = jsNative
       member __.destroy(): unit = jsNative
-      member __.on(``event``: interaction.InteractionEventTypes, fn: interaction.InteractionEvent->unit, ?context: obj): obj = jsNative
+//      member __.on(``event``: interaction.InteractionEventTypes, fn: interaction.InteractionEvent->unit, ?context: obj): obj = jsNative
       member __.once(``event``: interaction.InteractionEventTypes, fn: interaction.InteractionEvent->unit, ?context: obj): obj = jsNative
       member __.removeListener(``event``: interaction.InteractionEventTypes, ?fn: interaction.InteractionEvent->unit, ?context: obj): obj = jsNative
       member __.removeAllListeners(``event``: interaction.InteractionEventTypes): obj = jsNative
@@ -640,7 +640,7 @@ module PIXI =
           abstract trackedPointers: unit -> obj
 
       and [<AllowNullLiteral>] InteractionTrackingData =
-          abstract pointerId: float with get, set
+          abstract pointerId: int with get, set
           abstract flags: float with get, set
           abstract none: float with get, set
           abstract over: bool with get, set
@@ -672,7 +672,7 @@ module PIXI =
           member __.rotationAngle with get(): float = jsNative and set(v: float): unit = jsNative
           member __.twist with get(): float = jsNative and set(v: float): unit = jsNative
           member __.tangentialPressure with get(): float = jsNative and set(v: float): unit = jsNative
-          member __.pointerID with get(): float = jsNative and set(v: float): unit = jsNative
+          member __.pointerID with get(): int = jsNative 
           member __._copyEvent(``event``: U3<Touch, MouseEvent, PointerEvent>): unit = jsNative
           member __._reset(): unit = jsNative
           member __.getLocalPosition(displayObject: DisplayObject, ?point: Point, ?globalPos: Point): Point = jsNative
@@ -739,7 +739,7 @@ module PIXI =
           member __.mapPositionToPoint(point: Point, x: float, y: float): unit = jsNative
   //          member __.processInteractive(interactionEvent: InteractionEvent, displayObject: U3<Container, Sprite, undefined.TilingSprite>, ?func: Function, ?hitTest: bool, ?interactive: bool): bool = jsNative
           member __.onPointerComplete(originalEvent: PointerEvent, cancelled: bool, func: Function): unit = jsNative
-          member __.getInteractionDataForPointerId(pointerId: float): InteractionData = jsNative
+          member __.getInteractionDataForPointerId(pointerId: int): InteractionData = jsNative
           member __.releaseInteractionDataForPointerId(``event``: PointerEvent): unit = jsNative
           member __.configureInteractionEventForDOMEvent(interactionEvent: InteractionEvent, pointerEvent: PointerEvent, interactionData: InteractionData): InteractionEvent = jsNative
           member __.normalizeToPointerData(``event``: U3<TouchEvent, MouseEvent, PointerEvent>): ResizeArray<PointerEvent> = jsNative
@@ -1469,9 +1469,9 @@ module PIXI =
 
   and [<Import("*","PIXI")>] Globals =
       static member VERSION with get(): obj = jsNative and set(v: obj): unit = jsNative
-      static member PI_2 with get(): obj = jsNative and set(v: obj): unit = jsNative
-      static member RAD_TO_DEG with get(): obj = jsNative and set(v: obj): unit = jsNative
-      static member DEG_TO_RAD with get(): obj = jsNative and set(v: obj): unit = jsNative
+      static member PI_2 with get(): float = jsNative
+      static member RAD_TO_DEG with get(): float = jsNative 
+      static member DEG_TO_RAD with get(): float = jsNative
       static member RENDERER_TYPE with get(): obj = jsNative and set(v: obj): unit = jsNative
       static member BLEND_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
       static member DRAW_MODES with get(): obj = jsNative and set(v: obj): unit = jsNative
@@ -1786,14 +1786,12 @@ module PIXI =
           member __.render(ts: TilingSprite): unit = jsNative
 
 
-  (*
   module filters =
-      type [<AllowNullLiteral>] [<Import("FXAAFilter","filters")>] FXAAFilter() =
-          interface Filter<obj>
+      type [<AllowNullLiteral>] [<Import("FXAAFilter","PIXI.filters")>] FXAAFilter() =
+          inherit Filter<obj>()
 
-
-      and [<AllowNullLiteral>] [<Import("BlurFilter","filters")>] BlurFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
-          interface Filter<obj>
+      and [<AllowNullLiteral>] [<Import("BlurFilter","PIXI.filters")>] BlurFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
+          inherit Filter<obj>()
           member __.blurXFilter with get(): BlurXFilter = jsNative and set(v: BlurXFilter): unit = jsNative
           member __.blurYFilter with get(): BlurYFilter = jsNative and set(v: BlurYFilter): unit = jsNative
           member __.resolution with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1805,11 +1803,10 @@ module PIXI =
           member __.quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.blendMode with get(): float = jsNative and set(v: float): unit = jsNative
 
-      and [<AllowNullLiteral>] BlurXFilterUniforms =
-          obj
+      and BlurXFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("BlurXFilter","filters")>] BlurXFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
-          interface Filter<BlurXFilterUniforms>
+      and [<AllowNullLiteral>] [<Import("BlurXFilter","PIXI.filters")>] BlurXFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
+          inherit Filter<BlurXFilterUniforms>()
           member __._quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.passes with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1818,11 +1815,10 @@ module PIXI =
           member __.firstRun with get(): bool = jsNative and set(v: bool): unit = jsNative
           member __.blur with get(): float = jsNative and set(v: float): unit = jsNative
 
-      and [<AllowNullLiteral>] BlurYFilterUniforms =
-          obj
+      and BlurYFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("BlurYFilter","filters")>] BlurYFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
-          interface Filter<BlurYFilterUniforms>
+      and [<AllowNullLiteral>] [<Import("BlurYFilter","PIXI.filters")>] BlurYFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
+          inherit Filter<BlurYFilterUniforms>()
           member __._quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.passes with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1831,11 +1827,10 @@ module PIXI =
           member __.firstRun with get(): bool = jsNative and set(v: bool): unit = jsNative
           member __.blur with get(): float = jsNative and set(v: float): unit = jsNative
 
-      and [<AllowNullLiteral>] ColorMatrixFilterUniforms =
-          obj
+      and ColorMatrixFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("ColorMatrixFilter","filters")>] ColorMatrixFilter() =
-          interface Filter<ColorMatrixFilterUniforms>
+      and [<AllowNullLiteral>] [<Import("ColorMatrixFilter","PIXI.filters")>] ColorMatrixFilter() =
+          inherit Filter<ColorMatrixFilterUniforms>()
           member __.matrix with get(): ResizeArray<float> = jsNative and set(v: ResizeArray<float>): unit = jsNative
           member __.alpha with get(): float = jsNative and set(v: float): unit = jsNative
           member __._loadMatrix(matrix: ResizeArray<float>, ?multiply: bool): unit = jsNative
@@ -1862,27 +1857,23 @@ module PIXI =
           member __.lsd(?multiply: bool): unit = jsNative
           member __.reset(): unit = jsNative
 
-      and [<AllowNullLiteral>] DisplacementFilterUniforms =
-          obj
+      and DisplacementFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("DisplacementFilter","filters")>] DisplacementFilter(sprite: Sprite, ?scale: float) =
-          interface Filter<DisplacementFilterUniforms>
+      and [<AllowNullLiteral>] [<Import("DisplacementFilter","PIXI.filters")>] DisplacementFilter(sprite: Sprite, ?scale: float) =
+          inherit  Filter<DisplacementFilterUniforms>()
           member __.scale with get(): Point = jsNative and set(v: Point): unit = jsNative
           member __.map with get(): Texture = jsNative and set(v: Texture): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("VoidFilter","filters")>] VoidFilter() =
-          interface Filter<obj>
+      and [<AllowNullLiteral>] [<Import("VoidFilter","PIXI.filters")>] VoidFilter() =
+          inherit Filter<obj>()
           member __.glShaderKey with get(): float = jsNative and set(v: float): unit = jsNative
 
-      and [<AllowNullLiteral>] NoiseFilterUniforms =
-          obj
+      and NoiseFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("NoiseFilter","filters")>] NoiseFilter(?noise: float, ?seed: float) =
-          interface Filter<NoiseFilterUniforms>
+      and [<AllowNullLiteral>] [<Import("NoiseFilter","PIXI.filters")>] NoiseFilter(?noise: float, ?seed: float) =
+          inherit Filter<NoiseFilterUniforms>()
           member __.noise with get(): float = jsNative and set(v: float): unit = jsNative
           member __.seed with get(): float = jsNative and set(v: float): unit = jsNative
-
-  *)
 
 
   module loaders =

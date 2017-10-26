@@ -5,6 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fable.Import.Pixi.fs" />
+    <Compile Include="Fable.Import.Pixi.Sound.fs" />
+    <Compile Include="Fable.Import.Pixi.Particles.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
