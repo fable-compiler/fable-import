@@ -4,7 +4,6 @@ namespace Fable.Import.Animejs
   bindings based on typescript definitions located here: https://github.com/kohashi/types-npm-animejs/blob/master/index.d.ts
 *)
 open System
-open System.Text.RegularExpressions
 open Fable.Core
 open Fable.Import.Browser
 open Fable.Import.JS
