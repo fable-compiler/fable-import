@@ -4,7 +4,10 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Fable.Import.Pixi.fs" />
+    <ProjectReference Include="../Pixi/Fable.Import.Pixi.fsproj" />
+  </ItemGroup>  
+  <ItemGroup>
+    <Compile Include="Fable.Import.Pixi.Sound.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

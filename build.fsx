@@ -20,6 +20,10 @@ let packages = [
     "Mocha/Fable.Import.Mocha"
     "VSCode/Fable.Import.VSCode"
     "Electron/Fable.Import.Electron"
+    "Pixi/Fable.Import.Pixi"
+    "PixiSound/Fable.Import.Pixi.Sound"
+    "PixiParticles/Fable.Import.Pixi.Particles"
+    "Animejs/Fable.Import.Animejs"
 ]
 
 #if MONO
