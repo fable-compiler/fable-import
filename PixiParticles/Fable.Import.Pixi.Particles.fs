@@ -26,7 +26,7 @@ module PIXI =
           abstract elapsed: float with get, set
           abstract loop: bool with get, set
 
-      and [<AllowNullLiteral>] [<Import("AnimatedParticle","PIXI.particles")>] AnimatedParticle(emitter: Emitter) =
+      and [<AllowNullLiteral>] [<Import("AnimatedParticle","PIXI/particles")>] AnimatedParticle(emitter: Emitter) =
           inherit Particle(emitter)
           member __.textures with get(): ResizeArray<PIXI.Texture> = jsNative and set(v: ResizeArray<PIXI.Texture>): unit = jsNative
           member __.duration with get(): float = jsNative and set(v: float): unit = jsNative
@@ -36,7 +36,7 @@ module PIXI =
           static member parseArt(art: ResizeArray<AnimatedParticleArt>): ResizeArray<ParsedAnimatedParticleArt> = jsNative
           member __.applyArt(art: ParsedAnimatedParticleArt): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("Emitter","PIXI.particles")>] Emitter(particleParent: PIXI.Container, particleImages: obj, config: obj) =
+      and [<AllowNullLiteral>] [<Import("Emitter","PIXI/particles")>] Emitter(particleParent: PIXI.Container, particleImages: obj, config: obj) =
           member __._particleConstructor with get(): obj = jsNative and set(v: obj): unit = jsNative
           member __._frequency with get(): float = jsNative and set(v: float): unit = jsNative
           member __._spawnFunc with get(): Func<Particle, float, float, float, unit> = jsNative and set(v: Func<Particle, float, float, float, unit>): unit = jsNative
@@ -110,7 +110,7 @@ module PIXI =
           member __.cleanup(): unit = jsNative
           member __.destroy(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("Particle","PIXI.particles")>] Particle(emitter: Emitter) =
+      and [<AllowNullLiteral>] [<Import("Particle","PIXI/particles")>] Particle(emitter: Emitter) =
           inherit PIXI.Sprite()
           member __._sR with get(): float = jsNative and set(v: float): unit = jsNative
           member __._sG with get(): float = jsNative and set(v: float): unit = jsNative
@@ -158,7 +158,7 @@ module PIXI =
           abstract s: float with get, set
           abstract e: float with get, set
 
-      and [<AllowNullLiteral>] [<Import("ParticleUtils","PIXI.particles")>] ParticleUtils() =
+      and [<AllowNullLiteral>] [<Import("ParticleUtils","PIXI/particles")>] ParticleUtils() =
           member __.verbose with get(): bool = jsNative and set(v: bool): unit = jsNative
           static member rotatePoint(angle: float, p: PIXI.Point): unit = jsNative
           static member combineRGBComponents(r: float, g: float, b: float): float = jsNative
@@ -169,7 +169,7 @@ module PIXI =
           static member generateEase(segments: ResizeArray<EaseSegment>): Func<float, float> = jsNative
           static member getBlendMode(name: string): float = jsNative
 
-      and [<AllowNullLiteral>] [<Import("PathParticle","PIXI.particles")>] PathParticle(emitter:Emitter) =
+      and [<AllowNullLiteral>] [<Import("PathParticle","PIXI/particles")>] PathParticle(emitter:Emitter) =
           inherit Particle(emitter)
           member __.path with get(): Func<float, float> = jsNative and set(v: Func<float, float>): unit = jsNative
           member __.initialRotation with get(): float = jsNative and set(v: float): unit = jsNative

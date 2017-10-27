@@ -9,7 +9,7 @@ open Fable.Import.Browser
 module PIXI =
 
   module ticker =
-      type [<AllowNullLiteral>] [<Import("TickerListener","PIXI.ticker")>] TickerListener(fn: float->unit, ?context: obj, ?priority: float, ?once: bool) =
+      type [<AllowNullLiteral>] [<Import("TickerListener","PIXI/ticker")>] TickerListener(fn: float->unit, ?context: obj, ?priority: float, ?once: bool) =
           member __.fn with get(): float->unit = jsNative and set(v: float->unit): unit = jsNative
           member __.context with get(): obj = jsNative and set(v: obj): unit = jsNative
           member __.priority with get(): float = jsNative and set(v: float): unit = jsNative
@@ -22,7 +22,7 @@ module PIXI =
           member __.connect(previous: TickerListener): unit = jsNative
           member __.destroy(?hard: bool): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("Ticker","PIXI.ticker")>] Ticker() =
+      and [<AllowNullLiteral>] [<Import("Ticker","PIXI/ticker")>] Ticker() =
           member __._tick with get(): float->unit = jsNative and set(v: float->unit): unit = jsNative
           member __._head with get(): TickerListener = jsNative and set(v: TickerListener): unit = jsNative
           member __._requestId with get(): U2<float, obj> = jsNative and set(v: U2<float, obj>): unit = jsNative
@@ -58,7 +58,7 @@ module PIXI =
 
 
   module utils =
-      type [<AllowNullLiteral>] [<Import("EventEmitter","PIXI.utils")>] EventEmitter() =
+      type [<AllowNullLiteral>] [<Import("EventEmitter","PIXI/utils")>] EventEmitter() =
           member __.prefixed with get(): U2<string, bool> = jsNative and set(v: U2<string, bool>): unit = jsNative
           member __.EventEmitter with get(): obj = jsNative and set(v: obj): unit = jsNative
           member __.eventNames(): ResizeArray<U2<string, Symbol>> = jsNative
@@ -126,7 +126,7 @@ module PIXI =
               abstract chrome: bool with get, set
               abstract device: bool with get, set
 
-          type [<Import("isMobile","PIXI.utils")>] Globals =
+          type [<Import("isMobile","PIXI/utils")>] Globals =
               static member apple with get(): appleType = jsNative and set(v: appleType): unit = jsNative
               static member android with get(): androidType = jsNative and set(v: androidType): unit = jsNative
               static member amazon with get(): amazonType = jsNative and set(v: amazonType): unit = jsNative
@@ -414,7 +414,7 @@ module PIXI =
       member __.destroy(?removeView: bool): unit = jsNative
 
   module accessibility =
-      type [<AllowNullLiteral>] [<Import("AccessibilityManager","PIXI.accessibility")>] AccessibilityManager(renderer: U2<CanvasRenderer, WebGLRenderer>) =
+      type [<AllowNullLiteral>] [<Import("AccessibilityManager","PIXI/accessibility")>] AccessibilityManager(renderer: U2<CanvasRenderer, WebGLRenderer>) =
           member __.div with get(): HTMLElement = jsNative and set(v: HTMLElement): unit = jsNative
           member __.pool with get(): ResizeArray<HTMLElement> = jsNative and set(v: ResizeArray<HTMLElement>): unit = jsNative
           member __.renderId with get(): float = jsNative and set(v: float): unit = jsNative
@@ -655,7 +655,7 @@ module PIXI =
           abstract data: InteractionData with get, set
           abstract stopPropagation: unit -> unit
 
-      and [<AllowNullLiteral>] [<Import("InteractionData","PIXI.interaction")>] InteractionData() =
+      and [<AllowNullLiteral>] [<Import("InteractionData","PIXI/interaction")>] InteractionData() =
           member __.``global`` with get(): Point = jsNative and set(v: Point): unit = jsNative
           member __.target with get(): DisplayObject = jsNative and set(v: DisplayObject): unit = jsNative
           member __.originalEvent with get(): U3<MouseEvent, TouchEvent, PointerEvent> = jsNative and set(v: U3<MouseEvent, TouchEvent, PointerEvent>): unit = jsNative
@@ -696,7 +696,7 @@ module PIXI =
           abstract autoPreventDefault: bool option with get, set
           abstract interactionFrequency: float option with get, set
 
-      and [<AllowNullLiteral>] [<Import("InteractionManager","PIXI.interaction")>] InteractionManager(renderer: U3<CanvasRenderer, WebGLRenderer, SystemRenderer>, ?options: InteractionManagerOptions) =
+      and [<AllowNullLiteral>] [<Import("InteractionManager","PIXI/interaction")>] InteractionManager(renderer: U3<CanvasRenderer, WebGLRenderer, SystemRenderer>, ?options: InteractionManagerOptions) =
           inherit utils.EventEmitter()
           member __.renderer with get(): SystemRenderer = jsNative and set(v: SystemRenderer): unit = jsNative
           member __.autoPreventDefault with get(): bool = jsNative and set(v: bool): unit = jsNative
@@ -1501,7 +1501,7 @@ module PIXI =
     type [<AllowNullLiteral>] RENDER_OPTIONSType =
         abstract view: U2<HTMLCanvasElement, obj> with get, set
 
-    type [<Import("*","PIXI.settings")>] Globals =
+    type [<Import("*","PIXI/settings")>] Globals =
         static member SCALE_MODE with get(): float = jsNative and set(v: float): unit = jsNative
         static member TARGET_FPMS with get(): float = jsNative and set(v: float): unit = jsNative
         static member MIPMAP_TEXTURES with get(): bool = jsNative and set(v: bool): unit = jsNative
@@ -1664,7 +1664,7 @@ module PIXI =
 
 
   module extract =
-      type [<AllowNullLiteral>] [<Import("CanvasExtract","PIXI.extract")>] CanvasExtract(renderer: CanvasRenderer) =
+      type [<AllowNullLiteral>] [<Import("CanvasExtract","PIXI/extract")>] CanvasExtract(renderer: CanvasRenderer) =
           member __.renderer with get(): CanvasRenderer = jsNative and set(v: CanvasRenderer): unit = jsNative
           member __.image(?target: U2<DisplayObject, RenderTexture>): HTMLImageElement = jsNative
           member __.base64(?target: U2<DisplayObject, RenderTexture>): string = jsNative
@@ -1672,7 +1672,7 @@ module PIXI =
           member __.pixels(?renderTexture: U2<DisplayObject, RenderTexture>): ResizeArray<float> = jsNative
           member __.destroy(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("WebGLExtract","PIXI.extract")>] WebGLExtract(renderer: WebGLRenderer) =
+      and [<AllowNullLiteral>] [<Import("WebGLExtract","PIXI/extract")>] WebGLExtract(renderer: WebGLRenderer) =
           member __.renderer with get(): WebGLRenderer = jsNative and set(v: WebGLRenderer): unit = jsNative
           member __.image(?target: U2<DisplayObject, RenderTexture>): HTMLImageElement = jsNative
           member __.base64(?target: U2<DisplayObject, RenderTexture>): string = jsNative
@@ -1688,7 +1688,7 @@ module PIXI =
           abstract align: string option with get, set
           abstract tint: float option with get, set
 
-      and [<AllowNullLiteral>] [<Import("BitmapText","PIXI.extras")>] BitmapText(text: string, ?style: BitmapTextStyle) =
+      and [<AllowNullLiteral>] [<Import("BitmapText","PIXI/extras")>] BitmapText(text: string, ?style: BitmapTextStyle) =
           inherit Container()
           member __._textWidth with get(): float = jsNative and set(v: float): unit = jsNative
           member __._textHeight with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1719,7 +1719,7 @@ module PIXI =
           abstract texture: Texture with get, set
           abstract time: float option with get, set
 
-      and [<AllowNullLiteral>] [<Import("AnimatedSprite","PIXI.extras")>] AnimatedSprite(textures: U2<ResizeArray<Texture>, ResizeArray<AnimatedSpriteTextureTimeObject>>, ?autoUpdate: bool) =
+      and [<AllowNullLiteral>] [<Import("AnimatedSprite","PIXI/extras")>] AnimatedSprite(textures: U2<ResizeArray<Texture>, ResizeArray<AnimatedSpriteTextureTimeObject>>, ?autoUpdate: bool) =
           inherit Sprite()
           member __._autoUpdate with get(): bool = jsNative and set(v: bool): unit = jsNative
           member __._textures with get(): ResizeArray<Texture> = jsNative and set(v: ResizeArray<Texture>): unit = jsNative
@@ -1743,7 +1743,7 @@ module PIXI =
           static member fromFrames(frame: ResizeArray<string>): AnimatedSprite = jsNative
           static member fromImages(images: ResizeArray<string>): AnimatedSprite = jsNative
 
-      and [<AllowNullLiteral>] [<Import("TextureTransform","PIXI.extras")>] TextureTransform(texture: Texture, ?clampMargin: float) =
+      and [<AllowNullLiteral>] [<Import("TextureTransform","PIXI/extras")>] TextureTransform(texture: Texture, ?clampMargin: float) =
           member __._texture with get(): Texture = jsNative and set(v: Texture): unit = jsNative
           member __.mapCoord with get(): Matrix = jsNative and set(v: Matrix): unit = jsNative
           member __.uClampFrame with get(): Float32Array = jsNative and set(v: Float32Array): unit = jsNative
@@ -1754,7 +1754,7 @@ module PIXI =
           member __.texture with get(): Texture = jsNative and set(v: Texture): unit = jsNative
           member __.update(?forceUpdate: bool): bool = jsNative
 
-      and [<AllowNullLiteral>] [<Import("TilingSprite","PIXI.extras")>] TilingSprite(texture: Texture, ?width: float, ?height: float) =
+      and [<AllowNullLiteral>] [<Import("TilingSprite","PIXI/extras")>] TilingSprite(texture: Texture, ?width: float, ?height: float) =
           inherit Sprite()
           member __.tileTransform with get(): TransformStatic = jsNative and set(v: TransformStatic): unit = jsNative
           member __._width with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1781,16 +1781,16 @@ module PIXI =
           static member fromImage(imageId: string, ?crossorigin: bool, ?scaleMode: float): Sprite = jsNative
           static member fromImage(imageId: string, ?width: float, ?height: float, ?crossorigin: bool, ?scaleMode: float): TilingSprite = jsNative
 
-      and [<AllowNullLiteral>] [<Import("TilingSpriteRenderer","PIXI.extras")>] TilingSpriteRenderer(renderer: WebGLRenderer) =
+      and [<AllowNullLiteral>] [<Import("TilingSpriteRenderer","PIXI/extras")>] TilingSpriteRenderer(renderer: WebGLRenderer) =
           inherit ObjectRenderer(renderer)
           member __.render(ts: TilingSprite): unit = jsNative
 
 
   module filters =
-      type [<AllowNullLiteral>] [<Import("FXAAFilter","PIXI.filters")>] FXAAFilter() =
+      type [<AllowNullLiteral>] [<Import("FXAAFilter","PIXI/filters")>] FXAAFilter() =
           inherit Filter<obj>()
 
-      and [<AllowNullLiteral>] [<Import("BlurFilter","PIXI.filters")>] BlurFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
+      and [<AllowNullLiteral>] [<Import("BlurFilter","PIXI/filters")>] BlurFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
           inherit Filter<obj>()
           member __.blurXFilter with get(): BlurXFilter = jsNative and set(v: BlurXFilter): unit = jsNative
           member __.blurYFilter with get(): BlurYFilter = jsNative and set(v: BlurYFilter): unit = jsNative
@@ -1805,7 +1805,7 @@ module PIXI =
 
       and BlurXFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("BlurXFilter","PIXI.filters")>] BlurXFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
+      and [<AllowNullLiteral>] [<Import("BlurXFilter","PIXI/filters")>] BlurXFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
           inherit Filter<BlurXFilterUniforms>()
           member __._quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.quality with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1817,7 +1817,7 @@ module PIXI =
 
       and BlurYFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("BlurYFilter","PIXI.filters")>] BlurYFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
+      and [<AllowNullLiteral>] [<Import("BlurYFilter","PIXI/filters")>] BlurYFilter(?strength: float, ?quality: float, ?resolution: float, ?kernelSize: float) =
           inherit Filter<BlurYFilterUniforms>()
           member __._quality with get(): float = jsNative and set(v: float): unit = jsNative
           member __.quality with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1829,7 +1829,7 @@ module PIXI =
 
       and ColorMatrixFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("ColorMatrixFilter","PIXI.filters")>] ColorMatrixFilter() =
+      and [<AllowNullLiteral>] [<Import("ColorMatrixFilter","PIXI/filters")>] ColorMatrixFilter() =
           inherit Filter<ColorMatrixFilterUniforms>()
           member __.matrix with get(): ResizeArray<float> = jsNative and set(v: ResizeArray<float>): unit = jsNative
           member __.alpha with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1859,18 +1859,18 @@ module PIXI =
 
       and DisplacementFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("DisplacementFilter","PIXI.filters")>] DisplacementFilter(sprite: Sprite, ?scale: float) =
+      and [<AllowNullLiteral>] [<Import("DisplacementFilter","PIXI/filters")>] DisplacementFilter(sprite: Sprite, ?scale: float) =
           inherit  Filter<DisplacementFilterUniforms>()
           member __.scale with get(): Point = jsNative and set(v: Point): unit = jsNative
           member __.map with get(): Texture = jsNative and set(v: Texture): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("VoidFilter","PIXI.filters")>] VoidFilter() =
+      and [<AllowNullLiteral>] [<Import("VoidFilter","PIXI/filters")>] VoidFilter() =
           inherit Filter<obj>()
           member __.glShaderKey with get(): float = jsNative and set(v: float): unit = jsNative
 
       and NoiseFilterUniforms = obj
 
-      and [<AllowNullLiteral>] [<Import("NoiseFilter","PIXI.filters")>] NoiseFilter(?noise: float, ?seed: float) =
+      and [<AllowNullLiteral>] [<Import("NoiseFilter","PIXI/filters")>] NoiseFilter(?noise: float, ?seed: float) =
           inherit Filter<NoiseFilterUniforms>()
           member __.noise with get(): float = jsNative and set(v: float): unit = jsNative
           member __.seed with get(): float = jsNative and set(v: float): unit = jsNative
@@ -1887,7 +1887,7 @@ module PIXI =
           [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: string -> Resource with get, set
   //          [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: string -> extras.Resource with get, set
 
-      and [<AllowNullLiteral>] [<Import("Loader","PIXI.loaders")>] Loader(?baseUrl: string, ?concurrency: float) =
+      and [<AllowNullLiteral>] [<Import("Loader","PIXI/loaders")>] Loader(?baseUrl: string, ?concurrency: float) =
           inherit utils.EventEmitter()
           member __.Resource with get(): obj = jsNative and set(v: obj): unit = jsNative
           member __.async with get(): obj = jsNative and set(v: obj): unit = jsNative
@@ -1934,7 +1934,7 @@ module PIXI =
       and [<AllowNullLiteral>] TextureDictionary =
           [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: string -> Texture with get, set
 
-      and [<AllowNullLiteral>] [<Import("Resource","PIXI.loaders")>] Resource(name: string, url: U2<string, ResizeArray<string>>, ?options: LoaderOptions) =
+      and [<AllowNullLiteral>] [<Import("Resource","PIXI/loaders")>] Resource(name: string, url: U2<string, ResizeArray<string>>, ?options: LoaderOptions) =
           member __._flags with get(): float = jsNative and set(v: float): unit = jsNative
           member __.name with get(): string = jsNative and set(v: string): unit = jsNative
           member __.url with get(): string = jsNative and set(v: string): unit = jsNative
@@ -2001,7 +2001,7 @@ module PIXI =
 
 
   module mesh =
-      type [<AllowNullLiteral>] [<Import("Mesh","PIXI.mesh")>] Mesh(texture: Texture, ?vertices: Float32Array, ?uvs: Float32Array, ?indices: Uint16Array, ?drawMode: float) =
+      type [<AllowNullLiteral>] [<Import("Mesh","PIXI/mesh")>] Mesh(texture: Texture, ?vertices: Float32Array, ?uvs: Float32Array, ?indices: Uint16Array, ?drawMode: float) =
           inherit Container()
           member __._texture with get(): Texture = jsNative and set(v: Texture): unit = jsNative
           member __.uvs with get(): Float32Array = jsNative and set(v: Float32Array): unit = jsNative
@@ -2031,7 +2031,7 @@ module PIXI =
           member __._calculateBounds(): unit = jsNative
           member __.containsPoint(point: Point): bool = jsNative
 
-      and [<AllowNullLiteral>] [<Import("CanvasMeshRenderer","PIXI.mesh")>] CanvasMeshRenderer(renderer: CanvasRenderer) =
+      and [<AllowNullLiteral>] [<Import("CanvasMeshRenderer","PIXI/mesh")>] CanvasMeshRenderer(renderer: CanvasRenderer) =
           member __.renderer with get(): CanvasRenderer = jsNative and set(v: CanvasRenderer): unit = jsNative
           member __.render(mesh: Mesh): unit = jsNative
           member __._renderTriangleMesh(mesh: Mesh): unit = jsNative
@@ -2040,12 +2040,12 @@ module PIXI =
           member __.renderMeshFlat(mesh: Mesh): unit = jsNative
           member __.destroy(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("MeshRenderer","PIXI.mesh")>] MeshRenderer(renderer: WebGLRenderer) =
+      and [<AllowNullLiteral>] [<Import("MeshRenderer","PIXI/mesh")>] MeshRenderer(renderer: WebGLRenderer) =
           inherit ObjectRenderer(renderer)
           member __.shader with get(): Shader = jsNative and set(v: Shader): unit = jsNative
           member __.render(mesh: Mesh): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("Plane","PIXI.mesh")>] Plane(texture: Texture, ?verticesX: float, ?verticesY: float) =
+      and [<AllowNullLiteral>] [<Import("Plane","PIXI/mesh")>] Plane(texture: Texture, ?verticesX: float, ?verticesY: float) =
           inherit Mesh(texture)
           member __._ready with get(): bool = jsNative and set(v: bool): unit = jsNative
           member __.verticesX with get(): float = jsNative and set(v: float): unit = jsNative
@@ -2054,7 +2054,7 @@ module PIXI =
           member __.refresh(): unit = jsNative
           member __._onTexureUpdate(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("NineSlicePlane","PIXI.mesh")>] NineSlicePlane(texture: Texture, ?leftWidth: float, ?topHeight: float, ?rightWidth: float, ?bottomHeight: float) =
+      and [<AllowNullLiteral>] [<Import("NineSlicePlane","PIXI/mesh")>] NineSlicePlane(texture: Texture, ?leftWidth: float, ?topHeight: float, ?rightWidth: float, ?bottomHeight: float) =
           inherit Plane(texture)
           member __.width with get(): float = jsNative and set(v: float): unit = jsNative
           member __.height with get(): float = jsNative and set(v: float): unit = jsNative
@@ -2077,7 +2077,7 @@ module PIXI =
           member __.drawSegment(context: U2<CanvasRenderingContext2D, WebGLRenderingContext>, textureSource: obj, w: float, h: float, x1: float, y1: float, x2: float, y2: float): unit = jsNative
           member __._refresh(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("Rope","PIXI.mesh")>] Rope(texture: Texture, points: ResizeArray<Point>) =
+      and [<AllowNullLiteral>] [<Import("Rope","PIXI/mesh")>] Rope(texture: Texture, points: ResizeArray<Point>) =
           inherit Mesh(texture)
           member __.points with get(): ResizeArray<Point> = jsNative and set(v: ResizeArray<Point>): unit = jsNative
           member __.colors with get(): ResizeArray<float> = jsNative and set(v: ResizeArray<float>): unit = jsNative
@@ -2095,7 +2095,7 @@ module PIXI =
           abstract uvs: bool option with get, set
           abstract alpha: bool option with get, set
 
-      and [<AllowNullLiteral>] [<Import("ParticleContainer","PIXI.particles")>] ParticleContainer(?size: float, ?properties: ParticleContainerProperties, ?batchSize: float) =
+      and [<AllowNullLiteral>] [<Import("ParticleContainer","PIXI/particles")>] ParticleContainer(?size: float, ?properties: ParticleContainerProperties, ?batchSize: float) =
           inherit Container()
           member __._tint with get(): float = jsNative and set(v: float): unit = jsNative
           member __.tintRgb with get(): U2<float, ResizeArray<obj>> = jsNative and set(v: U2<float, ResizeArray<obj>>): unit = jsNative
@@ -2113,7 +2113,7 @@ module PIXI =
           member __.setProperties(properties: ParticleContainerProperties): unit = jsNative
           member __.destroy(?options: U2<DestroyOptions, bool>): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("ParticleBuffer","PIXI.particles")>] ParticleBuffer(gl: WebGLRenderingContext, properties: obj, dynamicPropertyFlags: ResizeArray<obj>, size: float) =
+      and [<AllowNullLiteral>] [<Import("ParticleBuffer","PIXI/particles")>] ParticleBuffer(gl: WebGLRenderingContext, properties: obj, dynamicPropertyFlags: ResizeArray<obj>, size: float) =
           member __.gl with get(): WebGLRenderingContext = jsNative and set(v: WebGLRenderingContext): unit = jsNative
           member __.vertSize with get(): float = jsNative and set(v: float): unit = jsNative
           member __.vertByteSize with get(): float = jsNative and set(v: float): unit = jsNative
@@ -2134,7 +2134,7 @@ module PIXI =
           abstract uploadFunction: Func<ResizeArray<DisplayObject>, float, float, ResizeArray<float>, float, float, unit> with get, set
           abstract offset: float with get, set
 
-      and [<AllowNullLiteral>] [<Import("ParticleRenderer","PIXI.particles")>] ParticleRenderer(renderer: WebGLRenderer) =
+      and [<AllowNullLiteral>] [<Import("ParticleRenderer","PIXI/particles")>] ParticleRenderer(renderer: WebGLRenderer) =
           inherit ObjectRenderer(renderer)
           member __.shader with get(): glCore.GLShader = jsNative and set(v: glCore.GLShader): unit = jsNative
           member __.indexBuffer with get(): WebGLBuffer = jsNative and set(v: WebGLBuffer): unit = jsNative
@@ -2159,7 +2159,7 @@ module PIXI =
       and UploadHook<'UploadHookSource> =
           Func<'UploadHookSource, obj, bool>
 
-      and [<AllowNullLiteral>] [<Import("BasePrepare","PIXI.prepare")>] BasePrepare<'UploadHookSource>(renderer: SystemRenderer) =
+      and [<AllowNullLiteral>] [<Import("BasePrepare","PIXI/prepare")>] BasePrepare<'UploadHookSource>(renderer: SystemRenderer) =
           member __.limiter with get(): U2<CountLimiter, TimeLimiter> = jsNative and set(v: U2<CountLimiter, TimeLimiter>): unit = jsNative
           member __.renderer with get(): SystemRenderer = jsNative and set(v: SystemRenderer): unit = jsNative
           member __.uploadHookHelper with get(): 'UploadHookSource = jsNative and set(v: 'UploadHookSource): unit = jsNative
@@ -2180,22 +2180,22 @@ module PIXI =
           member __.add(item: obj): obj = jsNative
           member __.destroy(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("CanvasPrepare","PIXI.prepare")>] CanvasPrepare(renderer: CanvasRenderer) =
+      and [<AllowNullLiteral>] [<Import("CanvasPrepare","PIXI/prepare")>] CanvasPrepare(renderer: CanvasRenderer) =
           inherit BasePrepare<CanvasPrepare>(renderer)
           member __.canvas with get(): HTMLCanvasElement = jsNative and set(v: HTMLCanvasElement): unit = jsNative
           member __.ctx with get(): CanvasRenderingContext2D = jsNative and set(v: CanvasRenderingContext2D): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("WebGLPrepare","PIXI.prepare")>] WebGLPrepare(renderer: WebGLRenderer) =
+      and [<AllowNullLiteral>] [<Import("WebGLPrepare","PIXI/prepare")>] WebGLPrepare(renderer: WebGLRenderer) =
           inherit BasePrepare<WebGLRenderer>(renderer)
 
 
-      and [<AllowNullLiteral>] [<Import("CountLimiter","PIXI.prepare")>] CountLimiter(maxItemsPerFrame: float) =
+      and [<AllowNullLiteral>] [<Import("CountLimiter","PIXI/prepare")>] CountLimiter(maxItemsPerFrame: float) =
           member __.maxItemsPerFrame with get(): float = jsNative and set(v: float): unit = jsNative
           member __.itemsLeft with get(): float = jsNative and set(v: float): unit = jsNative
           member __.beginFrame(): unit = jsNative
           member __.allowedToUpload(): bool = jsNative
 
-      and [<AllowNullLiteral>] [<Import("TimeLimiter","PIXI.prepare")>] TimeLimiter(maxMilliseconds: float) =
+      and [<AllowNullLiteral>] [<Import("TimeLimiter","PIXI/prepare")>] TimeLimiter(maxMilliseconds: float) =
           member __.maxMilliseconds with get(): float = jsNative and set(v: float): unit = jsNative
           member __.frameStart with get(): float = jsNative and set(v: float): unit = jsNative
           member __.beginFrame(): unit = jsNative
@@ -2213,7 +2213,7 @@ module PIXI =
           abstract preserveDrawingBuffer: bool option with get, set
           abstract failIfMajorPerformanceCaveat: bool option with get, set
 
-      and [<AllowNullLiteral>] [<Import("GLBuffer","PIXI.glCore")>] GLBuffer(gl: WebGLRenderingContext, ``type``: float, data: U3<ArrayBuffer, ArrayBufferView, obj>, drawType: float) =
+      and [<AllowNullLiteral>] [<Import("GLBuffer","PIXI/glCore")>] GLBuffer(gl: WebGLRenderingContext, ``type``: float, data: U3<ArrayBuffer, ArrayBufferView, obj>, drawType: float) =
           member __._updateID with get(): float option = jsNative and set(v: float option): unit = jsNative
           member __.gl with get(): WebGLRenderingContext = jsNative and set(v: WebGLRenderingContext): unit = jsNative
           member __.buffer with get(): WebGLBuffer = jsNative and set(v: WebGLBuffer): unit = jsNative
@@ -2227,7 +2227,7 @@ module PIXI =
           static member create(gl: WebGLRenderingContext, ``type``: float, data: U3<ArrayBuffer, ArrayBufferView, obj>, drawType: float): GLBuffer = jsNative
           member __.destroy(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("GLFramebuffer","PIXI.glCore")>] GLFramebuffer(gl: WebGLRenderingContext, width: float, height: float) =
+      and [<AllowNullLiteral>] [<Import("GLFramebuffer","PIXI/glCore")>] GLFramebuffer(gl: WebGLRenderingContext, width: float, height: float) =
           member __.gl with get(): WebGLRenderingContext = jsNative and set(v: WebGLRenderingContext): unit = jsNative
           member __.frameBuffer with get(): WebGLFramebuffer = jsNative and set(v: WebGLFramebuffer): unit = jsNative
           member __.stencil with get(): WebGLRenderbuffer = jsNative and set(v: WebGLRenderbuffer): unit = jsNative
@@ -2244,7 +2244,7 @@ module PIXI =
           static member createRGBA(gl: WebGLRenderingContext, width: float, height: float, data: U3<ArrayBuffer, ArrayBufferView, obj>): GLFramebuffer = jsNative
           static member createFloat32(gl: WebGLRenderingContext, width: float, height: float, data: U3<ArrayBuffer, ArrayBufferView, obj>): GLFramebuffer = jsNative
 
-      and [<AllowNullLiteral>] [<Import("GLShader","PIXI.glCore")>] GLShader(gl: WebGLRenderingContext, vertexSrc: U2<string, ResizeArray<string>>, fragmentSrc: U2<string, ResizeArray<string>>, ?precision: string, ?attributeLocations: obj) =
+      and [<AllowNullLiteral>] [<Import("GLShader","PIXI/glCore")>] GLShader(gl: WebGLRenderingContext, vertexSrc: U2<string, ResizeArray<string>>, fragmentSrc: U2<string, ResizeArray<string>>, ?precision: string, ?attributeLocations: obj) =
           member __.gl with get(): WebGLRenderingContext = jsNative and set(v: WebGLRenderingContext): unit = jsNative
           member __.program with get(): U2<WebGLProgram, obj> option = jsNative and set(v: U2<WebGLProgram, obj> option): unit = jsNative
           member __.uniformData with get(): obj = jsNative and set(v: obj): unit = jsNative
@@ -2253,7 +2253,7 @@ module PIXI =
           member __.bind(): unit = jsNative
           member __.destroy(): unit = jsNative
 
-      and [<AllowNullLiteral>] [<Import("GLTexture","PIXI.glCore")>] GLTexture(gl: WebGLRenderingContext, ?width: float, ?height: float, ?format: float, ?``type``: float) =
+      and [<AllowNullLiteral>] [<Import("GLTexture","PIXI/glCore")>] GLTexture(gl: WebGLRenderingContext, ?width: float, ?height: float, ?format: float, ?``type``: float) =
           member __.gl with get(): WebGLRenderingContext = jsNative and set(v: WebGLRenderingContext): unit = jsNative
           member __.texture with get(): WebGLTexture = jsNative and set(v: WebGLTexture): unit = jsNative
           member __.mipmap with get(): bool = jsNative and set(v: bool): unit = jsNative
@@ -2297,7 +2297,7 @@ module PIXI =
           abstract tempAttribState: ResizeArray<Attrib> with get, set
           abstract attribState: ResizeArray<Attrib> with get, set
 
-      and [<AllowNullLiteral>] [<Import("VertexArrayObject","PIXI.glCore")>] VertexArrayObject(gl: WebGLRenderingContext, ?state: WebGLState) =
+      and [<AllowNullLiteral>] [<Import("VertexArrayObject","PIXI/glCore")>] VertexArrayObject(gl: WebGLRenderingContext, ?state: WebGLState) =
           member __.FORCE_NATIVE with get(): bool = jsNative and set(v: bool): unit = jsNative
           member __.nativeVaoExtension with get(): obj = jsNative and set(v: obj): unit = jsNative
           member __.nativeState with get(): AttribState = jsNative and set(v: AttribState): unit = jsNative

@@ -9,14 +9,14 @@ open Fable.Import.Pixi
 
 module PIXI =
     module sound =
-        type [<AllowNullLiteral>] [<Import("sound.Filter","PIXI")>] Filter(destination: AudioNode, ?source: AudioNode) =
+        type [<AllowNullLiteral>] [<Import("Filter","PIXI/sound")>] Filter(destination: AudioNode, ?source: AudioNode) =
             member __.destination with get(): AudioNode = jsNative and set(v: AudioNode): unit = jsNative
             member __.source with get(): AudioNode = jsNative and set(v: AudioNode): unit = jsNative
             member __.connect(destination: AudioNode): unit = jsNative
             member __.disconnect(): unit = jsNative
             member __.destroy(): unit = jsNative
 
-        and [<AllowNullLiteral>] [<Import("sound.Filterable","PIXI")>] Filterable(input: AudioNode, output: AudioNode) =
+        and [<AllowNullLiteral>] [<Import("Filterable","PIXI/sound")>] Filterable(input: AudioNode, output: AudioNode) =
             member __.destination with get(): AudioNode = jsNative and set(v: AudioNode): unit = jsNative
             member __.filters with get(): ResizeArray<Filter> = jsNative and set(v: ResizeArray<Filter>): unit = jsNative
             member __.destroy(): unit = jsNative
@@ -52,7 +52,7 @@ module PIXI =
         and CompleteCallback =
             Sound -> unit
 
-        and [<AllowNullLiteral>] [<Import("sound.Sound","PIXI")>] Sound(media: IMedia, options: Options) =
+        and [<AllowNullLiteral>] [<Import("Sound","PIXI/sound")>] Sound(media: IMedia, options: Options) =
             member __.isLoaded with get(): bool = jsNative and set(v: bool): unit = jsNative
             member __.isPlaying with get(): bool = jsNative and set(v: bool): unit = jsNative
             member __.autoPlay with get(): bool = jsNative and set(v: bool): unit = jsNative
@@ -138,7 +138,7 @@ module PIXI =
         and SoundSprites =
             obj
 
-        and [<AllowNullLiteral>] [<Import("sound.SoundSprite","PIXI")>] SoundSprite(parent: Sound, options: SoundSpriteData) =
+        and [<AllowNullLiteral>] [<Import("SoundSprite","PIXI/sound")>] SoundSprite(parent: Sound, options: SoundSpriteData) =
             member __.parent with get(): Sound = jsNative and set(v: Sound): unit = jsNative
             member __.start with get(): float = jsNative and set(v: float): unit = jsNative
             member __.``end`` with get(): float = jsNative and set(v: float): unit = jsNative
@@ -155,7 +155,7 @@ module PIXI =
         and ExtensionMap =
             obj
 
-        and [<AllowNullLiteral>] [<Import("sound.SoundUtils","PIXI")>] SoundUtils() =
+        and [<AllowNullLiteral>] [<Import("SoundUtils","PIXI/sound")>] SoundUtils() =
             member __.extensions with get(): ResizeArray<string> = jsNative and set(v: ResizeArray<string>): unit = jsNative
             member __.supported with get(): ExtensionMap = jsNative and set(v: ExtensionMap): unit = jsNative
             static member resolveUrl(source: U2<string, PIXI.loaders.Resource>): string = jsNative
@@ -163,7 +163,7 @@ module PIXI =
             static member render(sound: Sound, ?options: RenderOptions): PIXI.BaseTexture = jsNative
             static member playOnce(url: string, ?callback: Func<Error, unit>): string = jsNative
 
-        type [<Import("*","PIXI.sound")>] Globals =
+        type [<Import("*","PIXI/sound")>] Globals =
             static member context with get(): IMediaContext = jsNative and set(v: IMediaContext): unit = jsNative
             static member supported with get(): bool = jsNative and set(v: bool): unit = jsNative
             static member useLegacy with get(): bool = jsNative and set(v: bool): unit = jsNative
@@ -196,12 +196,12 @@ module PIXI =
             static member close(): obj = jsNative
 
         module filters =
-            type [<AllowNullLiteral>] [<Import("sound.filters.DistortionFilter","PIXI")>] DistortionFilter(?amount: float) =
+            type [<AllowNullLiteral>] [<Import("DistortionFilter","PIXI/sound/filters")>] DistortionFilter(?amount: float) =
                 inherit PIXI.Filter<obj>()
                 member __.amount with get(): float = jsNative and set(v: float): unit = jsNative
                 member __.destroy(): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.filters.EqualizerFilter","PIXI")>] EqualizerFilter(?f32: float, ?f64: float, ?f125: float, ?f250: float, ?f500: float, ?f1k: float, ?f2k: float, ?f4k: float, ?f8k: float, ?f16k: float) =
+            and [<AllowNullLiteral>] [<Import("EqualizerFilter","PIXI/sound/filters")>] EqualizerFilter(?f32: float, ?f64: float, ?f125: float, ?f250: float, ?f500: float, ?f1k: float, ?f2k: float, ?f4k: float, ?f8k: float, ?f16k: float) =
                 inherit PIXI.Filter<obj>()
                 member __.F32 with get(): float = jsNative and set(v: float): unit = jsNative
                 member __.F64 with get(): float = jsNative and set(v: float): unit = jsNative
@@ -230,30 +230,30 @@ module PIXI =
                 member __.reset(): unit = jsNative
                 member __.destroy(): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.filters.MonoFilter","PIXI")>] MonoFilter() =
+            and [<AllowNullLiteral>] [<Import("MonoFilter","PIXI/sound/filters")>] MonoFilter() =
                 inherit PIXI.Filter<obj>()
                 member __.destroy(): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.filters.ReverbFilter","PIXI")>] ReverbFilter(?seconds: float, ?decay: float, ?reverse: bool) =
+            and [<AllowNullLiteral>] [<Import("ReverbFilter","PIXI/sound/filters")>] ReverbFilter(?seconds: float, ?decay: float, ?reverse: bool) =
                 inherit PIXI.Filter<obj>()
                 member __.seconds with get(): float = jsNative and set(v: float): unit = jsNative
                 member __.decay with get(): float = jsNative and set(v: float): unit = jsNative
                 member __.reverse with get(): bool = jsNative and set(v: bool): unit = jsNative
                 member __.destroy(): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.filters.StereoFilter","PIXI")>] StereoFilter(?pan: float) =
+            and [<AllowNullLiteral>] [<Import("StereoFilter","PIXI/sound/filters")>] StereoFilter(?pan: float) =
                 inherit PIXI.Filter<obj>()
                 member __.pan with get(): float = jsNative and set(v: float): unit = jsNative
                 member __.destroy(): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.filters.TelephoneFilter","PIXI")>] TelephoneFilter() =
+            and [<AllowNullLiteral>] [<Import("TelephoneFilter","PIXI/sound/filters")>] TelephoneFilter() =
                 inherit PIXI.Filter<obj>()
 
 
 
 
         module htmlaudio =
-            type [<AllowNullLiteral>] [<Import("sound.htmlaudio.HTMLAudioInstance","PIXI")>] HTMLAudioInstance(parent: HTMLAudioMedia) =
+            type [<AllowNullLiteral>] [<Import("HTMLAudioInstance","PIXI/sound/htmlaudio")>] HTMLAudioInstance(parent: HTMLAudioMedia) =
                 inherit PIXI.utils.EventEmitter()
 //                interface IMediaInstance
                 member __.PADDING with get(): float = jsNative and set(v: float): unit = jsNative
@@ -272,7 +272,7 @@ module PIXI =
                 member __.destroy(): unit = jsNative
                 member __.toString(): string = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.htmlaudio.HTMLAudioContext","PIXI")>] HTMLAudioContext() =
+            and [<AllowNullLiteral>] [<Import("HTMLAudioContext","PIXI/sound/htmlaudio")>] HTMLAudioContext() =
                 inherit PIXI.utils.EventEmitter()
 //                interface IMediaContext
                 member __.speed with get(): float = jsNative and set(v: float): unit = jsNative
@@ -287,7 +287,7 @@ module PIXI =
                 member __.togglePause(): bool = jsNative
                 member __.destroy(): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.htmlaudio.HTMLAudioMedia","PIXI")>] HTMLAudioMedia() =
+            and [<AllowNullLiteral>] [<Import("HTMLAudioMedia","PIXI/sound/htmlaudio")>] HTMLAudioMedia() =
                 inherit PIXI.utils.EventEmitter()
 //                interface IMedia
                 member __.parent with get(): Sound = jsNative and set(v: Sound): unit = jsNative
@@ -304,7 +304,7 @@ module PIXI =
 
 
         module webaudio =
-            type [<AllowNullLiteral>] [<Import("sound.webaudio.WebAudioContext","PIXI")>] WebAudioContext() =
+            type [<AllowNullLiteral>] [<Import("WebAudioContext","PIXI/sound/webaudio")>] WebAudioContext() =
                 inherit PIXI.utils.EventEmitter()
 //                interface IMediaContext
                 member __.compressor with get(): DynamicsCompressorNode = jsNative and set(v: DynamicsCompressorNode): unit = jsNative
@@ -326,7 +326,7 @@ module PIXI =
                 member __.togglePause(): bool = jsNative
                 member __.decode(arrayBuffer: ArrayBuffer, callback: Func<Error, AudioBuffer, unit>): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.webaudio.WebAudioInstance","PIXI")>] WebAudioInstance(media: WebAudioMedia) =
+            and [<AllowNullLiteral>] [<Import("WebAudioInstance","PIXI/sound/webaudio")>] WebAudioInstance(media: WebAudioMedia) =
                 inherit PIXI.utils.EventEmitter()
   //              interface IMediaInstance
                 member __.id with get(): float = jsNative and set(v: float): unit = jsNative
@@ -344,7 +344,7 @@ module PIXI =
                 member __.toString(): string = jsNative
                 member __.init(media: WebAudioMedia): unit = jsNative
 
-            and [<AllowNullLiteral>] [<Import("sound.webaudio.WebAudioMedia","PIXI")>] WebAudioMedia() =
+            and [<AllowNullLiteral>] [<Import("WebAudioMedia","PIXI/sound/webaudio")>] WebAudioMedia() =
 //                interface IMedia
                 member __.parent with get(): Sound = jsNative and set(v: Sound): unit = jsNative
                 member __.source with get(): ArrayBuffer = jsNative and set(v: ArrayBuffer): unit = jsNative
@@ -363,7 +363,7 @@ module PIXI =
                 abstract source: AudioBufferSourceNode with get, set
                 abstract gain: GainNode with get, set
 
-            and [<AllowNullLiteral>] [<Import("sound.webaudio.WebAudioNodes","PIXI")>] WebAudioNodes(context: WebAudioContext) =
+            and [<AllowNullLiteral>] [<Import("WebAudioNodes","PIXI/sound/webaudio")>] WebAudioNodes(context: WebAudioContext) =
 //                interface Filterable
                 member __.BUFFER_SIZE with get(): float = jsNative and set(v: float): unit = jsNative
                 member __.bufferSource with get(): AudioBufferSourceNode = jsNative and set(v: AudioBufferSourceNode): unit = jsNative
