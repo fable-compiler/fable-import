@@ -1,4 +1,4 @@
-namespace Fable.Import.Animejs
+module Fable.Import.Animejs
 
 (*
   bindings based on typescript definitions located here: https://github.com/kohashi/types-npm-animejs/blob/master/index.d.ts
@@ -191,5 +191,5 @@ and [<StringEnum>] Direction =
     | Reverse
     | Alternate
 
-type [<Erase>]Globals =
-    [<Global>] static member anime with get(): AnimeStatic = jsNative and set(v: AnimeStatic): unit = jsNative
+[<Import("*", "animejs")>]
+let anime: AnimeStatic = jsNative
