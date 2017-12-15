@@ -1,3 +1,7 @@
+### 0.2.0
+
+* Change childprocess callback to use tupled args (#32 @jgrund)
+
 ### 0.1.5
 
 * Add OS module

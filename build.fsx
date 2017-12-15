@@ -130,7 +130,7 @@ module Util =
 let gitOwner = "fable-compiler"
 let gitHome = "https://github.com/" + gitOwner
 
-let dotnetcliVersion = "2.0.0"
+let dotnetcliVersion = "2.0.3"
 let mutable dotnetExePath = environVarOrDefault "DOTNET" "dotnet"
 
 // Targets
