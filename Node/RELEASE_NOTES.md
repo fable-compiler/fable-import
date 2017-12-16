@@ -1,4 +1,4 @@
-### 0.2.0
+### 0.2.1
 
 * Change childprocess callback to use tupled args (#32 @jgrund)
 

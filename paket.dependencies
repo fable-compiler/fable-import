@@ -8,3 +8,4 @@ nuget Fable.Import.Browser
 group Build
   source https://nuget.org/api/v2
   nuget FAKE
+  github fable-compiler/fake-helpers Fable.FakeHelpers.fs
