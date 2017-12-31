@@ -127,10 +127,10 @@ type IExports =
     abstract watch: filename: string * options: FsWatcherOptions * ?listener: (string -> string -> unit) -> FSWatcher
     abstract ReadStream: ReadStreamStatic with get, set
     abstract WriteStream: WriteStreamStatic with get, set
-    abstract createReadStream: path: string * ?options: Stream.ReadableOptions -> ReadStream<string>
-    abstract createReadStream: path: Buffer.Buffer * ?options: Stream.ReadableOptions -> ReadStream<Buffer.Buffer>
-    abstract createWriteStream: path: string * ?options: Stream.WritableOptions -> WriteStream<string>
-    abstract createWriteStream: path: Buffer.Buffer * ?options: Stream.WritableOptions -> WriteStream<Buffer.Buffer>
+    abstract createReadStream: path: string * ?options: Stream.ReadableOptions<string> -> ReadStream<string>
+    abstract createReadStream: path: Buffer.Buffer * ?options: Stream.ReadableOptions<Buffer.Buffer> -> ReadStream<Buffer.Buffer>
+    abstract createWriteStream: path: string * ?options: Stream.WritableOptions<string> -> WriteStream<string>
+    abstract createWriteStream: path: Buffer.Buffer * ?options: Stream.WritableOptions<Buffer.Buffer> -> WriteStream<Buffer.Buffer>
     abstract constants: FsConstants
     abstract rename: oldPath: string * newPath: string * ?callback: (Base.NodeJS.ErrnoException option -> unit) -> unit
     abstract renameSync: oldPath: string * newPath: string -> unit
