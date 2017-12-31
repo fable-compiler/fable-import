@@ -12,7 +12,7 @@ type [<AllowNullLiteral>] Stream =
 type [<AllowNullLiteral>] StreamStatic =
     [<Emit("new $0()")>] abstract Create: unit -> Stream
 
-type [<AllowNullLiteral>] ReadableOptions<'a> =
+type [<AllowNullLiteral>] ReadableOptions =
     /// The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Defaults to 16384 (16kb), or 16 for objectMode streams
     abstract highWaterMark: int option with get, set
     /// If specified, then buffers will be decoded to strings using the specified encoding. Defaults to null
@@ -23,7 +23,7 @@ type [<AllowNullLiteral>] ReadableOptions<'a> =
     /// When readable._read() is called, if data is available from the resource, the implementation should begin pushing that data into the read queue using the this.push(dataChunk) method. _read() should continue reading from the resource and pushing data until readable.push() returns false. Only when _read() is called again after it has stopped should it resume pushing additional data onto the queue.
     /// Note: Once the readable._read() method has been called, it will not be called again until the readable.push() method is called.
     /// The size argument is advisory. For implementations where a "read" is a single operation that returns data can use the size argument to determine how much data to fetch. Other implementations may ignore this argument and simply provide data whenever it becomes available. There is no need to "wait" until size bytes are available before calling stream.push(chunk).
-    abstract read: (int -> 'a) option with get, set
+    abstract read: (int -> unit) option with get, set
 
 /// Readable streams are an abstraction for a source from which data is consumed.
 type [<AllowNullLiteral>] Readable<'a> =
@@ -67,7 +67,7 @@ type [<AllowNullLiteral>] Readable<'a> =
     abstract read: ?size: int -> 'a option
 
 type [<AllowNullLiteral>] ReadableStatic =
-    [<Emit("new $0($1)")>] abstract Create<'a> : readableOptions:ReadableOptions<'a> -> Readable<'a>
+    [<Emit("new $0($1)")>] abstract Create<'a> : readableOptions:ReadableOptions -> Readable<'a>
     [<Emit("new $0($1)")>] abstract Create<'a> : unit -> Readable<'a>
 
 type [<AllowNullLiteral>] WritevChunk<'a> =
@@ -113,7 +113,7 @@ type [<AllowNullLiteral>] WritableStatic =
     [<Emit("new $0($1)")>] abstract Create<'a> : writableOptions:WritableOptions<'a> -> Writable<'a>
     [<Emit("new $0($1)")>] abstract Create<'a> : unit -> Writable<'a>
 
-type [<AllowNullLiteral>] DuplexOptions<'a, 'b> =
+type [<AllowNullLiteral>] DuplexOptions<'a> =
     /// Whether or not to decode strings into Buffers before passing them to stream._write(). Defaults to true
     abstract decodeStrings: bool option with get, set
     /// If specified, then buffers will be decoded to strings using the specified encoding. Defaults to null
@@ -130,7 +130,7 @@ type [<AllowNullLiteral>] DuplexOptions<'a, 'b> =
     /// When readable._read() is called, if data is available from the resource, the implementation should begin pushing that data into the read queue using the this.push(dataChunk) method. _read() should continue reading from the resource and pushing data until readable.push() returns false. Only when _read() is called again after it has stopped should it resume pushing additional data onto the queue.
     /// Note: Once the readable._read() method has been called, it will not be called again until the readable.push() method is called.
     /// The size argument is advisory. For implementations where a "read" is a single operation that returns data can use the size argument to determine how much data to fetch. Other implementations may ignore this argument and simply provide data whenever it becomes available. There is no need to "wait" until size bytes are available before calling stream.push(chunk).
-    abstract read: (int -> 'b) option with get, set
+    abstract read: (int -> unit) option with get, set
     /// The callback method must be called to signal either that the write completed successfully or failed with an error. The first argument passed to the callback must be the Error object if the call failed or null if the write succeeded.
     /// It is important to note that all calls to writable.write() that occur between the time writable._write() is called and the callback is called will cause the written data to be buffered. Once the callback is invoked, the stream will emit a 'drain' event. If a stream implementation is capable of processing multiple chunks of data at once, the writable._writev() method should be implemented.
     /// If the decodeStrings property is set in the constructor options, then chunk may be a string rather than a Buffer, and encoding will indicate the character encoding of the string. This is to support implementations that have an optimized handling for certain string data encodings. If the decodeStrings property is explicitly set to false, the encoding argument can be safely ignored, and chunk will remain the same object that is passed to .write().
@@ -145,7 +145,7 @@ type [<AllowNullLiteral>] Duplex<'a, 'b> =
     inherit Readable<'b>
 
 type [<AllowNullLiteral>] DuplexStatic =
-    [<Emit("new $0($1)")>] abstract Create<'a, 'b> : duplexOptions:DuplexOptions<'a, 'b> -> Duplex<'a, 'b>
+    [<Emit("new $0($1)")>] abstract Create<'a, 'b> : duplexOptions:DuplexOptions<'a> -> Duplex<'a, 'b>
 
 type [<AllowNullLiteral>] TransformOptions<'a, 'b> =
     /// Whether or not to decode strings into Buffers before passing them to stream._write(). Defaults to true
