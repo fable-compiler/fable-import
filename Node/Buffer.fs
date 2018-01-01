@@ -3,6 +3,7 @@ module rec Fable.Import.Node.Buffer
 open Fable.Core
 open Fable.Import.JS
 
+[<StringEnum>]
 type BufferEncoding =
     ///For 7-bit ASCII data only. This encoding is fast and will strip the high bit if set.
     | Ascii 
@@ -20,11 +21,6 @@ type BufferEncoding =
     | Binary
     ///  Encode each byte as two hexadecimal characters.
     | Hex
-
-[<StringEnum>]
-type MyStrings =
-    | Vertical
-    | [<CompiledName("Horizontal")>] Horizontal
 
 type Buffer = 
     abstract write: string: string * ?offset: float * ?length: float * ?encoding: string -> float
@@ -87,7 +83,6 @@ type Buffer =
     abstract isBuffer: obj: obj -> obj
     abstract isEncoding: encoding: string -> bool
     abstract byteLength: string: string * ?encoding: string -> float
-    abstract concat: list: ResizeArray<Buffer> * ?totalLength: float -> Buffer
     abstract compare: buf1: Buffer * buf2: Buffer -> float
     abstract alloc: size: float * ?fill: U3<string, Buffer, float> * ?encoding: string -> Buffer
     abstract allocUnsafe: size: float -> Buffer
@@ -104,6 +99,7 @@ type [<AllowNullLiteral>] BufferStatic =
     abstract from: buffer: Buffer -> Buffer
     abstract from: arrayBuffer: ArrayBuffer * ?byteOffset: float * ?length: float -> Buffer
     abstract from: str: string * ?encoding: string -> Buffer
+    abstract concat: list: Buffer [] * ?totalLength: float -> Buffer
 
 type [<AllowNullLiteral>] SlowBuffer =
     abstract prototype: Buffer with get, set
