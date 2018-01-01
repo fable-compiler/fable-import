@@ -1,3 +1,8 @@
+### 0.3.0
+
+* Update Streams (PR #34 @jgrund)
+
+
 ### 0.2.1
 
 * Change childprocess callback to use tupled args (#32 @jgrund)
