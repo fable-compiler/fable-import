@@ -180,7 +180,7 @@ type [<AllowNullLiteral>] Transform<'a, 'b> =
     /// It is possible that no output is generated from any given chunk of input data.
     /// The callback function must be called only when the current chunk is completely consumed. The first argument passed to the callback must be an Error object if an error occurred while processing the input or null otherwise. If a second argument is passed to the callback, it will be forwarded on to the readable.push() method.
     /// Transform._transform() is never called in parallel; streams implement a queue mechanism, and to receive the next chunk, callback must be called, either synchronously or asynchronously.
-    abstract _transform: chunk: 'a * encoding: string * cb: (Error option * 'b option -> unit) -> unit
+    abstract _transform: chunk: 'a * encoding: string * cb: (Error option -> 'b option -> unit) -> unit
     /// In some cases, a transform operation may need to emit an additional bit of data at the end of the stream. For example, a zlib compression stream will store an amount of internal state used to optimally compress the output. When the stream ends, however, that additional data needs to be flushed so that the compressed data will be complete.
     /// Custom Transform implementations may implement the transform._flush() method. This will be called when there is no more written data to be consumed, but before the 'end' event is emitted signaling the end of the Readable stream.
     /// Within the transform._flush() implementation, the readable.push() method may be called zero or more times, as appropriate. The callback function must be called when the flush operation is complete.
