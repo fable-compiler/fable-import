@@ -1,7 +1,10 @@
+### 0.3.1
+
+* Node Import Fixups (PR #35 @jgrund)
+
 ### 0.3.0
 
 * Update Streams (PR #34 @jgrund)
-
 
 ### 0.2.1
 
