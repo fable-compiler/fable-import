@@ -38,13 +38,13 @@ type [<AllowNullLiteral>] ExecOptions =
 type IExports =
     abstract ChildProcess: ChildProcessStatic with get, set
     abstract spawn: command: string * ?args: ResizeArray<string> * ?options: obj -> ChildProcess
-    abstract exec: command: string * ?options: ExecOptions * ?callback:(ExecError option * U2<string, Buffer.Buffer> * U2<string, Buffer.Buffer> -> unit) -> ChildProcessStatic
+    abstract exec: command: string * ?options: ExecOptions * ?callback:(ExecError option -> U2<string, Buffer.Buffer> -> U2<string, Buffer.Buffer> -> unit) -> ChildProcessStatic
 
-    abstract execFile: file: string * ?callback: (ExecError option * Buffer.Buffer * Buffer.Buffer -> unit) -> ChildProcess
+    abstract execFile: file: string * ?callback: (ExecError option -> Buffer.Buffer -> Buffer.Buffer -> unit) -> ChildProcess
 
-    abstract execFile: file: string * ?args: ResizeArray<string> * ?callback: (ExecError option * Buffer.Buffer * Buffer.Buffer -> unit) -> ChildProcess
+    abstract execFile: file: string * ?args: ResizeArray<string> * ?callback: (ExecError option -> Buffer.Buffer -> Buffer.Buffer -> unit) -> ChildProcess
 
-    abstract execFile :file: string * ?args: ResizeArray<string> * ?options: ExecOptions * ?callback: (ExecError option * Buffer.Buffer * Buffer.Buffer -> unit) -> ChildProcess
+    abstract execFile :file: string * ?args: ResizeArray<string> * ?options: ExecOptions * ?callback: (ExecError option -> Buffer.Buffer -> Buffer.Buffer -> unit) -> ChildProcess
 
     abstract fork: modulePath: string * ?args: ResizeArray<string> * ?options: obj -> ChildProcess
 
