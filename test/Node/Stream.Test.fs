@@ -83,3 +83,17 @@ testDone "writable stream" <| fun (d) ->
 
     w.write(toBuffer "foo")
         |> ignore
+
+type TestRecord = {
+    foo: string;
+}
+
+test "creating a passThrough with opts" <| fun () ->
+    let passThroughOpts = createEmpty<Stream.PassThroughOptions<TestRecord>>
+    passThroughOpts.objectMode <- Some true
+
+    let ps = Stream.PassThrough.Create passThroughOpts
+    ps.write({ foo = "bar" })
+        |> ignore
+
+    ps.read() == Some { foo = "bar" }
