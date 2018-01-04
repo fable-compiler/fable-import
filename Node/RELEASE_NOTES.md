@@ -1,3 +1,8 @@
+### 0.3.2
+
+* ChildProcess callback should take curried args (PR #37 @johnsonw)
+* PassThrough stream should take options (PR #38 @jgrund)
+
 ### 0.3.1
 
 * Node Import Fixups (PR #35 @jgrund)
