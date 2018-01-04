@@ -194,8 +194,11 @@ type [<AllowNullLiteral>] TransformStatic =
 type [<AllowNullLiteral>] PassThrough<'a> =
     inherit Transform<'a, 'a>
 
+type PassThroughOptions<'a> = TransformOptions<'a, 'a>
+
 type [<AllowNullLiteral>] PassThroughStatic =
     [<Emit("new $0()")>] abstract Create<'a> : unit -> PassThrough<'a>
+    [<Emit("new $0($1)")>] abstract Create<'a> : passthroughOptions:PassThroughOptions<'a> -> PassThrough<'a>
 
 type IExports =
     abstract Stream: StreamStatic with get, set
