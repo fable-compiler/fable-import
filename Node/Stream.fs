@@ -12,13 +12,16 @@ type [<AllowNullLiteral>] Stream =
 type [<AllowNullLiteral>] StreamStatic =
     [<Emit("new $0()")>] abstract Create: unit -> Stream
 
-type [<AllowNullLiteral>] ReadableOptions =
+type [<AllowNullLiteral>] Options =
     /// The maximum number of bytes to store in the internal buffer before ceasing to read from the underlying resource. Defaults to 16384 (16kb), or 16 for objectMode streams
     abstract highWaterMark: int option with get, set
+    /// Whether this stream should behave as a stream of objects. Defaults to false
+    abstract objectMode: bool option with get, set
+
+type [<AllowNullLiteral>] ReadableOptions =
+    inherit Options
     /// If specified, then buffers will be decoded to strings using the specified encoding. Defaults to null
     abstract encoding: Buffer.BufferEncoding option with get, set
-    /// Whether this stream should behave as a stream of objects. Meaning that stream.read(n) returns a single value instead of a Buffer of size n. Defaults to false
-    abstract objectMode: bool option with get, set
     /// All Readable stream implementations must provide an implementation of the readable._read() method to fetch data from the underlying resource.
     /// When readable._read() is called, if data is available from the resource, the implementation should begin pushing that data into the read queue using the this.push(dataChunk) method. _read() should continue reading from the resource and pushing data until readable.push() returns false. Only when _read() is called again after it has stopped should it resume pushing additional data onto the queue.
     /// Note: Once the readable._read() method has been called, it will not be called again until the readable.push() method is called.
@@ -75,12 +78,9 @@ type [<AllowNullLiteral>] WritevChunk<'a> =
     abstract encoding: Buffer.BufferEncoding with get, set
 
 type [<AllowNullLiteral>] WritableOptions<'a> =
-    /// Buffer level when stream.write() starts returning false. Defaults to 16384 (16kb), or 16 for objectMode streams.
-    abstract highWaterMark: int option with get, set
+    inherit Options
     /// Whether or not to decode strings into Buffers before passing them to stream._write(). Defaults to true
     abstract decodeStrings: bool option with get, set
-    /// Whether or not the stream.write(anyObj) is a valid operation. When set, it becomes possible to write JavaScript values other than string or Buffer if supported by the stream implementation. Defaults to false
-    abstract objectMode: bool option with get, set
     /// The callback method must be called to signal either that the write completed successfully or failed with an error. The first argument passed to the callback must be the Error object if the call failed or null if the write succeeded.
     /// It is important to note that all calls to writable.write() that occur between the time writable._write() is called and the callback is called will cause the written data to be buffered. Once the callback is invoked, the stream will emit a 'drain' event. If a stream implementation is capable of processing multiple chunks of data at once, the writable._writev() method should be implemented.
     /// If the decodeStrings property is set in the constructor options, then chunk may be a string rather than a Buffer, and encoding will indicate the character encoding of the string. This is to support implementations that have an optimized handling for certain string data encodings. If the decodeStrings property is explicitly set to false, the encoding argument can be safely ignored, and chunk will remain the same object that is passed to .write().
@@ -114,31 +114,14 @@ type [<AllowNullLiteral>] WritableStatic =
     [<Emit("new $0($1)")>] abstract Create<'a> : unit -> Writable<'a>
 
 type [<AllowNullLiteral>] DuplexOptions<'a> =
-    /// Whether or not to decode strings into Buffers before passing them to stream._write(). Defaults to true
-    abstract decodeStrings: bool option with get, set
-    /// If specified, then buffers will be decoded to strings using the specified encoding. Defaults to null
-    abstract encoding: Buffer.BufferEncoding with get, set
-    /// Whether or not the stream.write(anyObj) is a valid operation. When set, it becomes possible to write JavaScript values other than string or Buffer if supported by the stream implementation. Defaults to false
-    abstract objectMode: bool option with get, set
+    inherit WritableOptions<'a>
+    inherit ReadableOptions
     /// Defaults to true. If set to false, then the stream will automatically end the writable side when the readable side ends.
     abstract allowHalfOpen: bool option with get, set
     /// Defaults to false. Sets objectMode for readable side of the stream. Has no effect if objectMode is true.
     abstract readableObjectMode: bool option with get, set
     /// Defaults to false. Sets objectMode for writable side of the stream. Has no effect if objectMode is true.
     abstract writableObjectMode: bool option with get, set
-    /// All Readable stream implementations must provide an implementation of the readable._read() method to fetch data from the underlying resource.
-    /// When readable._read() is called, if data is available from the resource, the implementation should begin pushing that data into the read queue using the this.push(dataChunk) method. _read() should continue reading from the resource and pushing data until readable.push() returns false. Only when _read() is called again after it has stopped should it resume pushing additional data onto the queue.
-    /// Note: Once the readable._read() method has been called, it will not be called again until the readable.push() method is called.
-    /// The size argument is advisory. For implementations where a "read" is a single operation that returns data can use the size argument to determine how much data to fetch. Other implementations may ignore this argument and simply provide data whenever it becomes available. There is no need to "wait" until size bytes are available before calling stream.push(chunk).
-    abstract read: (int -> unit) option with get, set
-    /// The callback method must be called to signal either that the write completed successfully or failed with an error. The first argument passed to the callback must be the Error object if the call failed or null if the write succeeded.
-    /// It is important to note that all calls to writable.write() that occur between the time writable._write() is called and the callback is called will cause the written data to be buffered. Once the callback is invoked, the stream will emit a 'drain' event. If a stream implementation is capable of processing multiple chunks of data at once, the writable._writev() method should be implemented.
-    /// If the decodeStrings property is set in the constructor options, then chunk may be a string rather than a Buffer, and encoding will indicate the character encoding of the string. This is to support implementations that have an optimized handling for certain string data encodings. If the decodeStrings property is explicitly set to false, the encoding argument can be safely ignored, and chunk will remain the same object that is passed to .write().
-    /// The writable._write() method is prefixed with an underscore because it is internal to the class that defines it, and should never be called directly by user programs.
-    abstract write: ('a -> Buffer.BufferEncoding -> (Error option -> unit) -> unit) option with get, set
-    /// The writable._writev() method may be implemented in addition to writable._write() in stream implementations that are capable of processing multiple chunks of data at once. If implemented, the method will be called with all chunks of data currently buffered in the write queue.
-    /// The writable._writev() method is prefixed with an underscore because it is internal to the class that defines it, and should never be called directly by user programs.
-    abstract writev: Option<Array<WritevChunk<'a>> -> (Error option -> unit) -> unit> with get, set
 
 type [<AllowNullLiteral>] Duplex<'a, 'b> =
     inherit Writable<'a>
@@ -148,18 +131,7 @@ type [<AllowNullLiteral>] DuplexStatic =
     [<Emit("new $0($1)")>] abstract Create<'a, 'b> : duplexOptions:DuplexOptions<'a> -> Duplex<'a, 'b>
 
 type [<AllowNullLiteral>] TransformOptions<'a, 'b> =
-    /// Whether or not to decode strings into Buffers before passing them to stream._write(). Defaults to true
-    abstract decodeStrings: bool option with get, set
-    /// If specified, then buffers will be decoded to strings using the specified encoding. Defaults to null
-    abstract encoding: Buffer.BufferEncoding option with get, set
-    /// Defaults to true. If set to false, then the stream will automatically end the writable side when the readable side ends.
-    abstract objectMode: bool option with get, set
-    /// Defaults to true. If set to false, then the stream will automatically end the writable side when the readable side ends.
-    abstract allowHalfOpen: bool option with get, set
-    /// Defaults to false. Sets objectMode for readable side of the stream. Has no effect if objectMode is true.
-    abstract readableObjectMode: bool option with get, set
-    /// Defaults to false. Sets objectMode for writable side of the stream. Has no effect if objectMode is true.
-    abstract writableObjectMode: bool option with get, set
+    inherit DuplexOptions<'a>
     /// All Transform stream implementations must provide a _transform() method to accept input and produce output. The transform._transform() implementation handles the bytes being written, computes an output, then passes that output off to the readable portion using the readable.push() method.
     /// The transform.push() method may be called zero or more times to generate output from a single input chunk, depending on how much is to be output as a result of the chunk.
     /// It is possible that no output is generated from any given chunk of input data.
