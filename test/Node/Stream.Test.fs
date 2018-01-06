@@ -8,7 +8,7 @@ open Matchers
 open Fable.Core.JsInterop
 
 let private toBuffer (x:string) = 
-    Buffer.Buffer.from x
+    buffer.Buffer.from x
 
 let private collectToPromise (x:Stream.Writable<'a>) =
     Promise.create(fun res rej -> 
@@ -25,8 +25,8 @@ let private collectToPromise (x:Stream.Writable<'a>) =
 
 
 testAsync "piping streams" <| fun () ->
-    let r = Stream.PassThrough.Create<Buffer.Buffer>()
-    let w = Stream.PassThrough.Create<_>()
+    let r = stream.PassThrough.Create<Buffer.Buffer>()
+    let w = stream.PassThrough.Create<_>()
 
     r.``end`` (toBuffer "foo")
         |> ignore
@@ -52,15 +52,15 @@ testAsync "transform stream" <| fun () ->
             |> ignore
     )
 
-    let r = Stream.Readable.Create<Buffer>(readableOpts)
+    let r = stream.Readable.Create<Buffer>(readableOpts)
         
     let transformOpts = createEmpty<Stream.TransformOptions<Buffer, Buffer>>
 
     transformOpts.transform <- Some (fun chunk _ cb ->
-        cb None (Some (Buffer.Buffer.concat([| chunk; toBuffer "bar" |])))
+        cb None (Some (buffer.Buffer.concat([| chunk; toBuffer "bar" |])))
     )
 
-    let t = Stream.Transform.Create(transformOpts)
+    let t = stream.Transform.Create(transformOpts)
 
     promise {
         let t' = r.pipe(t)
@@ -79,7 +79,8 @@ testDone "writable stream" <| fun (d) ->
         cb(None)
         d.``done``()
     )
-    let w = Stream.Writable.Create(writableOpts)
+
+    let w = stream.Writable.Create(writableOpts)
 
     w.write(toBuffer "foo")
         |> ignore
@@ -92,7 +93,7 @@ test "creating a passThrough with opts" <| fun () ->
     let passThroughOpts = createEmpty<Stream.PassThroughOptions<TestRecord>>
     passThroughOpts.objectMode <- Some true
 
-    let ps = Stream.PassThrough.Create passThroughOpts
+    let ps = stream.PassThrough.Create passThroughOpts
     ps.write({ foo = "bar" })
         |> ignore
 

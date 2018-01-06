@@ -1,0 +1,27 @@
+jobs:
+    include:
+        -
+            stage: test
+            env: Type='unit test'
+            language: csharp
+            dotnet: 2.1.3
+            mono: latest
+            before_script:
+                - nvm install 8
+            script:
+                - cd test
+                - npm i
+                - dotnet restore
+                - dotnet fable npm-run test
+        -
+            stage: deploy
+            env: Type='node bindings'
+            language: csharp
+            dotnet: 2.1.3
+            mono: latest
+            if: branch =~ ^v.+node$
+            script:
+                - cd Node
+                - dotnet pack
+                - cd bin/Debug
+                - dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k $NUGET_KEY
