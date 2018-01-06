@@ -1,3 +1,8 @@
+### 0.4.0
+
+* Use lower case for export let bindings
+* Generate documentation
+
 ### 0.3.2
 
 * ChildProcess callback should take curried args (PR #37 @johnsonw)
