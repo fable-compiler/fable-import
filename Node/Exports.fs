@@ -5,43 +5,43 @@ open Fable.Import.Node
 open Fable.Core
 
 [<Import("*", "buffer")>] 
-let Buffer: Buffer.IExports = jsNative
+let buffer: Buffer.IExports = jsNative
 
 [<Import("*", "child_process")>]
-let ChildProcess: ChildProcess.IExports = jsNative
+let childProcess: ChildProcess.IExports = jsNative
 
 [<Import("*", "events")>]
-let Events: Events.IExports = jsNative
+let events: Events.IExports = jsNative
 
 [<Import("*", "fs")>]
-let Fs: Fs.IExports = jsNative
+let fs: Fs.IExports = jsNative
 
 [<Import("*","net")>]
-let Net: Net.IExports = jsNative
+let net: Net.IExports = jsNative
 
 [<Import("*","crypto")>] 
-let Crypto: Crypto.IExports = jsNative
+let crypto: Crypto.IExports = jsNative
 
 [<Import("*","tls")>] 
-let Tls: Tls.IExports = jsNative
+let tls: Tls.IExports = jsNative
 
 [<Import("*","http")>]
-let Http: Http.IExports = jsNative
+let http: Http.IExports = jsNative
 
 [<Import("*","https")>]
-let Https: Https.IExports = jsNative
+let https: Https.IExports = jsNative
 
 [<Import("*", "os")>]
-let Os: Os.IExports = jsNative
+let os: Os.IExports = jsNative
 
 [<Import("*", "querystring")>]
-let Querystring: Querystring.IExports = jsNative
+let querystring: Querystring.IExports = jsNative
 
 [<Import("*", "stream")>]
-let Stream: Stream.IExports = jsNative
+let stream: Stream.IExports = jsNative
 
 [<Import("*", "url")>]
-let Url: Url.IExports = jsNative
+let url: Url.IExports = jsNative
 
 [<Import("*", "path")>] 
-let Path: Path.IExports = jsNative
+let path: Path.IExports = jsNative
