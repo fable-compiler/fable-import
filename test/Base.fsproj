@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Node/Stream.Test.fs" />
+    <Compile Include="Node/ChildProcess.Test.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Node/Fable.Import.Node.fsproj" />
