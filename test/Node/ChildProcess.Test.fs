@@ -1,4 +1,4 @@
-module Fable.Import.Node.PowerPack.ChildProcessTest
+module Fable.Import.Node.ChildProcess.Test
 
 open Fable.Core
 open Fable.Core.JsInterop
@@ -28,8 +28,8 @@ let exec (cmd:string) =
           |> Result.Ok
           |> res
 
-    let opts = createEmpty<ChildProcess.ExecOptions>
-    ChildProcess.exec (cmd, opts, cb) |> ignore
+    let opts = createEmpty<ExecOptions>
+    childProcess.exec (cmd, opts, cb) |> ignore
   )
 
 testList "ChildProcess exec" [
@@ -58,7 +58,7 @@ testList "ChildProcess exec" [
         promise {
           let! result = p
           match result with
-            | Error ((e:ChildProcess.ExecError), stderr') -> 
+            | Error (e, stderr') -> 
                 e.message == "Command failed: echo 'Print a message' 1>&2 && exit 1\nPrint a message\n"
                 e.code == 1
                 stderr' == "Print a message\n"
