@@ -30,7 +30,7 @@ module Browser =
 
     and [<AllowNullLiteral>] ConfirmSiteSpecificExceptionsInformation =
         inherit ExceptionInformation
-        abstract arrayOfDomainStrings: IList<string> option with get, set
+        abstract arrayOfDomainStrings: ResizeArray<string> option with get, set
 
     and [<AllowNullLiteral>] CustomEventInit =
         inherit EventInit
@@ -96,7 +96,7 @@ module Browser =
         abstract subtree: bool option with get, set
         abstract attributeOldValue: bool option with get, set
         abstract characterDataOldValue: bool option with get, set
-        abstract attributeFilter: IList<string> option with get, set
+        abstract attributeFilter: ResizeArray<string> option with get, set
 
     and [<AllowNullLiteral>] ObjectURLOptions =
         abstract oneTimeOnly: bool option with get, set
@@ -143,7 +143,7 @@ module Browser =
 
     and [<AllowNullLiteral>] StoreSiteSpecificExceptionsInformation =
         inherit StoreExceptionsInformation
-        abstract arrayOfDomainStrings: IList<string> option with get, set
+        abstract arrayOfDomainStrings: ResizeArray<string> option with get, set
 
     and [<AllowNullLiteral>] UIEventInit =
         inherit EventInit
@@ -453,7 +453,7 @@ module Browser =
 
     and [<AllowNullLiteral>] BlobType =
         abstract prototype: Blob with get, set
-        [<Emit("new $0($1...)")>] abstract Create: ?blobParts: IList<obj> * ?options: BlobPropertyBag -> Blob
+        [<Emit("new $0($1...)")>] abstract Create: ?blobParts: ResizeArray<obj> * ?options: BlobPropertyBag -> Blob
 
     and [<AllowNullLiteral>] CDATASection =
         inherit Text
@@ -1045,7 +1045,7 @@ module Browser =
         abstract fillRect: x: float * y: float * w: float * h: float -> unit
         abstract fillText: text: string * x: float * y: float * ?maxWidth: float -> unit
         abstract getImageData: sx: float * sy: float * sw: float * sh: float -> ImageData
-        abstract getLineDash: unit -> IList<float>
+        abstract getLineDash: unit -> ResizeArray<float>
         abstract isPointInPath: x: float * y: float * ?fillRule: string -> bool
         abstract lineTo: x: float * y: float -> unit
         abstract measureText: text: string -> TextMetrics
@@ -1057,7 +1057,7 @@ module Browser =
         abstract rotate: angle: float -> unit
         abstract save: unit -> unit
         abstract scale: x: float * y: float -> unit
-        abstract setLineDash: segments: IList<float> -> unit
+        abstract setLineDash: segments: ResizeArray<float> -> unit
         abstract setTransform: m11: float * m12: float * m21: float * m22: float * dx: float * dy: float -> unit
         abstract stroke: unit -> unit
         abstract strokeRect: x: float * y: float * w: float * h: float -> unit
@@ -1228,7 +1228,7 @@ module Browser =
         abstract algorithm: KeyAlgorithm with get, set
         abstract extractable: bool with get, set
         abstract ``type``: string with get, set
-        abstract usages: IList<string> with get, set
+        abstract usages: ResizeArray<string> with get, set
 
     and [<AllowNullLiteral>] CryptoKeyType =
         abstract prototype: CryptoKey with get, set
@@ -2690,7 +2690,7 @@ module Browser =
 
     and [<AllowNullLiteral>] FileType =
         abstract prototype: File with get, set
-        [<Emit("new $0($1...)")>] abstract Create: parts: IList<U4<ArrayBuffer, ArrayBufferView, Blob, string>> * filename: string * ?properties: FilePropertyBag -> File
+        [<Emit("new $0($1...)")>] abstract Create: parts: ResizeArray<U4<ArrayBuffer, ArrayBufferView, Blob, string>> * filename: string * ?properties: FilePropertyBag -> File
 
     and [<AllowNullLiteral>] FileList =
         abstract length: float with get, set
@@ -2740,8 +2740,8 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> GainNode
 
     and [<AllowNullLiteral>] Gamepad =
-        abstract axes: IList<float> with get, set
-        abstract buttons: IList<GamepadButton> with get, set
+        abstract axes: ResizeArray<float> with get, set
+        abstract buttons: ResizeArray<GamepadButton> with get, set
         abstract connected: bool with get, set
         abstract id: string with get, set
         abstract index: float with get, set
@@ -5485,7 +5485,7 @@ module Browser =
         abstract close: unit -> unit
         abstract createObjectStore: name: string * ?optionalParameters: IDBObjectStoreParameters -> IDBObjectStore
         abstract deleteObjectStore: name: string -> unit
-        abstract transaction: storeNames: U2<string, IList<string>> * ?mode: string -> IDBTransaction
+        abstract transaction: storeNames: U2<string, ResizeArray<string>> * ?mode: string -> IDBTransaction
         [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
@@ -5504,7 +5504,7 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> IDBFactory
 
     and [<AllowNullLiteral>] IDBIndex =
-        abstract keyPath: U2<string, IList<string>> with get, set
+        abstract keyPath: U2<string, ResizeArray<string>> with get, set
         abstract name: string with get, set
         abstract objectStore: IDBObjectStore with get, set
         abstract unique: bool with get, set
@@ -5535,14 +5535,14 @@ module Browser =
 
     and [<AllowNullLiteral>] IDBObjectStore =
         abstract indexNames: DOMStringList with get, set
-        abstract keyPath: U2<string, IList<string>> with get, set
+        abstract keyPath: U2<string, ResizeArray<string>> with get, set
         abstract name: string with get, set
         abstract transaction: IDBTransaction with get, set
         abstract autoIncrement: bool with get, set
         abstract add: value: obj * ?key: obj -> IDBRequest
         abstract clear: unit -> IDBRequest
         abstract count: ?key: obj -> IDBRequest
-        abstract createIndex: name: string * keyPath: U2<string, IList<string>> * ?optionalParameters: IDBIndexParameters -> IDBIndex
+        abstract createIndex: name: string * keyPath: U2<string, ResizeArray<string>> * ?optionalParameters: IDBIndexParameters -> IDBIndex
         abstract delete: key: obj -> IDBRequest
         abstract deleteIndex: indexName: string -> unit
         abstract get: key: obj -> IDBRequest
@@ -5848,7 +5848,7 @@ module Browser =
         abstract capturePreviewToBlobAsync: unit -> MSWebViewAsyncOperation
         abstract captureSelectedContentToDataPackageAsync: unit -> MSWebViewAsyncOperation
         abstract getDeferredPermissionRequestById: id: float -> DeferredPermissionRequest
-        abstract getDeferredPermissionRequests: unit -> IList<DeferredPermissionRequest>
+        abstract getDeferredPermissionRequests: unit -> ResizeArray<DeferredPermissionRequest>
         abstract goBack: unit -> unit
         abstract goForward: unit -> unit
         abstract invokeScriptAsync: scriptName: string * [<ParamArray>] args: obj[] -> MSWebViewAsyncOperation
@@ -5872,7 +5872,7 @@ module Browser =
         abstract oncandidatewindowupdate: (Event -> 'Out) with get, set
         abstract target: HTMLElement with get, set
         abstract getCandidateWindowClientRect: unit -> ClientRect
-        abstract getCompositionAlternatives: unit -> IList<string>
+        abstract getCompositionAlternatives: unit -> ResizeArray<string>
         abstract hasComposition: unit -> bool
         abstract isCandidateWindowVisible: unit -> bool
         [<Emit("$0.addEventListener('MSCandidateWindowHide',$1...)")>] abstract addEventListener_MSCandidateWindowHide: listener: (Event -> 'Out) * ?useCapture: bool -> unit
@@ -6270,7 +6270,7 @@ module Browser =
     and [<AllowNullLiteral>] MutationObserver =
         abstract disconnect: unit -> unit
         abstract observe: target: Node * options: MutationObserverInit -> unit
-        abstract takeRecords: unit -> IList<MutationRecord>
+        abstract takeRecords: unit -> ResizeArray<MutationRecord>
 
     and [<AllowNullLiteral>] MutationObserverType =
         abstract prototype: MutationObserver with get, set
@@ -6356,10 +6356,10 @@ module Browser =
         abstract systemLanguage: string with get, set
         abstract userLanguage: string with get, set
         abstract webdriver: bool with get, set
-        abstract getGamepads: unit -> IList<Gamepad>
+        abstract getGamepads: unit -> ResizeArray<Gamepad>
         abstract javaEnabled: unit -> bool
         abstract msLaunchUri: uri: string * ?successCallback: MSLaunchUriCallback * ?noHandlerCallback: MSLaunchUriCallback -> unit
-        abstract vibrate: pattern: U2<float, IList<float>> -> bool
+        abstract vibrate: pattern: U2<float, ResizeArray<float>> -> bool
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] NavigatorType =
@@ -8710,7 +8710,7 @@ module Browser =
         abstract systemXDPI: float with get, set
         abstract systemYDPI: float with get, set
         abstract width: float with get, set
-        abstract msLockOrientation: orientations: U2<string, IList<string>> -> bool
+        abstract msLockOrientation: orientations: U2<string, ResizeArray<string>> -> bool
         abstract msUnlockOrientation: unit -> unit
         [<Emit("$0.addEventListener('MSOrientationChange',$1...)")>] abstract addEventListener_MSOrientationChange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
@@ -8871,14 +8871,14 @@ module Browser =
     and [<AllowNullLiteral>] SubtleCrypto =
         abstract decrypt: algorithm: U2<string, Algorithm> * key: CryptoKey * data: ArrayBufferView -> obj
         abstract deriveBits: algorithm: U2<string, Algorithm> * baseKey: CryptoKey * length: float -> obj
-        abstract deriveKey: algorithm: U2<string, Algorithm> * baseKey: CryptoKey * derivedKeyType: U2<string, Algorithm> * extractable: bool * keyUsages: IList<string> -> obj
+        abstract deriveKey: algorithm: U2<string, Algorithm> * baseKey: CryptoKey * derivedKeyType: U2<string, Algorithm> * extractable: bool * keyUsages: ResizeArray<string> -> obj
         abstract digest: algorithm: U2<string, Algorithm> * data: ArrayBufferView -> obj
         abstract encrypt: algorithm: U2<string, Algorithm> * key: CryptoKey * data: ArrayBufferView -> obj
         abstract exportKey: format: string * key: CryptoKey -> obj
-        abstract generateKey: algorithm: U2<string, Algorithm> * extractable: bool * keyUsages: IList<string> -> obj
-        abstract importKey: format: string * keyData: ArrayBufferView * algorithm: U2<string, Algorithm> * extractable: bool * keyUsages: IList<string> -> obj
+        abstract generateKey: algorithm: U2<string, Algorithm> * extractable: bool * keyUsages: ResizeArray<string> -> obj
+        abstract importKey: format: string * keyData: ArrayBufferView * algorithm: U2<string, Algorithm> * extractable: bool * keyUsages: ResizeArray<string> -> obj
         abstract sign: algorithm: U2<string, Algorithm> * key: CryptoKey * data: ArrayBufferView -> obj
-        abstract unwrapKey: format: string * wrappedKey: ArrayBufferView * unwrappingKey: CryptoKey * unwrapAlgorithm: U2<string, Algorithm> * unwrappedKeyAlgorithm: U2<string, Algorithm> * extractable: bool * keyUsages: IList<string> -> obj
+        abstract unwrapKey: format: string * wrappedKey: ArrayBufferView * unwrappingKey: CryptoKey * unwrapAlgorithm: U2<string, Algorithm> * unwrappedKeyAlgorithm: U2<string, Algorithm> * extractable: bool * keyUsages: ResizeArray<string> -> obj
         abstract verify: algorithm: U2<string, Algorithm> * key: CryptoKey * signature: ArrayBufferView * data: ArrayBufferView -> obj
         abstract wrapKey: format: string * key: CryptoKey * wrappingKey: CryptoKey * wrapAlgorithm: U2<string, Algorithm> -> obj
 
@@ -9185,7 +9185,7 @@ module Browser =
         /// Returns the first value associated to the given search parameter.
         abstract get: name: string -> string option
         /// Returns all the values association with a given search parameter.
-        abstract getAll: name: string -> IList<string>
+        abstract getAll: name: string -> ResizeArray<string>
         /// Returns a Boolean indicating if such a search parameter exists.
         abstract has: name: string -> bool
         /// Sets the value associated to a given search parameter to the given value. If there were several values, delete the others.
@@ -9716,7 +9716,7 @@ module Browser =
         abstract generateMipmap: target: float -> unit
         abstract getActiveAttrib: program: WebGLProgram * index: float -> WebGLActiveInfo
         abstract getActiveUniform: program: WebGLProgram * index: float -> WebGLActiveInfo
-        abstract getAttachedShaders: program: WebGLProgram -> IList<WebGLShader>
+        abstract getAttachedShaders: program: WebGLProgram -> ResizeArray<WebGLShader>
         abstract getAttribLocation: program: WebGLProgram * name: string -> float
         abstract getBufferParameter: target: float * pname: float -> obj
         abstract getContextAttributes: unit -> WebGLContextAttributes
@@ -9731,7 +9731,7 @@ module Browser =
         abstract getShaderParameter: shader: WebGLShader * pname: float -> obj
         abstract getShaderPrecisionFormat: shadertype: float * precisiontype: float -> WebGLShaderPrecisionFormat
         abstract getShaderSource: shader: WebGLShader -> string
-        abstract getSupportedExtensions: unit -> IList<string>
+        abstract getSupportedExtensions: unit -> ResizeArray<string>
         abstract getTexParameter: target: float * pname: float -> obj
         abstract getUniform: program: WebGLProgram * location: WebGLUniformLocation -> obj
         abstract getUniformLocation: program: WebGLProgram * name: string -> WebGLUniformLocation
@@ -10214,7 +10214,7 @@ module Browser =
         abstract CLOSING: float with get, set
         abstract CONNECTING: float with get, set
         abstract OPEN: float with get, set
-        [<Emit("new $0($1...)")>] abstract Create: url: string * ?protocols: U2<string, IList<string>> -> WebSocket
+        [<Emit("new $0($1...)")>] abstract Create: url: string * ?protocols: U2<string, ResizeArray<string>> -> WebSocket
 
     and [<AllowNullLiteral>] WheelEvent =
         inherit MouseEvent
@@ -10955,7 +10955,7 @@ module Browser =
         abstract storageArea: Storage option with get, set
 
     and [<AllowNullLiteral>] IDBObjectStoreParameters =
-        abstract keyPath: U2<string, IList<string>> option with get, set
+        abstract keyPath: U2<string, ResizeArray<string>> option with get, set
         abstract autoIncrement: bool option with get, set
 
     and [<AllowNullLiteral>] IDBIndexParameters =
@@ -10986,7 +10986,7 @@ module Browser =
         abstract lastEventId: string option with get, set
         abstract channel: string option with get, set
         abstract source: obj option with get, set
-        abstract ports: IList<MessagePort> option with get, set
+        abstract ports: ResizeArray<MessagePort> option with get, set
 
     and [<AllowNullLiteral>] ProgressEventInit =
         inherit EventInit
@@ -11027,7 +11027,7 @@ module Browser =
     and MSExecAtPriorityFunctionCallback =
         [<Emit("$0($1...)")>] abstract Invoke: [<ParamArray>] args: obj[] -> obj
 
-    and MutationCallback = (IList<MutationRecord> -> MutationObserver -> unit)
+    and MutationCallback = (ResizeArray<MutationRecord> -> MutationObserver -> unit)
 
     and DecodeSuccessCallback = (AudioBuffer -> unit)
 
@@ -11675,12 +11675,12 @@ module Browser =
             abstract resolvedOptions: unit -> ResolvedCollatorOptions
 
         and [<AllowNullLiteral>] CollatorType =
-            [<Emit("new $0($1...)")>] abstract Create: ?locales: IList<string> * ?options: CollatorOptions -> Collator
+            [<Emit("new $0($1...)")>] abstract Create: ?locales: ResizeArray<string> * ?options: CollatorOptions -> Collator
             [<Emit("new $0($1...)")>] abstract Create: ?locale: string * ?options: CollatorOptions -> Collator
-            [<Emit("$0($1...)")>] abstract Invoke: ?locales: IList<string> * ?options: CollatorOptions -> Collator
+            [<Emit("$0($1...)")>] abstract Invoke: ?locales: ResizeArray<string> * ?options: CollatorOptions -> Collator
             [<Emit("$0($1...)")>] abstract Invoke: ?locale: string * ?options: CollatorOptions -> Collator
-            abstract supportedLocalesOf: locales: IList<string> * ?options: CollatorOptions -> IList<string>
-            abstract supportedLocalesOf: locale: string * ?options: CollatorOptions -> IList<string>
+            abstract supportedLocalesOf: locales: ResizeArray<string> * ?options: CollatorOptions -> ResizeArray<string>
+            abstract supportedLocalesOf: locale: string * ?options: CollatorOptions -> ResizeArray<string>
 
         and [<AllowNullLiteral>] NumberFormatOptions =
             abstract localeMatcher: string option with get, set
@@ -11712,12 +11712,12 @@ module Browser =
             abstract resolvedOptions: unit -> ResolvedNumberFormatOptions
 
         and [<AllowNullLiteral>] NumberFormatType =
-            [<Emit("new $0($1...)")>] abstract Create: ?locales: IList<string> * ?options: NumberFormatOptions -> NumberFormat
+            [<Emit("new $0($1...)")>] abstract Create: ?locales: ResizeArray<string> * ?options: NumberFormatOptions -> NumberFormat
             [<Emit("new $0($1...)")>] abstract Create: ?locale: string * ?options: NumberFormatOptions -> NumberFormat
-            [<Emit("$0($1...)")>] abstract Invoke: ?locales: IList<string> * ?options: NumberFormatOptions -> NumberFormat
+            [<Emit("$0($1...)")>] abstract Invoke: ?locales: ResizeArray<string> * ?options: NumberFormatOptions -> NumberFormat
             [<Emit("$0($1...)")>] abstract Invoke: ?locale: string * ?options: NumberFormatOptions -> NumberFormat
-            abstract supportedLocalesOf: locales: IList<string> * ?options: NumberFormatOptions -> IList<string>
-            abstract supportedLocalesOf: locale: string * ?options: NumberFormatOptions -> IList<string>
+            abstract supportedLocalesOf: locales: ResizeArray<string> * ?options: NumberFormatOptions -> ResizeArray<string>
+            abstract supportedLocalesOf: locale: string * ?options: NumberFormatOptions -> ResizeArray<string>
 
         and [<AllowNullLiteral>] DateTimeFormatOptions =
             abstract localeMatcher: string option with get, set
@@ -11755,12 +11755,12 @@ module Browser =
             abstract resolvedOptions: unit -> ResolvedDateTimeFormatOptions
 
         and [<AllowNullLiteral>] DateTimeFormatType =
-            [<Emit("new $0($1...)")>] abstract Create: ?locales: IList<string> * ?options: DateTimeFormatOptions -> DateTimeFormat
+            [<Emit("new $0($1...)")>] abstract Create: ?locales: ResizeArray<string> * ?options: DateTimeFormatOptions -> DateTimeFormat
             [<Emit("new $0($1...)")>] abstract Create: ?locale: string * ?options: DateTimeFormatOptions -> DateTimeFormat
-            [<Emit("$0($1...)")>] abstract Invoke: ?locales: IList<string> * ?options: DateTimeFormatOptions -> DateTimeFormat
+            [<Emit("$0($1...)")>] abstract Invoke: ?locales: ResizeArray<string> * ?options: DateTimeFormatOptions -> DateTimeFormat
             [<Emit("$0($1...)")>] abstract Invoke: ?locale: string * ?options: DateTimeFormatOptions -> DateTimeFormat
-            abstract supportedLocalesOf: locales: IList<string> * ?options: DateTimeFormatOptions -> IList<string>
-            abstract supportedLocalesOf: locale: string * ?options: DateTimeFormatOptions -> IList<string>
+            abstract supportedLocalesOf: locales: ResizeArray<string> * ?options: DateTimeFormatOptions -> ResizeArray<string>
+            abstract supportedLocalesOf: locale: string * ?options: DateTimeFormatOptions -> ResizeArray<string>
 
         let Collator: CollatorType = jsNative
         let NumberFormat: NumberFormatType = jsNative
@@ -11771,17 +11771,17 @@ module Browser =
     // [<AutoOpen>]
     // module Extensions =
     //     type [<AllowNullLiteral>] String =
-    //         abstract localeCompare: that: string * locales: IList<string> * ?options: Intl.CollatorOptions -> float
+    //         abstract localeCompare: that: string * locales: ResizeArray<string> * ?options: Intl.CollatorOptions -> float
     //         abstract localeCompare: that: string * locale: string * ?options: Intl.CollatorOptions -> float
 
     //     and [<AllowNullLiteral>] Number =
-    //         abstract toLocaleString: ?locales: IList<string> * ?options: Intl.NumberFormatOptions -> string
+    //         abstract toLocaleString: ?locales: ResizeArray<string> * ?options: Intl.NumberFormatOptions -> string
     //         abstract toLocaleString: ?locale: string * ?options: Intl.NumberFormatOptions -> string
 
     //     and [<AllowNullLiteral>] Date =
-    //         abstract toLocaleString: ?locales: IList<string> * ?options: Intl.DateTimeFormatOptions -> string
-    //         abstract toLocaleDateString: ?locales: IList<string> * ?options: Intl.DateTimeFormatOptions -> string
-    //         abstract toLocaleTimeString: ?locale: IList<string> * ?options: Intl.DateTimeFormatOptions -> string
+    //         abstract toLocaleString: ?locales: ResizeArray<string> * ?options: Intl.DateTimeFormatOptions -> string
+    //         abstract toLocaleDateString: ?locales: ResizeArray<string> * ?options: Intl.DateTimeFormatOptions -> string
+    //         abstract toLocaleTimeString: ?locale: ResizeArray<string> * ?options: Intl.DateTimeFormatOptions -> string
     //         abstract toLocaleString: ?locale: string * ?options: Intl.DateTimeFormatOptions -> string
     //         abstract toLocaleDateString: ?locale: string * ?options: Intl.DateTimeFormatOptions -> string
     //         abstract toLocaleTimeString: ?locale: string * ?options: Intl.DateTimeFormatOptions -> string
