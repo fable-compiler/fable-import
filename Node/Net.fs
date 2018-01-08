@@ -1,4 +1,4 @@
-module rec Fable.Import.Node.Net
+module Fable.Import.Node.Net
 
 open Fable.Core
 open Fable.Import.JS
@@ -19,6 +19,7 @@ type [<AllowNullLiteral>] Socket =
     abstract connect: path: string * ?connectionListener: Function -> unit
     abstract setEncoding: ?encoding: string -> unit
     abstract destroy: unit -> unit
+    abstract destroyed: bool
     abstract setTimeout: timeout: float * ?callback: Function -> unit
     abstract setNoDelay: ?noDelay: bool -> unit
     abstract setKeepAlive: ?enable: bool * ?initialDelay: float -> unit
