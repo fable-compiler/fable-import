@@ -79,6 +79,7 @@ testDone "writable stream" <| fun (d) ->
         cb(None)
         d.``done``()
     )
+
     let w = stream.Writable.Create(writableOpts)
 
     w.write(toBuffer "foo")
