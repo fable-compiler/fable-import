@@ -104,6 +104,7 @@ and [<AllowNullLiteral>] AnimInstance =
     abstract play: unit -> obj
     abstract reverse: unit -> obj
     abstract restart: unit -> obj
+    abstract finished: Promise<unit> with get, set
 
 and [<AllowNullLiteral>] instanceParams =
     abstract offset: FunctionBasedValues with get, set
