@@ -37,10 +37,10 @@ type [<AllowNullLiteral>] Server =
     inherit Socket
     abstract maxConnections: float with get, set
     abstract connections: float with get, set
-    abstract listen: port: float * ?host: string * ?backlog: float * ?listeningListener: Function -> Server
-    abstract listen: path: string * ?listeningListener: Function -> Server
-    abstract listen: handle: Fd * ?listeningListener: Function -> Server
-    abstract listen: handle: obj * ?listeningListener: Function -> Server
+    abstract listen: port: float * ?host: string * ?backlog: float * ?listeningListener:(unit -> unit) -> Server
+    abstract listen: path: string * ?listeningListener:(unit -> unit) -> Server
+    abstract listen: handle: Fd * ?listeningListener:(unit -> unit) -> Server
+    abstract listen: handle: obj * ?listeningListener:(unit -> unit) -> Server
     abstract close: ?callback: Function -> Server
     abstract address: unit -> obj
 
