@@ -130,6 +130,6 @@ type IExports =
     abstract STATUS_CODES: STATUS_CODESType with get, set
     abstract globalAgent: Agent with get, set
     abstract createServer: ?requestListener: (IncomingMessage -> ServerResponse -> unit) -> Server
-    abstract createClient: ?port: float * ?host: string -> obj
+    abstract createClient: ?port: int * ?host: string -> obj
     abstract request: options: RequestOptions * ?callback: (IncomingMessage -> unit) -> ClientRequest
     abstract get: options: obj * ?callback: (IncomingMessage -> unit) -> ClientRequest
