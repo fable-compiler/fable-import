@@ -20,7 +20,7 @@
     <Compile Include="Http.fs" />
     <Compile Include="Https.fs" />
     <Compile Include="ChildProcess.fs" />
-    <Compile Include="Os.fs" />
+    <Compile Include="OS.fs" />
     <Compile Include="Process.fs" />
     <Compile Include="Globals.fs" />
     <Compile Include="Exports.fs" />
