@@ -1,3 +1,8 @@
+### 0.4.1
+
+* Remove Func from connection listeners @tanabarr
+* Make http / net ports int instead of float @tanabarr
+
 ### 0.4.0
 
 * Use lower case for export let bindings
