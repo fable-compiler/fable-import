@@ -1,4 +1,4 @@
-module rec Fable.Import.Node.Os
+module rec Fable.Import.Node.OS
 
 open Fable.Core
 open Fable.Import.Node.Base
