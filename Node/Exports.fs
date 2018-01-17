@@ -32,7 +32,7 @@ let http: Http.IExports = jsNative
 let https: Https.IExports = jsNative
 
 [<Import("*", "os")>]
-let os: Os.IExports = jsNative
+let os: OS.IExports = jsNative
 
 [<Import("*", "querystring")>]
 let querystring: Querystring.IExports = jsNative
