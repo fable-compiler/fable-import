@@ -15,8 +15,8 @@ type [<AllowNullLiteral>] Socket =
     abstract localPort: int with get, set
     abstract bytesRead: float with get, set
     abstract bytesWritten: float with get, set
-    abstract connect: port: int * ?host: string * ?connectionListener: Function -> unit
-    abstract connect: path: string * ?connectionListener: Function -> unit
+    abstract connect: port: int * ?host: string * ?connectionListener:(Socket -> unit) -> unit
+    abstract connect: path: string * ?connectionListener:(Socket -> unit) -> unit
     abstract setEncoding: ?encoding: string -> unit
     abstract destroy: unit -> unit
     abstract destroyed: bool
@@ -37,10 +37,10 @@ type [<AllowNullLiteral>] Server =
     inherit Socket
     abstract maxConnections: float with get, set
     abstract connections: float with get, set
-    abstract listen: port: int * ?host: string * ?backlog: float * ?listeningListener: Function -> Server
-    abstract listen: path: string * ?listeningListener: Function -> Server
-    abstract listen: handle: Fd * ?listeningListener: Function -> Server
-    abstract listen: handle: obj * ?listeningListener: Function -> Server
+    abstract listen: port: int * ?host: string * ?backlog: float * ?listeningListener:(unit -> unit) -> Server
+    abstract listen: path: string * ?listeningListener:(unit -> unit) -> Server
+    abstract listen: handle: Fd * ?listeningListener:(unit -> unit) -> Server
+    abstract listen: handle: obj * ?listeningListener:(unit -> unit) -> Server
     abstract close: ?callback: Function -> Server
     abstract address: unit -> obj
 
@@ -55,12 +55,12 @@ type IExports =
     abstract Socket: SocketStatic with get, set
     abstract createServer: ?connectionListener:(Socket -> unit) -> Server
     abstract createServer: ?options: CreateServerOptions * ?connectionListener:(Socket -> unit) -> Server
-    abstract connect: options: obj * ?connectionListener: Function -> Socket
-    abstract connect: port: int * ?host: string * ?connectionListener: Function -> Socket
-    abstract connect: path: string * ?connectionListener: Function -> Socket
-    abstract createConnection: options: obj * ?connectionListener: Function -> Socket
-    abstract createConnection: port: int * ?host: string * ?connectionListener: Function -> Socket
-    abstract createConnection: path: string * ?connectionListener: Function -> Socket
+    abstract connect: options: obj * ?connectionListener:(Socket -> unit) -> Socket
+    abstract connect: port: int * ?host: string * ?connectionListener:(Socket -> unit) -> Socket
+    abstract connect: path: string * ?connectionListener:(Socket -> unit) -> Socket
+    abstract createConnection: options: obj * ?connectionListener:(Socket -> unit) -> Socket
+    abstract createConnection: port: int * ?host: string * ?connectionListener:(Socket -> unit) -> Socket
+    abstract createConnection: path: string * ?connectionListener:(Socket -> unit) -> Socket
     abstract isIP: input: string -> float
     abstract isIPv4: input: string -> bool
     abstract isIPv6: input: string -> bool
