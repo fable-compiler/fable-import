@@ -1,5 +1,7 @@
 namespace Fable.Import
+
 open System
+open System.Collections.Generic
 open Fable.Core
 open Fable.Import.JS
 
@@ -167,7 +169,7 @@ module Browser =
         abstract deltaZ: float option with get, set
         abstract deltaMode: float option with get, set
 
-    and EventListener = Func<Event, unit>
+    and EventListener = (Event -> unit)
 
     and [<AllowNullLiteral>] ANGLE_instanced_arrays =
         abstract VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE: float with get, set
@@ -208,14 +210,14 @@ module Browser =
 
     and [<AllowNullLiteral>] ApplicationCache =
         inherit EventTarget
-        abstract oncached: Func<Event, obj> with get, set
-        abstract onchecking: Func<Event, obj> with get, set
-        abstract ondownloading: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onnoupdate: Func<Event, obj> with get, set
-        abstract onobsolete: Func<Event, obj> with get, set
-        abstract onprogress: Func<ProgressEvent, obj> with get, set
-        abstract onupdateready: Func<Event, obj> with get, set
+        abstract oncached: (Event -> 'Out) with get, set
+        abstract onchecking: (Event -> 'Out) with get, set
+        abstract ondownloading: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onnoupdate: (Event -> 'Out) with get, set
+        abstract onobsolete: (Event -> 'Out) with get, set
+        abstract onprogress: (ProgressEvent -> 'Out) with get, set
+        abstract onupdateready: (Event -> 'Out) with get, set
         abstract status: float with get, set
         abstract CHECKING: float with get, set
         abstract DOWNLOADING: float with get, set
@@ -226,14 +228,14 @@ module Browser =
         abstract abort: unit -> unit
         abstract swapCache: unit -> unit
         abstract update: unit -> unit
-        [<Emit("$0.addEventListener('cached',$1...)")>] abstract addEventListener_cached: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('checking',$1...)")>] abstract addEventListener_checking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('downloading',$1...)")>] abstract addEventListener_downloading: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('noupdate',$1...)")>] abstract addEventListener_noupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('obsolete',$1...)")>] abstract addEventListener_obsolete: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('updateready',$1...)")>] abstract addEventListener_updateready: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cached',$1...)")>] abstract addEventListener_cached: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('checking',$1...)")>] abstract addEventListener_checking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('downloading',$1...)")>] abstract addEventListener_downloading: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('noupdate',$1...)")>] abstract addEventListener_noupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('obsolete',$1...)")>] abstract addEventListener_obsolete: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('updateready',$1...)")>] abstract addEventListener_updateready: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] ApplicationCacheType =
@@ -283,11 +285,11 @@ module Browser =
         abstract loop: bool with get, set
         abstract loopEnd: float with get, set
         abstract loopStart: float with get, set
-        abstract onended: Func<Event, obj> with get, set
+        abstract onended: (Event -> 'Out) with get, set
         abstract playbackRate: AudioParam with get, set
         abstract start: ?``when``: float * ?offset: float * ?duration: float -> unit
         abstract stop: ?``when``: float -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] AudioBufferSourceNodeType =
@@ -399,15 +401,15 @@ module Browser =
     and [<AllowNullLiteral>] AudioTrackList =
         inherit EventTarget
         abstract length: float with get, set
-        abstract onaddtrack: Func<TrackEvent, obj> with get, set
-        abstract onchange: Func<Event, obj> with get, set
-        abstract onremovetrack: Func<TrackEvent, obj> with get, set
+        abstract onaddtrack: (TrackEvent -> 'Out) with get, set
+        abstract onchange: (Event -> 'Out) with get, set
+        abstract onremovetrack: (TrackEvent -> 'Out) with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> AudioTrack with get, set
         abstract getTrackById: id: string -> AudioTrack
         abstract item: index: float -> AudioTrack
-        [<Emit("$0.addEventListener('addtrack',$1...)")>] abstract addEventListener_addtrack: listener: Func<TrackEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('removetrack',$1...)")>] abstract addEventListener_removetrack: listener: Func<TrackEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('addtrack',$1...)")>] abstract addEventListener_addtrack: listener: (TrackEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('removetrack',$1...)")>] abstract addEventListener_removetrack: listener: (TrackEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] AudioTrackListType =
@@ -1487,141 +1489,228 @@ module Browser =
         inherit GlobalEventHandlers
         inherit NodeSelector
         inherit DocumentEvent
+        /// Sets or gets the URL for the current document.
         abstract URL: string with get, set
+        /// Gets the URL for the document, stripped of any character encoding.
         abstract URLUnencoded: string with get, set
+        /// Gets the object that has the focus when the parent document has focus.
         abstract activeElement: Element with get, set
+        /// Sets or gets the color of all active links in the document.
         abstract alinkColor: string with get, set
+        /// Returns a reference to the collection of elements contained by the object.
         abstract all: HTMLCollection with get, set
+        /// Retrieves a collection of all a objects that have a name and/or id property. Objects in this collection are in HTML source order.
         abstract anchors: HTMLCollection with get, set
+        /// Retrieves a collection of all applet objects in the document.
         abstract applets: HTMLCollection with get, set
+        /// Deprecated. Sets or retrieves a value that indicates the background color behind the object.
         abstract bgColor: string with get, set
+        /// Specifies the beginning and end of the document body.
         abstract body: HTMLElement with get, set
         abstract characterSet: string with get, set
+        /// Gets or sets the character set used to encode the object.
         abstract charset: string with get, set
+        /// Gets a value that indicates whether standards-compliant mode is switched on for the object.
         abstract compatMode: string with get, set
         abstract cookie: string with get, set
         abstract defaultCharset: string with get, set
         abstract defaultView: Window with get, set
+        /// Sets or gets a value that indicates whether the document can be edited.
         abstract designMode: string with get, set
+        /// Sets or retrieves a value that indicates the reading order of the object.
         abstract dir: string with get, set
+        /// Gets an object representing the document type declaration associated with the current document.
         abstract doctype: DocumentType with get, set
+        /// Gets a reference to the root node of the document.
         abstract documentElement: HTMLElement with get, set
+        /// Sets or gets the security domain of the document.
         abstract domain: string with get, set
+        /// Retrieves a collection of all embed objects in the document.
         abstract embeds: HTMLCollection with get, set
+        /// Sets or gets the foreground (text) color of the document.
         abstract fgColor: string with get, set
+        /// Retrieves a collection, in source order, of all form objects in the document.
         abstract forms: HTMLCollection with get, set
         abstract fullscreenElement: Element with get, set
         abstract fullscreenEnabled: bool with get, set
         abstract head: HTMLHeadElement with get, set
         abstract hidden: bool with get, set
+        /// Retrieves a collection, in source order, of img objects in the document.
         abstract images: HTMLCollection with get, set
+        /// Gets the implementation object of the current document.
         abstract implementation: DOMImplementation with get, set
+        /// Returns the character encoding used to create the webpage that is loaded into the document object.
         abstract inputEncoding: string with get, set
+        /// Gets the date that the page was last modified, if the page supplies one.
         abstract lastModified: string with get, set
+        /// Sets or gets the color of the document links.
         abstract linkColor: string with get, set
+        /// Retrieves a collection of all a objects that specify the href property and all area objects in the document.
         abstract links: HTMLCollection with get, set
+        /// Contains information about the current URL.
         abstract location: Location with get, set
         abstract media: string with get, set
         abstract msCSSOMElementFloatMetrics: bool with get, set
         abstract msCapsLockWarningOff: bool with get, set
         abstract msHidden: bool with get, set
         abstract msVisibilityState: string with get, set
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onactivate: Func<UIEvent, obj> with get, set
-        abstract onbeforeactivate: Func<UIEvent, obj> with get, set
-        abstract onbeforedeactivate: Func<UIEvent, obj> with get, set
-        abstract onblur: Func<FocusEvent, obj> with get, set
-        abstract oncanplay: Func<Event, obj> with get, set
-        abstract oncanplaythrough: Func<Event, obj> with get, set
-        abstract onchange: Func<Event, obj> with get, set
-        abstract onclick: Func<MouseEvent, obj> with get, set
-        abstract oncontextmenu: Func<PointerEvent, obj> with get, set
-        abstract ondblclick: Func<MouseEvent, obj> with get, set
-        abstract ondeactivate: Func<UIEvent, obj> with get, set
-        abstract ondrag: Func<DragEvent, obj> with get, set
-        abstract ondragend: Func<DragEvent, obj> with get, set
-        abstract ondragenter: Func<DragEvent, obj> with get, set
-        abstract ondragleave: Func<DragEvent, obj> with get, set
-        abstract ondragover: Func<DragEvent, obj> with get, set
-        abstract ondragstart: Func<DragEvent, obj> with get, set
-        abstract ondrop: Func<DragEvent, obj> with get, set
-        abstract ondurationchange: Func<Event, obj> with get, set
-        abstract onemptied: Func<Event, obj> with get, set
-        abstract onended: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onfocus: Func<FocusEvent, obj> with get, set
-        abstract onfullscreenchange: Func<Event, obj> with get, set
-        abstract onfullscreenerror: Func<Event, obj> with get, set
-        abstract oninput: Func<Event, obj> with get, set
-        abstract onkeydown: Func<KeyboardEvent, obj> with get, set
-        abstract onkeypress: Func<KeyboardEvent, obj> with get, set
-        abstract onkeyup: Func<KeyboardEvent, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onloadeddata: Func<Event, obj> with get, set
-        abstract onloadedmetadata: Func<Event, obj> with get, set
-        abstract onloadstart: Func<Event, obj> with get, set
-        abstract onmousedown: Func<MouseEvent, obj> with get, set
-        abstract onmousemove: Func<MouseEvent, obj> with get, set
-        abstract onmouseout: Func<MouseEvent, obj> with get, set
-        abstract onmouseover: Func<MouseEvent, obj> with get, set
-        abstract onmouseup: Func<MouseEvent, obj> with get, set
-        abstract onmousewheel: Func<MouseWheelEvent, obj> with get, set
-        abstract onmscontentzoom: Func<UIEvent, obj> with get, set
-        abstract onmsgesturechange: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturedoubletap: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgestureend: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturehold: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturestart: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturetap: Func<MSGestureEvent, obj> with get, set
-        abstract onmsinertiastart: Func<MSGestureEvent, obj> with get, set
-        abstract onmsmanipulationstatechanged: Func<MSManipulationEvent, obj> with get, set
-        abstract onmspointercancel: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerdown: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerenter: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerleave: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointermove: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerout: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerover: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerup: Func<MSPointerEvent, obj> with get, set
-        abstract onmssitemodejumplistitemremoved: Func<MSSiteModeEvent, obj> with get, set
-        abstract onmsthumbnailclick: Func<MSSiteModeEvent, obj> with get, set
-        abstract onpause: Func<Event, obj> with get, set
-        abstract onplay: Func<Event, obj> with get, set
-        abstract onplaying: Func<Event, obj> with get, set
-        abstract onpointerlockchange: Func<Event, obj> with get, set
-        abstract onpointerlockerror: Func<Event, obj> with get, set
-        abstract onprogress: Func<ProgressEvent, obj> with get, set
-        abstract onratechange: Func<Event, obj> with get, set
-        abstract onreadystatechange: Func<ProgressEvent, obj> with get, set
-        abstract onreset: Func<Event, obj> with get, set
-        abstract onscroll: Func<UIEvent, obj> with get, set
-        abstract onseeked: Func<Event, obj> with get, set
-        abstract onseeking: Func<Event, obj> with get, set
-        abstract onselect: Func<UIEvent, obj> with get, set
-        abstract onselectstart: Func<Event, obj> with get, set
-        abstract onstalled: Func<Event, obj> with get, set
-        abstract onstop: Func<Event, obj> with get, set
-        abstract onsubmit: Func<Event, obj> with get, set
-        abstract onsuspend: Func<Event, obj> with get, set
-        abstract ontimeupdate: Func<Event, obj> with get, set
-        abstract ontouchcancel: Func<TouchEvent, obj> with get, set
-        abstract ontouchend: Func<TouchEvent, obj> with get, set
-        abstract ontouchmove: Func<TouchEvent, obj> with get, set
-        abstract ontouchstart: Func<TouchEvent, obj> with get, set
-        abstract onvolumechange: Func<Event, obj> with get, set
-        abstract onwaiting: Func<Event, obj> with get, set
-        abstract onwebkitfullscreenchange: Func<Event, obj> with get, set
-        abstract onwebkitfullscreenerror: Func<Event, obj> with get, set
+        /// Fires when the user aborts the download.
+        abstract onabort: (Event -> 'Out) with get, set
+        /// Fires when the object is set as the active element.
+        abstract onactivate: (UIEvent -> 'Out) with get, set
+        /// Fires immediately before the object is set as the active element.
+        abstract onbeforeactivate: (UIEvent -> 'Out) with get, set
+        /// Fires immediately before the activeElement is changed from the current object to another object in the parent document.
+        abstract onbeforedeactivate: (UIEvent -> 'Out) with get, set
+        /// Fires when the object loses the input focus.
+        abstract onblur: (FocusEvent -> 'Out) with get, set
+        /// Occurs when playback is possible, but would require further buffering.
+        abstract oncanplay: (Event -> 'Out) with get, set
+        abstract oncanplaythrough: (Event -> 'Out) with get, set
+        /// Fires when the contents of the object or selection have changed.
+        abstract onchange: (Event -> 'Out) with get, set
+        /// Fires when the user clicks the left mouse button on the object
+        abstract onclick: (MouseEvent -> 'Out) with get, set
+        /// Fires when the user clicks the right mouse button in the client area, opening the context menu.
+        abstract oncontextmenu: (PointerEvent -> 'Out) with get, set
+        /// Fires when the user double-clicks the object.
+        abstract ondblclick: (MouseEvent -> 'Out) with get, set
+        /// Fires when the activeElement is changed from the current object to another object in the parent document.
+        abstract ondeactivate: (UIEvent -> 'Out) with get, set
+        /// Fires on the source object continuously during a drag operation.
+        abstract ondrag: (DragEvent -> 'Out) with get, set
+        /// Fires on the source object when the user releases the mouse at the close of a drag operation.
+        abstract ondragend: (DragEvent -> 'Out) with get, set
+        /// Fires on the target element when the user drags the object to a valid drop target.
+        abstract ondragenter: (DragEvent -> 'Out) with get, set
+        /// Fires on the target object when the user moves the mouse out of a valid drop target during a drag operation.
+        abstract ondragleave: (DragEvent -> 'Out) with get, set
+        /// Fires on the target element continuously while the user drags the object over a valid drop target.
+        abstract ondragover: (DragEvent -> 'Out) with get, set
+        /// Fires on the source object when the user starts to drag a text selection or selected object.
+        abstract ondragstart: (DragEvent -> 'Out) with get, set
+        abstract ondrop: (DragEvent -> 'Out) with get, set
+        /// Occurs when the duration attribute is updated.
+        abstract ondurationchange: (Event -> 'Out) with get, set
+        /// Occurs when the media element is reset to its initial state.
+        abstract onemptied: (Event -> 'Out) with get, set
+        /// Occurs when the end of playback is reached.
+        abstract onended: (Event -> 'Out) with get, set
+        /// Fires when an error occurs during object loading.
+        abstract onerror: (Event -> 'Out) with get, set
+        /// Fires when the object receives focus.
+        abstract onfocus: (FocusEvent -> 'Out) with get, set
+        abstract onfullscreenchange: (Event -> 'Out) with get, set
+        abstract onfullscreenerror: (Event -> 'Out) with get, set
+        abstract oninput: (Event -> 'Out) with get, set
+        /// Fires when the user presses a key.
+        abstract onkeydown: (KeyboardEvent -> 'Out) with get, set
+        /// Fires when the user presses an alphanumeric key.
+        abstract onkeypress: (KeyboardEvent -> 'Out) with get, set
+        /// Fires when the user releases a key.
+        abstract onkeyup: (KeyboardEvent -> 'Out) with get, set
+        /// Fires immediately after the browser loads the object.
+        abstract onload: (Event -> 'Out) with get, set
+        /// Occurs when media data is loaded at the current playback position.
+        abstract onloadeddata: (Event -> 'Out) with get, set
+        /// Occurs when the duration and dimensions of the media have been determined.
+        abstract onloadedmetadata: (Event -> 'Out) with get, set
+        /// Occurs when Internet Explorer begins looking for media data.
+        abstract onloadstart: (Event -> 'Out) with get, set
+        /// Fires when the user clicks the object with either mouse button.
+        abstract onmousedown: (MouseEvent -> 'Out) with get, set
+        /// Fires when the user moves the mouse over the object.
+        abstract onmousemove: (MouseEvent -> 'Out) with get, set
+        /// Fires when the user moves the mouse pointer outside the boundaries of the object.
+        abstract onmouseout: (MouseEvent -> 'Out) with get, set
+        /// Fires when the user moves the mouse pointer into the object.
+        abstract onmouseover: (MouseEvent -> 'Out) with get, set
+        /// Fires when the user releases a mouse button while the mouse is over the object.
+        abstract onmouseup: (MouseEvent -> 'Out) with get, set
+        /// Fires when the wheel button is rotated.
+        abstract onmousewheel: (MouseWheelEvent -> 'Out) with get, set
+        abstract onmscontentzoom: (UIEvent -> 'Out) with get, set
+        abstract onmsgesturechange: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturedoubletap: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgestureend: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturehold: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturestart: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturetap: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsinertiastart: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsmanipulationstatechanged: (MSManipulationEvent -> 'Out) with get, set
+        abstract onmspointercancel: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerdown: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerenter: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerleave: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointermove: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerout: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerover: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerup: (MSPointerEvent -> 'Out) with get, set
+        /// Occurs when an item is removed from a Jump List of a webpage running in Site Mode.
+        abstract onmssitemodejumplistitemremoved: (MSSiteModeEvent -> 'Out) with get, set
+        /// Occurs when a user clicks a button in a Thumbnail Toolbar of a webpage running in Site Mode.
+        abstract onmsthumbnailclick: (MSSiteModeEvent -> 'Out) with get, set
+        /// Occurs when playback is paused.
+        abstract onpause: (Event -> 'Out) with get, set
+        /// Occurs when the play method is requested.
+        abstract onplay: (Event -> 'Out) with get, set
+        /// Occurs when the audio or video has started playing.
+        abstract onplaying: (Event -> 'Out) with get, set
+        abstract onpointerlockchange: (Event -> 'Out) with get, set
+        abstract onpointerlockerror: (Event -> 'Out) with get, set
+        /// Occurs to indicate progress while downloading media data.
+        abstract onprogress: (ProgressEvent -> 'Out) with get, set
+        /// Occurs when the playback rate is increased or decreased.
+        abstract onratechange: (Event -> 'Out) with get, set
+        /// Fires when the state of the object has changed.
+        abstract onreadystatechange: (ProgressEvent -> 'Out) with get, set
+        /// Fires when the user resets a form.
+        abstract onreset: (Event -> 'Out) with get, set
+        /// Fires when the user repositions the scroll box in the scroll bar on the object.
+        abstract onscroll: (UIEvent -> 'Out) with get, set
+        /// Occurs when the seek operation ends.
+        abstract onseeked: (Event -> 'Out) with get, set
+        /// Occurs when the current playback position is moved.
+        abstract onseeking: (Event -> 'Out) with get, set
+        /// Fires when the current selection changes.
+        abstract onselect: (UIEvent -> 'Out) with get, set
+        abstract onselectstart: (Event -> 'Out) with get, set
+        /// Occurs when the download has stopped.
+        abstract onstalled: (Event -> 'Out) with get, set
+        /// Fires when the user clicks the Stop button or leaves the Web page.
+        abstract onstop: (Event -> 'Out) with get, set
+        abstract onsubmit: (Event -> 'Out) with get, set
+        /// Occurs if the load operation has been intentionally halted.
+        abstract onsuspend: (Event -> 'Out) with get, set
+        /// Occurs to indicate the current playback position.
+        abstract ontimeupdate: (Event -> 'Out) with get, set
+        abstract ontouchcancel: (TouchEvent -> 'Out) with get, set
+        abstract ontouchend: (TouchEvent -> 'Out) with get, set
+        abstract ontouchmove: (TouchEvent -> 'Out) with get, set
+        abstract ontouchstart: (TouchEvent -> 'Out) with get, set
+        /// Occurs when the volume is changed, or playback is muted or unmuted.
+        abstract onvolumechange: (Event -> 'Out) with get, set
+        /// Occurs when playback stops because the next frame of a video resource is not available.
+        abstract onwaiting: (Event -> 'Out) with get, set
+        abstract onwebkitfullscreenchange: (Event -> 'Out) with get, set
+        abstract onwebkitfullscreenerror: (Event -> 'Out) with get, set
         abstract plugins: HTMLCollection with get, set
         abstract pointerLockElement: Element with get, set
+        /// Retrieves a value that indicates the current state of the object.
         abstract readyState: string with get, set
+        /// Gets the URL of the location that referred the user to the current page.
         abstract referrer: string with get, set
+        /// Gets the root svg element in the document hierarchy.
         abstract rootElement: SVGSVGElement with get, set
+        /// Retrieves a collection of all script objects in the document.
         abstract scripts: HTMLCollection with get, set
         abstract security: string with get, set
+        /// Retrieves a collection of styleSheet objects representing the style sheets that correspond to each instance of a link or style object in the document.
         abstract styleSheets: StyleSheetList with get, set
+        /// Contains the title of the document.
         abstract title: string with get, set
         abstract visibilityState: string with get, set
+        /// Sets or gets the color of the links that the user has visited.
         abstract vlinkColor: string with get, set
         abstract webkitCurrentFullScreenElement: Element with get, set
         abstract webkitFullscreenElement: Element with get, set
@@ -1629,17 +1718,26 @@ module Browser =
         abstract webkitIsFullScreen: bool with get, set
         abstract xmlEncoding: string with get, set
         abstract xmlStandalone: bool with get, set
+        /// Gets or sets the version attribute specified in the declaration of an XML document.
         abstract xmlVersion: string with get, set
         abstract currentScript: HTMLScriptElement with get, set
         abstract adoptNode: source: Node -> Node
         abstract captureEvents: unit -> unit
         abstract clear: unit -> unit
+        /// Closes an output stream and forces the sent data to display.
         abstract close: unit -> unit
+        /// <summary>Creates an attribute object with a specified name.</summary>
+        /// <param name="name">String that sets the attribute object's name.</param>
         abstract createAttribute: name: string -> Attr
         abstract createAttributeNS: namespaceURI: string * qualifiedName: string -> Attr
         abstract createCDATASection: data: string -> CDATASection
+        /// <summary>Creates a comment object with the specified data.</summary>
+        /// <param name="data">Sets the comment object's data.</param>
         abstract createComment: data: string -> Comment
+        /// Creates a new document.
         abstract createDocumentFragment: unit -> DocumentFragment
+        /// <summary>Creates an instance of the element for the specified tag.</summary>
+        /// <param name="tagName">The name of an element.</param>
         [<Emit("$0.createElement('a')")>] abstract createElement_a: unit -> HTMLAnchorElement
         [<Emit("$0.createElement('abbr')")>] abstract createElement_abbr: unit -> HTMLPhraseElement
         [<Emit("$0.createElement('acronym')")>] abstract createElement_acronym: unit -> HTMLPhraseElement
@@ -1813,23 +1911,52 @@ module Browser =
         abstract createElementNS: namespaceURI: string * qualifiedName: string -> Element
         abstract createExpression: expression: string * resolver: XPathNSResolver -> XPathExpression
         abstract createNSResolver: nodeResolver: Node -> XPathNSResolver
+        /// <summary>Creates a NodeIterator object that you can use to traverse filtered lists of nodes or elements in a document.</summary>
+        /// <param name="root">The root element or node to start traversing on.</param>
+        /// <param name="whatToShow">The type of nodes or elements to appear in the node list</param>
+        /// <param name="filter">A custom NodeFilter function to use. For more information, see filter. Use null for no filter.</param>
+        /// <param name="entityReferenceExpansion">A flag that specifies whether entity reference nodes are expanded.</param>
         abstract createNodeIterator: root: Node * ?whatToShow: float * ?filter: NodeFilter * ?entityReferenceExpansion: bool -> NodeIterator
         abstract createProcessingInstruction: target: string * data: string -> ProcessingInstruction
+        /// Returns an empty range object that has both of its boundary points positioned at the beginning of the document.
         abstract createRange: unit -> Range
+        /// <summary>Creates a text string from the specified value.</summary>
+        /// <param name="data">String that specifies the nodeValue property of the text node.</param>
         abstract createTextNode: data: string -> Text
         abstract createTouch: view: obj * target: EventTarget * identifier: float * pageX: float * pageY: float * screenX: float * screenY: float -> Touch
         abstract createTouchList: [<ParamArray>] touches: Touch[] -> TouchList
+        /// <summary>Creates a TreeWalker object that you can use to traverse filtered lists of nodes or elements in a document.</summary>
+        /// <param name="root">The root element or node to start traversing on.</param>
+        /// <param name="whatToShow">The type of nodes or elements to appear in the node list. For more information, see whatToShow.</param>
+        /// <param name="filter">A custom NodeFilter function to use.</param>
+        /// <param name="entityReferenceExpansion">A flag that specifies whether entity reference nodes are expanded.</param>
         abstract createTreeWalker: root: Node * ?whatToShow: float * ?filter: NodeFilter * ?entityReferenceExpansion: bool -> TreeWalker
+        /// <summary>Returns the element for the specified x coordinate and the specified y coordinate.</summary>
+        /// <param name="x">The x-offset</param>
+        /// <param name="y">The y-offset</param>
         abstract elementFromPoint: x: float * y: float -> Element
         abstract evaluate: expression: string * contextNode: Node * resolver: XPathNSResolver * ``type``: float * result: XPathResult -> XPathResult
+        /// <summary>Executes a command on the current document, current selection, or the given range.</summary>
+        /// <param name="commandId">String that specifies the command to execute. This command can be any of the command identifiers that can be executed in script.</param>
+        /// <param name="showUI">Display the user interface, defaults to false.</param>
+        /// <param name="value">Value to assign.</param>
         abstract execCommand: commandId: string * ?showUI: bool * ?value: obj -> bool
+        /// <summary>Displays help information for the given command identifier.</summary>
+        /// <param name="commandId">Displays help information for the given command identifier.</param>
         abstract execCommandShowHelp: commandId: string -> bool
         abstract exitFullscreen: unit -> unit
         abstract exitPointerLock: unit -> unit
+        /// Causes the element to receive the focus and executes the code specified by the onfocus event.
         abstract focus: unit -> unit
+        /// <summary>Returns a reference to the first object with the specified value of the ID or NAME attribute.</summary>
+        /// <param name="elementId">String that specifies the ID value. Case-insensitive.</param>
+        /// <param name="elementId">String that specifies the ID value. Case-insensitive.</param>
         abstract getElementById: elementId: string -> HTMLElement
         abstract getElementsByClassName: classNames: string -> NodeListOf<Element>
+        /// <summary>Gets a collection of objects based on the value of the NAME or ID attribute.</summary>
+        /// <param name="elementName">Gets a collection of objects based on the value of the NAME or ID attribute.</param>
         abstract getElementsByName: elementName: string -> NodeListOf<Element>
+        /// Retrieves a collection of objects based on the specified element name.
         [<Emit("$0.getElementsByTagName('a')")>] abstract getElementsByTagName_a: unit -> NodeListOf<HTMLAnchorElement>
         [<Emit("$0.getElementsByTagName('abbr')")>] abstract getElementsByTagName_abbr: unit -> NodeListOf<HTMLPhraseElement>
         [<Emit("$0.getElementsByTagName('acronym')")>] abstract getElementsByTagName_acronym: unit -> NodeListOf<HTMLPhraseElement>
@@ -2005,121 +2132,145 @@ module Browser =
         [<Emit("$0.getElementsByTagName('xmp')")>] abstract getElementsByTagName_xmp: unit -> NodeListOf<HTMLBlockElement>
         abstract getElementsByTagName: tagname: string -> NodeListOf<Element>
         abstract getElementsByTagNameNS: namespaceURI: string * localName: string -> NodeListOf<Element>
+        /// Returns an object representing the current selection of the document that is loaded into the object displaying a webpage.
         abstract getSelection: unit -> Selection
+        /// Gets a value indicating whether the object currently has focus.
         abstract hasFocus: unit -> bool
         abstract importNode: importedNode: Node * deep: bool -> Node
         abstract msElementsFromPoint: x: float * y: float -> NodeList
         abstract msElementsFromRect: left: float * top: float * width: float * height: float -> NodeList
+        /// <summary>Opens a new window and loads a document specified by a given URL. Also, opens a new window that uses the url parameter and the name parameter to collect the output of the write method and the writeln method.</summary>
+        /// <param name="url">Specifies a MIME type for the document.</param>
+        /// <param name="name">Specifies the name of the window. This name is used as the value for the TARGET attribute on a form or an anchor element.</param>
+        /// <param name="features">Contains a list of items separated by commas. Each item consists of an option and a value, separated by an equals sign (for example, "fullscreen=yes, toolbar=yes"). The following values are supported.</param>
+        /// <param name="replace">Specifies whether the existing entry for the document is replaced in the history list.</param>
         abstract ``open``: ?url: string * ?name: string * ?features: string * ?replace: bool -> Document
+        /// <summary>Returns a Boolean value that indicates whether a specified command can be successfully executed using execCommand, given the current state of the document.</summary>
+        /// <param name="commandId">Specifies a command identifier.</param>
         abstract queryCommandEnabled: commandId: string -> bool
+        /// <summary>Returns a Boolean value that indicates whether the specified command is in the indeterminate state.</summary>
+        /// <param name="commandId">String that specifies a command identifier.</param>
         abstract queryCommandIndeterm: commandId: string -> bool
+        /// <summary>Returns a Boolean value that indicates the current state of the command.</summary>
+        /// <param name="commandId">String that specifies a command identifier.</param>
         abstract queryCommandState: commandId: string -> bool
+        /// <summary>Returns a Boolean value that indicates whether the current command is supported on the current range.</summary>
+        /// <param name="commandId">Specifies a command identifier.</param>
         abstract queryCommandSupported: commandId: string -> bool
+        /// <summary>Retrieves the string associated with a command.</summary>
+        /// <param name="commandId">String that contains the identifier of a command. This can be any command identifier given in the list of Command Identifiers.</param>
         abstract queryCommandText: commandId: string -> string
+        /// <summary>Returns the current value of the document, range, or current selection for the given command.</summary>
+        /// <param name="commandId">String that specifies a command identifier.</param>
         abstract queryCommandValue: commandId: string -> string
         abstract releaseEvents: unit -> unit
+        /// Allows updating the print settings for the page.
         abstract updateSettings: unit -> unit
         abstract webkitCancelFullScreen: unit -> unit
         abstract webkitExitFullscreen: unit -> unit
+        /// <summary>Writes one or more HTML expressions to a document in the specified window.</summary>
+        /// <param name="content">Specifies the text and HTML tags to write.</param>
         abstract write: [<ParamArray>] content: string[] -> unit
+        /// <summary>Writes one or more HTML expressions, followed by a carriage return, to a document in the specified window.</summary>
+        /// <param name="content">The text and HTML tags to write.</param>
         abstract writeln: [<ParamArray>] content: string[] -> unit
         [<Emit("$0.createElement('picture')")>] abstract createElement_picture: unit -> HTMLPictureElement
         [<Emit("$0.getElementsByTagName('picture')")>] abstract getElementsByTagName_picture: unit -> NodeListOf<HTMLPictureElement>
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('fullscreenchange',$1...)")>] abstract addEventListener_fullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('fullscreenerror',$1...)")>] abstract addEventListener_fullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mssitemodejumplistitemremoved',$1...)")>] abstract addEventListener_mssitemodejumplistitemremoved: listener: Func<MSSiteModeEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('msthumbnailclick',$1...)")>] abstract addEventListener_msthumbnailclick: listener: Func<MSSiteModeEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerlockchange',$1...)")>] abstract addEventListener_pointerlockchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerlockerror',$1...)")>] abstract addEventListener_pointerlockerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('readystatechange',$1...)")>] abstract addEventListener_readystatechange: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stop',$1...)")>] abstract addEventListener_stop: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('fullscreenchange',$1...)")>] abstract addEventListener_fullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('fullscreenerror',$1...)")>] abstract addEventListener_fullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mssitemodejumplistitemremoved',$1...)")>] abstract addEventListener_mssitemodejumplistitemremoved: listener: (MSSiteModeEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('msthumbnailclick',$1...)")>] abstract addEventListener_msthumbnailclick: listener: (MSSiteModeEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerlockchange',$1...)")>] abstract addEventListener_pointerlockchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerlockerror',$1...)")>] abstract addEventListener_pointerlockerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('readystatechange',$1...)")>] abstract addEventListener_readystatechange: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stop',$1...)")>] abstract addEventListener_stop: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] DocumentType =
@@ -2192,33 +2343,33 @@ module Browser =
         abstract clientWidth: float with get, set
         abstract msContentZoomFactor: float with get, set
         abstract msRegionOverflow: string with get, set
-        abstract onariarequest: Func<AriaRequestEvent, obj> with get, set
-        abstract oncommand: Func<CommandEvent, obj> with get, set
-        abstract ongotpointercapture: Func<PointerEvent, obj> with get, set
-        abstract onlostpointercapture: Func<PointerEvent, obj> with get, set
-        abstract onmsgesturechange: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturedoubletap: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgestureend: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturehold: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturestart: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturetap: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgotpointercapture: Func<MSPointerEvent, obj> with get, set
-        abstract onmsinertiastart: Func<MSGestureEvent, obj> with get, set
-        abstract onmslostpointercapture: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointercancel: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerdown: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerenter: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerleave: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointermove: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerout: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerover: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerup: Func<MSPointerEvent, obj> with get, set
-        abstract ontouchcancel: Func<TouchEvent, obj> with get, set
-        abstract ontouchend: Func<TouchEvent, obj> with get, set
-        abstract ontouchmove: Func<TouchEvent, obj> with get, set
-        abstract ontouchstart: Func<TouchEvent, obj> with get, set
-        abstract onwebkitfullscreenchange: Func<Event, obj> with get, set
-        abstract onwebkitfullscreenerror: Func<Event, obj> with get, set
+        abstract onariarequest: (AriaRequestEvent -> 'Out) with get, set
+        abstract oncommand: (CommandEvent -> 'Out) with get, set
+        abstract ongotpointercapture: (PointerEvent -> 'Out) with get, set
+        abstract onlostpointercapture: (PointerEvent -> 'Out) with get, set
+        abstract onmsgesturechange: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturedoubletap: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgestureend: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturehold: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturestart: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturetap: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgotpointercapture: (MSPointerEvent -> 'Out) with get, set
+        abstract onmsinertiastart: (MSGestureEvent -> 'Out) with get, set
+        abstract onmslostpointercapture: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointercancel: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerdown: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerenter: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerleave: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointermove: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerout: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerover: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerup: (MSPointerEvent -> 'Out) with get, set
+        abstract ontouchcancel: (TouchEvent -> 'Out) with get, set
+        abstract ontouchend: (TouchEvent -> 'Out) with get, set
+        abstract ontouchmove: (TouchEvent -> 'Out) with get, set
+        abstract ontouchstart: (TouchEvent -> 'Out) with get, set
+        abstract onwebkitfullscreenchange: (Event -> 'Out) with get, set
+        abstract onwebkitfullscreenerror: (Event -> 'Out) with get, set
         abstract scrollHeight: float with get, set
         abstract scrollLeft: float with get, set
         abstract scrollTop: float with get, set
@@ -2433,42 +2584,42 @@ module Browser =
         abstract getElementsByClassName: classNames: string -> NodeListOf<Element>
         abstract matches: selector: string -> bool
         [<Emit("$0.getElementsByTagName('picture')")>] abstract getElementsByTagName_picture: unit -> NodeListOf<HTMLPictureElement>
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] ElementType =
@@ -2628,6 +2779,8 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLAllCollection =
         inherit HTMLCollection
+        /// Sets or retrieves the shape of the object.
+        /// Retrieves a select object or an object from an options collection.
         abstract namedItem: name: string -> Element
 
     and [<AllowNullLiteral>] HTMLAllCollectionType =
@@ -2637,28 +2790,51 @@ module Browser =
     and [<AllowNullLiteral>] HTMLAnchorElement =
         inherit HTMLElement
         abstract Methods: string with get, set
+        /// Sets or retrieves the character set used to encode the object.
         abstract charset: string with get, set
+        /// Sets or retrieves the coordinates of the object.
         abstract coords: string with get, set
+        /// Contains the anchor portion of the URL including the hash sign (#).
         abstract hash: string with get, set
+        /// Contains the hostname and port values of the URL.
         abstract host: string with get, set
+        /// Contains the hostname of a URL.
+        /// Sets or retrieves the hostname and port number of the location or URL.
         abstract hostname: string with get, set
+        /// Sets or retrieves a destination URL or an anchor point.
         abstract href: string with get, set
+        /// Sets or retrieves the language code of the object.
+        /// Sets or retrieves a destination URL or an anchor point.
         abstract hreflang: string with get, set
         abstract mimeType: string with get, set
+        /// Sets or retrieves the shape of the object.
         abstract name: string with get, set
+        /// Sets or retrieves the name of the object.
         abstract nameProp: string with get, set
+        /// Contains the pathname of the URL.
         abstract pathname: string with get, set
+        /// Sets or retrieves the port number associated with a URL.
         abstract port: string with get, set
+        /// Contains the protocol of the URL.
         abstract protocol: string with get, set
+        /// Sets or retrieves the protocol portion of a URL.
         abstract protocolLong: string with get, set
+        /// Sets or retrieves the relationship between the object and the destination of the link.
         abstract rel: string with get, set
+        /// Sets or retrieves the relationship between the object and the destination of the link.
         abstract rev: string with get, set
+        /// Sets or retrieves the substring of the href property that follows the question mark.
         abstract search: string with get, set
+        /// Sets or retrieves the shape of the object.
         abstract shape: string with get, set
+        /// Sets or retrieves the window or frame at which to target content.
         abstract target: string with get, set
+        /// Retrieves or sets the text of the object as a string.
         abstract text: string with get, set
+        /// Returns the content type of the object.
         abstract ``type``: string with get, set
         abstract urn: string with get, set
+        /// Returns a string representation of an object.
         abstract toString: unit -> string
 
     and [<AllowNullLiteral>] HTMLAnchorElementType =
@@ -2667,27 +2843,50 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLAppletElement =
         inherit HTMLElement
+        /// Retrieves a string of the URL where the object tag can be found. This is often the href of the document that the object is in, or the value set by a base element.
         abstract BaseHref: string with get, set
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
+        /// Sets or retrieves a text alternative to the graphic.
         abstract alt: string with get, set
+        /// Gets or sets the optional alternative HTML script to execute if the object fails to load.
+        /// Sets or retrieves a text alternative to the graphic.
         abstract altHtml: string with get, set
+        /// Sets or retrieves a character string that can be used to implement your own archive functionality for the object.
         abstract archive: string with get, set
+        /// Specifies the properties of a border drawn around an object.
         abstract border: string with get, set
+        /// Sets or retrieves the URL of the file containing the compiled Java class.
         abstract code: string with get, set
+        /// Sets or retrieves the URL of the component.
         abstract codeBase: string with get, set
+        /// Sets or retrieves the Internet media type for the code associated with the object.
         abstract codeType: string with get, set
+        /// Address of a pointer to the document this page or frame contains. If there is no document, then null will be returned.
+        /// Gets or sets meta-information to associate with httpEquiv or name.
         abstract contentDocument: Document with get, set
+        /// Sets or retrieves the URL that references the data of the object.
         abstract data: string with get, set
+        /// Sets or retrieves a character string that can be used to implement your own declare functionality for the object.
         abstract declare: bool with get, set
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: string with get, set
+        /// Sets or retrieves the horizontal margin for the object.
         abstract hspace: float with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
         abstract ``object``: string with get, set
+        /// Sets or retrieves a message to be displayed while an object is loading.
         abstract standby: string with get, set
+        /// Gets the classification and default behavior of the button.
         abstract ``type``: string with get, set
+        /// Sets or retrieves the URL, often with a bookmark extension (#name), to use as a client-side image map.
         abstract useMap: string with get, set
+        /// Sets or retrieves the vertical margin for the object.
         abstract vspace: float with get, set
+        /// Gets or sets the width of a canvas element on a document.
         abstract width: float with get, set
 
     and [<AllowNullLiteral>] HTMLAppletElementType =
@@ -2696,20 +2895,33 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLAreaElement =
         inherit HTMLElement
+        /// Sets or retrieves a text alternative to the graphic.
         abstract alt: string with get, set
+        /// Sets or retrieves the coordinates of the object.
         abstract coords: string with get, set
+        /// Sets or retrieves the subsection of the href property that follows the number sign (#).
         abstract hash: string with get, set
         abstract host: string with get, set
+        /// Sets or retrieves the host name part of the location or URL.
         abstract hostname: string with get, set
+        /// Gets or sets the baseline URL on which relative links are based.
         abstract href: string with get, set
+        /// Sets or gets whether clicks in this region cause action.
         abstract noHref: bool with get, set
+        /// Sets or retrieves the file name or path specified by the object.
         abstract pathname: string with get, set
+        /// Sets or retrieves the port number associated with a URL.
         abstract port: string with get, set
         abstract protocol: string with get, set
+        /// Sets or retrieves the relationship between the object and the destination of the link.
         abstract rel: string with get, set
+        /// Sets or retrieves the substring of the href property that follows the question mark.
         abstract search: string with get, set
+        /// Sets or retrieves the shape of the object.
         abstract shape: string with get, set
+        /// Sets or retrieves the window or frame at which to target content.
         abstract target: string with get, set
+        /// Returns a string representation of an object.
         abstract toString: unit -> string
 
     and [<AllowNullLiteral>] HTMLAreaElementType =
@@ -2718,7 +2930,12 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLAreasCollection =
         inherit HTMLCollection
+        /// <summary>Adds an element to the areas, controlRange, or options collection.</summary>
+        /// <param name="element">Variant of type Number that specifies the index position in the collection where the element is placed. If no value is given, the method places the element at the end of the collection.</param>
+        /// <param name="before">Variant of type Object that specifies an element to insert before, or null to append the object to the collection.</param>
         abstract add: element: HTMLElement * ?before: U2<HTMLElement, float> -> unit
+        /// <summary>Removes an element from the collection.</summary>
+        /// <param name="index">Number that specifies the zero-based index of the element to remove from the collection.</param>
         abstract remove: ?index: float -> unit
 
     and [<AllowNullLiteral>] HTMLAreasCollectionType =
@@ -2735,6 +2952,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLBRElement =
         inherit HTMLElement
+        /// Sets or retrieves the side on which floating objects are not to be positioned when any IHTMLBlockElement is inserted into the document.
         abstract clear: string with get, set
 
     and [<AllowNullLiteral>] HTMLBRElementType =
@@ -2743,7 +2961,9 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLBaseElement =
         inherit HTMLElement
+        /// Sets or retrieves a destination URL or an anchor point.
         abstract href: string with get, set
+        /// Sets or retrieves the window or frame at which to target content.
         abstract target: string with get, set
 
     and [<AllowNullLiteral>] HTMLBaseElementType =
@@ -2753,8 +2973,12 @@ module Browser =
     and [<AllowNullLiteral>] HTMLBaseFontElement =
         inherit HTMLElement
         inherit DOML2DeprecatedColorProperty
+        /// Sets or retrieves the current typeface family.
         abstract face: string with get, set
+        /// Sets or retrieves the font size of the object.
         abstract size: float with get, set
+        /// <param name="element">Variant of type Number that specifies the index position in the collection where the element is placed. If no value is given, the method places the element at the end of the collection.</param>
+        /// <param name="before">Variant of type Object that specifies an element to insert before, or null to append the object to the collection.</param>
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLBaseFontElementType =
@@ -2763,8 +2987,10 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLBlockElement =
         inherit HTMLElement
+        /// Sets or retrieves reference information about the object.
         abstract cite: string with get, set
         abstract clear: string with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: float with get, set
 
     and [<AllowNullLiteral>] HTMLBlockElementType =
@@ -2778,144 +3004,147 @@ module Browser =
         abstract bgColor: obj with get, set
         abstract bgProperties: string with get, set
         abstract link: obj with get, set
+        /// Sets or retrieves whether the browser automatically performs wordwrap.
         abstract noWrap: bool with get, set
-        abstract onafterprint: Func<Event, obj> with get, set
-        abstract onbeforeprint: Func<Event, obj> with get, set
-        abstract onbeforeunload: Func<BeforeUnloadEvent, obj> with get, set
-        abstract onblur: Func<FocusEvent, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onfocus: Func<FocusEvent, obj> with get, set
-        abstract onhashchange: Func<HashChangeEvent, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onmessage: Func<MessageEvent, obj> with get, set
-        abstract onoffline: Func<Event, obj> with get, set
-        abstract ononline: Func<Event, obj> with get, set
-        abstract onorientationchange: Func<Event, obj> with get, set
-        abstract onpagehide: Func<PageTransitionEvent, obj> with get, set
-        abstract onpageshow: Func<PageTransitionEvent, obj> with get, set
-        abstract onpopstate: Func<PopStateEvent, obj> with get, set
-        abstract onresize: Func<UIEvent, obj> with get, set
-        abstract onstorage: Func<StorageEvent, obj> with get, set
-        abstract onunload: Func<Event, obj> with get, set
+        abstract onafterprint: (Event -> 'Out) with get, set
+        abstract onbeforeprint: (Event -> 'Out) with get, set
+        abstract onbeforeunload: (BeforeUnloadEvent -> 'Out) with get, set
+        abstract onblur: (FocusEvent -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onfocus: (FocusEvent -> 'Out) with get, set
+        abstract onhashchange: (HashChangeEvent -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onmessage: (MessageEvent -> 'Out) with get, set
+        abstract onoffline: (Event -> 'Out) with get, set
+        abstract ononline: (Event -> 'Out) with get, set
+        abstract onorientationchange: (Event -> 'Out) with get, set
+        abstract onpagehide: (PageTransitionEvent -> 'Out) with get, set
+        abstract onpageshow: (PageTransitionEvent -> 'Out) with get, set
+        abstract onpopstate: (PopStateEvent -> 'Out) with get, set
+        abstract onresize: (UIEvent -> 'Out) with get, set
+        abstract onstorage: (StorageEvent -> 'Out) with get, set
+        abstract onunload: (Event -> 'Out) with get, set
+        /// Sets or retrieves the text string specified by the option tag.
         abstract text: obj with get, set
         abstract vLink: obj with get, set
         abstract createTextRange: unit -> TextRange
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('afterprint',$1...)")>] abstract addEventListener_afterprint: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeprint',$1...)")>] abstract addEventListener_beforeprint: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeunload',$1...)")>] abstract addEventListener_beforeunload: listener: Func<BeforeUnloadEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('hashchange',$1...)")>] abstract addEventListener_hashchange: listener: Func<HashChangeEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: Func<MessageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('offline',$1...)")>] abstract addEventListener_offline: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('online',$1...)")>] abstract addEventListener_online: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('orientationchange',$1...)")>] abstract addEventListener_orientationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pagehide',$1...)")>] abstract addEventListener_pagehide: listener: Func<PageTransitionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pageshow',$1...)")>] abstract addEventListener_pageshow: listener: Func<PageTransitionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('popstate',$1...)")>] abstract addEventListener_popstate: listener: Func<PopStateEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('storage',$1...)")>] abstract addEventListener_storage: listener: Func<StorageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('unload',$1...)")>] abstract addEventListener_unload: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        /// <param name="before">Variant of type Object that specifies an element to insert before, or null to append the object to the collection.</param>
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('afterprint',$1...)")>] abstract addEventListener_afterprint: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeprint',$1...)")>] abstract addEventListener_beforeprint: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeunload',$1...)")>] abstract addEventListener_beforeunload: listener: (BeforeUnloadEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('hashchange',$1...)")>] abstract addEventListener_hashchange: listener: (HashChangeEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: (MessageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('offline',$1...)")>] abstract addEventListener_offline: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('online',$1...)")>] abstract addEventListener_online: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('orientationchange',$1...)")>] abstract addEventListener_orientationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pagehide',$1...)")>] abstract addEventListener_pagehide: listener: (PageTransitionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pageshow',$1...)")>] abstract addEventListener_pageshow: listener: (PageTransitionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('popstate',$1...)")>] abstract addEventListener_popstate: listener: (PopStateEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('storage',$1...)")>] abstract addEventListener_storage: listener: (StorageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('unload',$1...)")>] abstract addEventListener_unload: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLBodyElementType =
@@ -2924,23 +3153,45 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLButtonElement =
         inherit HTMLElement
+        /// Provides a way to direct a user to a specific field when a document loads. This can provide both direction and convenience for a user, reducing the need to click or tab to a field when a page opens. This attribute is true when present on an element, and false when missing.
         abstract autofocus: bool with get, set
         abstract disabled: bool with get, set
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract form: HTMLFormElement with get, set
+        /// Overrides the action attribute (where the data on a form is sent) on the parent form element.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formAction: string with get, set
+        /// Used to override the encoding (formEnctype attribute) specified on the form element.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formEnctype: string with get, set
+        /// Overrides the submit method attribute previously specified on a form element.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formMethod: string with get, set
+        /// Overrides any validation or required attributes on a form or form elements to allow it to be submitted without validation. This can be used to create a "save draft"-type submit option.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formNoValidate: string with get, set
+        /// Overrides the target attribute on a form element.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formTarget: string with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
+        /// Sets or retrieves the value indicating whether the control is selected.
         abstract status: obj with get, set
+        /// Returns the content type of the object.
         abstract ``type``: string with get, set
+        /// Returns the error message that would be displayed if the user submits the form, or an empty string if no error message. It also triggers the standard error message, such as "this is a required field". The result is that the user sees validation messages without actually submitting.
         abstract validationMessage: string with get, set
+        /// Returns a  ValidityState object that represents the validity states of an element.
         abstract validity: ValidityState with get, set
+        /// Sets or retrieves the default or selected value of the control.
         abstract value: string with get, set
+        /// Returns whether an element will successfully validate based on forms validation rules and constraints.
         abstract willValidate: bool with get, set
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
         abstract createTextRange: unit -> TextRange
+        /// <summary>Sets a custom error message that is displayed when a form is submitted.</summary>
+        /// <param name="error">Sets a custom error message that is displayed when a form is submitted.</param>
         abstract setCustomValidity: error: string -> unit
 
     and [<AllowNullLiteral>] HTMLButtonElementType =
@@ -2949,12 +3200,18 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLCanvasElement =
         inherit HTMLElement
+        /// Gets or sets the height of a canvas element on a document.
         abstract height: float with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: float with get, set
         [<Emit("$0.getContext('2d')")>] abstract getContext_2d: unit -> CanvasRenderingContext2D
         [<Emit("$0.getContext('experimental-webgl')")>] abstract ``getContext_experimental-webgl``: unit -> WebGLRenderingContext
+        /// Returns an object that provides methods and properties for drawing and manipulating images and graphics on a canvas element in a document. A context object includes information about colors, line widths, fonts, and other graphic parameters that can be drawn on a canvas.
         abstract getContext: contextId: string * [<ParamArray>] args: obj[] -> U2<CanvasRenderingContext2D, WebGLRenderingContext>
+        /// Returns a blob object encoded as a Portable Network Graphics (PNG) format from a canvas image or drawing.
         abstract msToBlob: unit -> Blob
+        /// <summary>Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.</summary>
+        /// <param name="type">The standard MIME type for the image format to return. If you do not specify this parameter, the default value is a PNG format image.</param>
         abstract toDataURL: ?``type``: string * [<ParamArray>] args: obj[] -> string
         abstract toBlob : (Blob -> unit) * ?mimeType:string * ?quality: float -> unit
 
@@ -2963,9 +3220,13 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> HTMLCanvasElement
 
     and [<AllowNullLiteral>] HTMLCollection =
+        /// Sets or retrieves the number of objects in a collection.
         abstract length: float with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> Element with get, set
+        /// Retrieves an object from various collections.
         abstract item: ?nameOrIndex: obj * ?optionalIndex: obj -> Element
+        /// Retrieves a form object or an object from an elements collection.
+        /// Sets or retrieves the frame name.
         abstract namedItem: name: string -> Element
 
     and [<AllowNullLiteral>] HTMLCollectionType =
@@ -2974,6 +3235,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLDDElement =
         inherit HTMLElement
+        /// Sets or retrieves whether the browser automatically performs wordwrap.
         abstract noWrap: bool with get, set
 
     and [<AllowNullLiteral>] HTMLDDElementType =
@@ -3014,6 +3276,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLDivElement =
         inherit HTMLElement
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
         abstract noWrap: bool with get, set
 
@@ -3034,6 +3297,7 @@ module Browser =
         abstract accessKey: string with get, set
         abstract children: HTMLCollection with get, set
         abstract contentEditable: string with get, set
+        /// Sets or retrieves the URL that references the data of the object.
         abstract dataset: DOMStringMap with get, set
         abstract dir: string with get, set
         abstract draggable: bool with get, set
@@ -3048,72 +3312,72 @@ module Browser =
         abstract offsetParent: Element with get, set
         abstract offsetTop: float with get, set
         abstract offsetWidth: float with get, set
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onactivate: Func<UIEvent, obj> with get, set
-        abstract onbeforeactivate: Func<UIEvent, obj> with get, set
-        abstract onbeforecopy: Func<DragEvent, obj> with get, set
-        abstract onbeforecut: Func<DragEvent, obj> with get, set
-        abstract onbeforedeactivate: Func<UIEvent, obj> with get, set
-        abstract onbeforepaste: Func<DragEvent, obj> with get, set
-        abstract onblur: Func<FocusEvent, obj> with get, set
-        abstract oncanplay: Func<Event, obj> with get, set
-        abstract oncanplaythrough: Func<Event, obj> with get, set
-        abstract onchange: Func<Event, obj> with get, set
-        abstract onclick: Func<MouseEvent, obj> with get, set
-        abstract oncontextmenu: Func<PointerEvent, obj> with get, set
-        abstract oncopy: Func<DragEvent, obj> with get, set
-        abstract oncuechange: Func<Event, obj> with get, set
-        abstract oncut: Func<DragEvent, obj> with get, set
-        abstract ondblclick: Func<MouseEvent, obj> with get, set
-        abstract ondeactivate: Func<UIEvent, obj> with get, set
-        abstract ondrag: Func<DragEvent, obj> with get, set
-        abstract ondragend: Func<DragEvent, obj> with get, set
-        abstract ondragenter: Func<DragEvent, obj> with get, set
-        abstract ondragleave: Func<DragEvent, obj> with get, set
-        abstract ondragover: Func<DragEvent, obj> with get, set
-        abstract ondragstart: Func<DragEvent, obj> with get, set
-        abstract ondrop: Func<DragEvent, obj> with get, set
-        abstract ondurationchange: Func<Event, obj> with get, set
-        abstract onemptied: Func<Event, obj> with get, set
-        abstract onended: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onfocus: Func<FocusEvent, obj> with get, set
-        abstract oninput: Func<Event, obj> with get, set
-        abstract onkeydown: Func<KeyboardEvent, obj> with get, set
-        abstract onkeypress: Func<KeyboardEvent, obj> with get, set
-        abstract onkeyup: Func<KeyboardEvent, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onloadeddata: Func<Event, obj> with get, set
-        abstract onloadedmetadata: Func<Event, obj> with get, set
-        abstract onloadstart: Func<Event, obj> with get, set
-        abstract onmousedown: Func<MouseEvent, obj> with get, set
-        abstract onmouseenter: Func<MouseEvent, obj> with get, set
-        abstract onmouseleave: Func<MouseEvent, obj> with get, set
-        abstract onmousemove: Func<MouseEvent, obj> with get, set
-        abstract onmouseout: Func<MouseEvent, obj> with get, set
-        abstract onmouseover: Func<MouseEvent, obj> with get, set
-        abstract onmouseup: Func<MouseEvent, obj> with get, set
-        abstract onmousewheel: Func<MouseWheelEvent, obj> with get, set
-        abstract onmscontentzoom: Func<UIEvent, obj> with get, set
-        abstract onmsmanipulationstatechanged: Func<MSManipulationEvent, obj> with get, set
-        abstract onpaste: Func<DragEvent, obj> with get, set
-        abstract onpause: Func<Event, obj> with get, set
-        abstract onplay: Func<Event, obj> with get, set
-        abstract onplaying: Func<Event, obj> with get, set
-        abstract onprogress: Func<ProgressEvent, obj> with get, set
-        abstract onratechange: Func<Event, obj> with get, set
-        abstract onreset: Func<Event, obj> with get, set
-        abstract onscroll: Func<UIEvent, obj> with get, set
-        abstract onseeked: Func<Event, obj> with get, set
-        abstract onseeking: Func<Event, obj> with get, set
-        abstract onselect: Func<UIEvent, obj> with get, set
-        abstract onselectstart: Func<Event, obj> with get, set
-        abstract onstalled: Func<Event, obj> with get, set
-        abstract onsubmit: Func<Event, obj> with get, set
-        abstract onsuspend: Func<Event, obj> with get, set
-        abstract ontimeupdate: Func<Event, obj> with get, set
-        abstract onvolumechange: Func<Event, obj> with get, set
-        abstract onwaiting: Func<Event, obj> with get, set
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract onactivate: (UIEvent -> 'Out) with get, set
+        abstract onbeforeactivate: (UIEvent -> 'Out) with get, set
+        abstract onbeforecopy: (DragEvent -> 'Out) with get, set
+        abstract onbeforecut: (DragEvent -> 'Out) with get, set
+        abstract onbeforedeactivate: (UIEvent -> 'Out) with get, set
+        abstract onbeforepaste: (DragEvent -> 'Out) with get, set
+        abstract onblur: (FocusEvent -> 'Out) with get, set
+        abstract oncanplay: (Event -> 'Out) with get, set
+        abstract oncanplaythrough: (Event -> 'Out) with get, set
+        abstract onchange: (Event -> 'Out) with get, set
+        abstract onclick: (MouseEvent -> 'Out) with get, set
+        abstract oncontextmenu: (PointerEvent -> 'Out) with get, set
+        abstract oncopy: (DragEvent -> 'Out) with get, set
+        abstract oncuechange: (Event -> 'Out) with get, set
+        abstract oncut: (DragEvent -> 'Out) with get, set
+        abstract ondblclick: (MouseEvent -> 'Out) with get, set
+        abstract ondeactivate: (UIEvent -> 'Out) with get, set
+        abstract ondrag: (DragEvent -> 'Out) with get, set
+        abstract ondragend: (DragEvent -> 'Out) with get, set
+        abstract ondragenter: (DragEvent -> 'Out) with get, set
+        abstract ondragleave: (DragEvent -> 'Out) with get, set
+        abstract ondragover: (DragEvent -> 'Out) with get, set
+        abstract ondragstart: (DragEvent -> 'Out) with get, set
+        abstract ondrop: (DragEvent -> 'Out) with get, set
+        abstract ondurationchange: (Event -> 'Out) with get, set
+        abstract onemptied: (Event -> 'Out) with get, set
+        abstract onended: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onfocus: (FocusEvent -> 'Out) with get, set
+        abstract oninput: (Event -> 'Out) with get, set
+        abstract onkeydown: (KeyboardEvent -> 'Out) with get, set
+        abstract onkeypress: (KeyboardEvent -> 'Out) with get, set
+        abstract onkeyup: (KeyboardEvent -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onloadeddata: (Event -> 'Out) with get, set
+        abstract onloadedmetadata: (Event -> 'Out) with get, set
+        abstract onloadstart: (Event -> 'Out) with get, set
+        abstract onmousedown: (MouseEvent -> 'Out) with get, set
+        abstract onmouseenter: (MouseEvent -> 'Out) with get, set
+        abstract onmouseleave: (MouseEvent -> 'Out) with get, set
+        abstract onmousemove: (MouseEvent -> 'Out) with get, set
+        abstract onmouseout: (MouseEvent -> 'Out) with get, set
+        abstract onmouseover: (MouseEvent -> 'Out) with get, set
+        abstract onmouseup: (MouseEvent -> 'Out) with get, set
+        abstract onmousewheel: (MouseWheelEvent -> 'Out) with get, set
+        abstract onmscontentzoom: (UIEvent -> 'Out) with get, set
+        abstract onmsmanipulationstatechanged: (MSManipulationEvent -> 'Out) with get, set
+        abstract onpaste: (DragEvent -> 'Out) with get, set
+        abstract onpause: (Event -> 'Out) with get, set
+        abstract onplay: (Event -> 'Out) with get, set
+        abstract onplaying: (Event -> 'Out) with get, set
+        abstract onprogress: (ProgressEvent -> 'Out) with get, set
+        abstract onratechange: (Event -> 'Out) with get, set
+        abstract onreset: (Event -> 'Out) with get, set
+        abstract onscroll: (UIEvent -> 'Out) with get, set
+        abstract onseeked: (Event -> 'Out) with get, set
+        abstract onseeking: (Event -> 'Out) with get, set
+        abstract onselect: (UIEvent -> 'Out) with get, set
+        abstract onselectstart: (Event -> 'Out) with get, set
+        abstract onstalled: (Event -> 'Out) with get, set
+        abstract onsubmit: (Event -> 'Out) with get, set
+        abstract onsuspend: (Event -> 'Out) with get, set
+        abstract ontimeupdate: (Event -> 'Out) with get, set
+        abstract onvolumechange: (Event -> 'Out) with get, set
+        abstract onwaiting: (Event -> 'Out) with get, set
         abstract outerHTML: string with get, set
         abstract outerText: string with get, set
         abstract spellcheck: bool with get, set
@@ -3130,108 +3394,108 @@ module Browser =
         abstract msGetInputContext: unit -> MSInputMethodContext
         abstract scrollIntoView: ?top: bool -> unit
         abstract setActive: unit -> unit
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLElementType =
@@ -3241,18 +3505,29 @@ module Browser =
     and [<AllowNullLiteral>] HTMLEmbedElement =
         inherit HTMLElement
         inherit GetSVGDocument
+        /// Sets or retrieves the height of the object.
         abstract height: string with get, set
         abstract hidden: obj with get, set
+        /// Gets or sets whether the DLNA PlayTo device is available.
         abstract msPlayToDisabled: bool with get, set
+        /// Gets or sets the path to the preferred media source. This enables the Play To target device to stream the media content, which can be DRM protected, from a different location, such as a cloud media server.
         abstract msPlayToPreferredSourceUri: string with get, set
+        /// Gets or sets the primary DLNA PlayTo device.
         abstract msPlayToPrimary: bool with get, set
+        /// Gets the source associated with the media element for use by the PlayToManager.
         abstract msPlayToSource: obj with get, set
+        /// Sets or retrieves the frame name.
         abstract name: string with get, set
+        /// Retrieves the palette used for the embedded document.
         abstract palette: string with get, set
+        /// Retrieves the URL of the plug-in used to view an embedded document.
         abstract pluginspage: string with get, set
         abstract readyState: string with get, set
+        /// Sets or retrieves a URL to be loaded by the object.
         abstract src: string with get, set
+        /// Sets or retrieves the height and width units of the embed object.
         abstract units: string with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: string with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -3262,13 +3537,20 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLFieldSetElement =
         inherit HTMLElement
+        /// Sets or retrieves a value that indicates the table alignment.
         abstract align: string with get, set
         abstract disabled: bool with get, set
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract form: HTMLFormElement with get, set
+        /// Returns the error message that would be displayed if the user submits the form, or an empty string if no error message. It also triggers the standard error message, such as "this is a required field". The result is that the user sees validation messages without actually submitting.
         abstract validationMessage: string with get, set
+        /// Returns a  ValidityState object that represents the validity states of an element.
         abstract validity: ValidityState with get, set
+        /// Returns whether an element will successfully validate based on forms validation rules and constraints.
         abstract willValidate: bool with get, set
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
+        /// <param name="error">Sets a custom error message that is displayed when a form is submitted.</param>
         abstract setCustomValidity: error: string -> unit
 
     and [<AllowNullLiteral>] HTMLFieldSetElementType =
@@ -3279,6 +3561,7 @@ module Browser =
         inherit HTMLElement
         inherit DOML2DeprecatedColorProperty
         inherit DOML2DeprecatedSizeProperty
+        /// Sets or retrieves the current typeface family.
         abstract face: string with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -3288,22 +3571,42 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLFormElement =
         inherit HTMLElement
+        /// Sets or retrieves a list of character encodings for input data that must be accepted by the server processing the form.
+        /// Sets or retrieves a comma-separated list of content types.
         abstract acceptCharset: string with get, set
+        /// Sets or retrieves the URL to which the form content is sent for processing.
         abstract action: string with get, set
+        /// Specifies whether autocomplete is applied to an editable text field.
         abstract autocomplete: string with get, set
+        /// Retrieves a collection, in source order, of all controls in a given form.
         abstract elements: HTMLCollection with get, set
+        /// Sets or retrieves the MIME encoding for the form.
         abstract encoding: string with get, set
+        /// Sets or retrieves the encoding type for the form.
         abstract enctype: string with get, set
+        /// Sets or retrieves the number of objects in a collection.
         abstract length: float with get, set
+        /// Sets or retrieves how to send the form data to the server.
         abstract ``method``: string with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
+        /// Designates a form that is not validated when submitted.
         abstract noValidate: bool with get, set
+        /// Sets or retrieves the window or frame at which to target content.
         abstract target: string with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: name: string -> obj with get, set
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
+        /// <summary>Retrieves a form object or an object from an elements collection.</summary>
+        /// <param name="name">Variant of type Number or String that specifies the object or collection to retrieve. If this parameter is a Number, it is the zero-based index of the object. If this parameter is a string, all objects with matching name or id properties are retrieved, and a collection is returned if more than one match is made.</param>
+        /// <param name="index">Variant of type Number that specifies the zero-based index of the object to retrieve when a collection is returned.</param>
         abstract item: ?name: obj * ?index: obj -> obj
+        /// Sets or retrieves the name of the object.
+        /// Retrieves a select object or an object from an options collection.
         abstract namedItem: name: string -> obj
+        /// Fires when the user resets a form.
         abstract reset: unit -> unit
+        /// Fires when a FORM is about to be submitted.
         abstract submit: unit -> unit
 
     and [<AllowNullLiteral>] HTMLFormElementType =
@@ -3313,125 +3616,142 @@ module Browser =
     and [<AllowNullLiteral>] HTMLFrameElement =
         inherit HTMLElement
         inherit GetSVGDocument
+        /// Specifies the properties of a border drawn around an object.
         abstract border: string with get, set
+        /// Sets or retrieves the border color of the object.
+        /// Specifies the properties of a border drawn around an object.
         abstract borderColor: obj with get, set
+        /// Retrieves the document object of the page or frame.
         abstract contentDocument: Document with get, set
+        /// Retrieves the object of the specified.
         abstract contentWindow: Window with get, set
+        /// Sets or retrieves whether to display a border for the frame.
+        /// Sets or retrieves the way the border frame around the table is displayed.
         abstract frameBorder: string with get, set
+        /// Sets or retrieves the amount of additional space between the frames.
         abstract frameSpacing: obj with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: U2<string, float> with get, set
+        /// Sets or retrieves a URI to a long description of the object.
         abstract longDesc: string with get, set
+        /// Sets or retrieves the top and bottom margin heights before displaying the text in a frame.
         abstract marginHeight: string with get, set
+        /// Sets or retrieves the left and right margin widths before displaying the text in a frame.
         abstract marginWidth: string with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
+        /// Sets or retrieves whether the user can resize the frame.
         abstract noResize: bool with get, set
-        abstract onload: Func<Event, obj> with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        /// Sets or retrieves whether the frame can be scrolled.
         abstract scrolling: string with get, set
         abstract security: obj with get, set
+        /// Sets or retrieves a URL to be loaded by the object.
         abstract src: string with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: U2<string, float> with get, set
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLFrameElementType =
@@ -3440,144 +3760,152 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLFrameSetElement =
         inherit HTMLElement
+        /// Sets or retrieves the width of the border to draw around the object.
         abstract border: string with get, set
+        /// Sets or retrieves the border color of the object.
+        /// Sets or retrieves the width of the border to draw around the object.
         abstract borderColor: obj with get, set
+        /// Sets or retrieves the frame widths of the object.
         abstract cols: string with get, set
+        /// Sets or retrieves whether to display a border for the frame.
         abstract frameBorder: string with get, set
+        /// Sets or retrieves the amount of additional space between the frames.
         abstract frameSpacing: obj with get, set
+        /// Sets or retrieves the value specified in the content attribute of the meta object.
         abstract name: string with get, set
-        abstract onafterprint: Func<Event, obj> with get, set
-        abstract onbeforeprint: Func<Event, obj> with get, set
-        abstract onbeforeunload: Func<BeforeUnloadEvent, obj> with get, set
-        abstract onblur: Func<FocusEvent, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onfocus: Func<FocusEvent, obj> with get, set
-        abstract onhashchange: Func<HashChangeEvent, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onmessage: Func<MessageEvent, obj> with get, set
-        abstract onoffline: Func<Event, obj> with get, set
-        abstract ononline: Func<Event, obj> with get, set
-        abstract onorientationchange: Func<Event, obj> with get, set
-        abstract onpagehide: Func<PageTransitionEvent, obj> with get, set
-        abstract onpageshow: Func<PageTransitionEvent, obj> with get, set
-        abstract onresize: Func<UIEvent, obj> with get, set
-        abstract onstorage: Func<StorageEvent, obj> with get, set
-        abstract onunload: Func<Event, obj> with get, set
+        abstract onafterprint: (Event -> 'Out) with get, set
+        abstract onbeforeprint: (Event -> 'Out) with get, set
+        abstract onbeforeunload: (BeforeUnloadEvent -> 'Out) with get, set
+        abstract onblur: (FocusEvent -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onfocus: (FocusEvent -> 'Out) with get, set
+        abstract onhashchange: (HashChangeEvent -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onmessage: (MessageEvent -> 'Out) with get, set
+        abstract onoffline: (Event -> 'Out) with get, set
+        abstract ononline: (Event -> 'Out) with get, set
+        abstract onorientationchange: (Event -> 'Out) with get, set
+        abstract onpagehide: (PageTransitionEvent -> 'Out) with get, set
+        abstract onpageshow: (PageTransitionEvent -> 'Out) with get, set
+        abstract onresize: (UIEvent -> 'Out) with get, set
+        abstract onstorage: (StorageEvent -> 'Out) with get, set
+        abstract onunload: (Event -> 'Out) with get, set
+        /// Sets or retrieves the frame heights of the object.
         abstract rows: string with get, set
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeprint',$1...)")>] abstract addEventListener_beforeprint: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeunload',$1...)")>] abstract addEventListener_beforeunload: listener: Func<BeforeUnloadEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('hashchange',$1...)")>] abstract addEventListener_hashchange: listener: Func<HashChangeEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: Func<MessageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('offline',$1...)")>] abstract addEventListener_offline: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('online',$1...)")>] abstract addEventListener_online: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('orientationchange',$1...)")>] abstract addEventListener_orientationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pagehide',$1...)")>] abstract addEventListener_pagehide: listener: Func<PageTransitionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pageshow',$1...)")>] abstract addEventListener_pageshow: listener: Func<PageTransitionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('storage',$1...)")>] abstract addEventListener_storage: listener: Func<StorageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('unload',$1...)")>] abstract addEventListener_unload: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeprint',$1...)")>] abstract addEventListener_beforeprint: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeunload',$1...)")>] abstract addEventListener_beforeunload: listener: (BeforeUnloadEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('hashchange',$1...)")>] abstract addEventListener_hashchange: listener: (HashChangeEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: (MessageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('offline',$1...)")>] abstract addEventListener_offline: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('online',$1...)")>] abstract addEventListener_online: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('orientationchange',$1...)")>] abstract addEventListener_orientationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pagehide',$1...)")>] abstract addEventListener_pagehide: listener: (PageTransitionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pageshow',$1...)")>] abstract addEventListener_pageshow: listener: (PageTransitionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('storage',$1...)")>] abstract addEventListener_storage: listener: (StorageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('unload',$1...)")>] abstract addEventListener_unload: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLFrameSetElementType =
@@ -3588,8 +3916,11 @@ module Browser =
         inherit HTMLElement
         inherit DOML2DeprecatedColorProperty
         inherit DOML2DeprecatedSizeProperty
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
+        /// Sets or retrieves whether the horizontal rule is drawn with 3-D shading.
         abstract noShade: bool with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: float with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -3607,6 +3938,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLHeadingElement =
         inherit HTMLElement
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
         abstract clear: string with get, set
 
@@ -3616,6 +3948,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLHtmlElement =
         inherit HTMLElement
+        /// Sets or retrieves the DTD version that governs the current document.
         abstract version: string with get, set
 
     and [<AllowNullLiteral>] HTMLHtmlElementType =
@@ -3625,129 +3958,145 @@ module Browser =
     and [<AllowNullLiteral>] HTMLIFrameElement =
         inherit HTMLElement
         inherit GetSVGDocument
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
         abstract allowFullscreen: bool with get, set
         abstract border: string with get, set
+        /// Retrieves the document object of the page or frame.
         abstract contentDocument: Document with get, set
+        /// Retrieves the object of the specified.
         abstract contentWindow: Window with get, set
+        /// Sets or retrieves whether to display a border for the frame.
         abstract frameBorder: string with get, set
+        /// Sets or retrieves the amount of additional space between the frames.
         abstract frameSpacing: obj with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: string with get, set
+        /// Sets or retrieves the width of the border to draw around the object.
         abstract hspace: float with get, set
+        /// Sets or retrieves a URI to a long description of the object.
         abstract longDesc: string with get, set
+        /// Sets or retrieves the top and bottom margin heights before displaying the text in a frame.
         abstract marginHeight: string with get, set
+        /// Sets or retrieves the left and right margin widths before displaying the text in a frame.
         abstract marginWidth: string with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
+        /// Sets or retrieves whether the user can resize the frame.
         abstract noResize: bool with get, set
-        abstract onload: Func<Event, obj> with get, set
+        abstract onload: (Event -> 'Out) with get, set
         abstract sandbox: DOMSettableTokenList with get, set
+        /// Sets or retrieves whether the frame can be scrolled.
         abstract scrolling: string with get, set
         abstract security: obj with get, set
+        /// Sets or retrieves a URL to be loaded by the object.
         abstract src: string with get, set
+        /// Sets or retrieves the vertical margin for the object.
         abstract vspace: float with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: string with get, set
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLIFrameElementType =
@@ -3756,27 +4105,47 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLImageElement =
         inherit HTMLElement
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
+        /// Sets or retrieves a text alternative to the graphic.
         abstract alt: string with get, set
         abstract border: string with get, set
+        /// Retrieves whether the object is fully loaded.
         abstract complete: bool with get, set
         abstract crossOrigin: string with get, set
+        /// Gets the address or URL of the current media resource that is selected by IHTMLMediaElement.
         abstract currentSrc: string with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: float with get, set
+        /// Sets or retrieves the width of the border to draw around the object.
         abstract hspace: float with get, set
+        /// Sets or retrieves whether the image is a server-side image map.
         abstract isMap: bool with get, set
+        /// Sets or retrieves a Uniform Resource Identifier (URI) to a long description of the object.
         abstract longDesc: string with get, set
+        /// Gets or sets whether the DLNA PlayTo device is available.
         abstract msPlayToDisabled: bool with get, set
+        /// Gets or sets the path to the preferred media source. This enables the Play To target device to stream the media content, which can be DRM protected, from a different location, such as a cloud media server.
         abstract msPlayToPreferredSourceUri: string with get, set
+        /// Gets or sets the primary DLNA PlayTo device.
         abstract msPlayToPrimary: bool with get, set
+        /// Gets the source associated with the media element for use by the PlayToManager.
         abstract msPlayToSource: obj with get, set
+        /// Sets or retrieves the name of an input parameter for an element.
         abstract name: string with get, set
+        /// The original height of the image resource before sizing.
         abstract naturalHeight: float with get, set
+        /// The original width of the image resource before sizing.
         abstract naturalWidth: float with get, set
+        /// The address or URL of the a media resource that is to be considered.
         abstract src: string with get, set
+        /// The address or URL of the a media resource that is to be considered.
         abstract srcset: string with get, set
+        /// Sets or retrieves the URL, often with a bookmark extension (#name), to use as a client-side image map.
         abstract useMap: string with get, set
+        /// Sets or retrieves the vertical margin for the object.
         abstract vspace: float with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: float with get, set
         abstract x: float with get, set
         abstract y: float with get, set
@@ -3790,58 +4159,114 @@ module Browser =
     and [<AllowNullLiteral>] HTMLInputElement =
         inherit HTMLElement
         abstract accept: string with get, set
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract align: string with get, set
+        /// Sets or retrieves a text alternative to the graphic.
         abstract alt: string with get, set
+        /// Specifies whether autocomplete is applied to an editable text field.
         abstract autocomplete: string with get, set
+        /// Provides a way to direct a user to a specific field when a document loads. This can provide both direction and convenience for a user, reducing the need to click or tab to a field when a page opens. This attribute is true when present on an element, and false when missing.
         abstract autofocus: bool with get, set
         abstract border: string with get, set
+        /// Sets or retrieves the state of the check box or radio button.
         abstract ``checked``: bool with get, set
+        /// Retrieves whether the object is fully loaded.
         abstract complete: bool with get, set
+        /// Sets or retrieves the state of the check box or radio button.
         abstract defaultChecked: bool with get, set
+        /// Sets or retrieves the initial contents of the object.
         abstract defaultValue: string with get, set
         abstract disabled: bool with get, set
+        /// Returns a FileList object on a file type input object.
         abstract files: FileList with get, set
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract form: HTMLFormElement with get, set
+        /// Overrides the action attribute (where the data on a form is sent) on the parent form element.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formAction: string with get, set
+        /// Used to override the encoding (formEnctype attribute) specified on the form element.
+        /// Retrieves a reference to the form that the object is embedded in.
         abstract formEnctype: string with get, set
+        /// Overrides the submit method attribute previously specified on a form element.
         abstract formMethod: string with get, set
+        /// Overrides any validation or required attributes on a form or form elements to allow it to be submitted without validation. This can be used to create a "save draft"-type submit option.
         abstract formNoValidate: string with get, set
+        /// Overrides the target attribute on a form element.
         abstract formTarget: string with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: string with get, set
         abstract hspace: float with get, set
         abstract indeterminate: bool with get, set
+        /// Specifies the ID of a pre-defined datalist of options for an input element.
         abstract list: HTMLElement with get, set
+        /// Defines the maximum acceptable value for an input element with type="number".When used with the min and step attributes, lets you control the range and increment (such as only even numbers) that the user can enter into an input field.
         abstract max: string with get, set
+        /// Sets or retrieves the maximum number of characters that the user can enter in a text control.
+        /// Defines the maximum, or "done" value for a progress element.
         abstract maxLength: float with get, set
+        /// Defines the minimum acceptable value for an input element with type="number". When used with the max and step attributes, lets you control the range and increment (such as even numbers only) that the user can enter into an input field.
         abstract min: string with get, set
+        /// Sets or retrieves the Boolean value indicating whether multiple items can be selected from a list.
         abstract multiple: bool with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
+        /// Gets or sets a string containing a regular expression that the user's input must match.
         abstract pattern: string with get, set
+        /// Gets or sets a text string that is displayed in an input field as a hint or prompt to users as the format or type of information they need to enter.The text appears in an input field until the user puts focus on the field.
         abstract placeholder: string with get, set
+        /// Sets or retrieves the value indicated whether the content of the object is read-only.
         abstract readOnly: bool with get, set
+        /// When present, marks an element that can't be submitted without a value.
         abstract required: bool with get, set
+        /// Gets or sets the end position or offset of a text selection.
+        /// Makes the selection equal to the current object.
         abstract selectionEnd: float with get, set
+        /// Gets or sets the starting position or offset of a text selection.
+        /// Highlights the input area of a form element.
         abstract selectionStart: float with get, set
+        /// Sets or retrieves the number of rows in the list box.
         abstract size: float with get, set
+        /// The address or URL of the a media resource that is to be considered.
         abstract src: string with get, set
         abstract status: bool with get, set
+        /// Defines an increment or jump between values that you want to allow the user to enter. When used with the max and min attributes, lets you control the range and increment (for example, allow only even numbers) that the user can enter into an input field.
         abstract step: string with get, set
+        /// Sets or retrieves the MIME type of the object.
         abstract ``type``: string with get, set
+        /// Sets or retrieves the URL, often with a bookmark extension (#name), to use as a client-side image map.
         abstract useMap: string with get, set
+        /// Returns the error message that would be displayed if the user submits the form, or an empty string if no error message. It also triggers the standard error message, such as "this is a required field". The result is that the user sees validation messages without actually submitting.
         abstract validationMessage: string with get, set
+        /// Returns a  ValidityState object that represents the validity states of an element.
         abstract validity: ValidityState with get, set
+        /// Returns the value of the data at the cursor's current position.
         abstract value: string with get, set
+        /// Sets or retrieves the value of a list item.
         abstract valueAsDate: DateTime with get, set
+        /// Returns the input field value as a number.
+        /// Sets or retrieves the value which is returned to the server when the form control is submitted.
         abstract valueAsNumber: float with get, set
         abstract vspace: float with get, set
+        /// Sets or gets a value that you can use to implement your own width functionality for the object.
         abstract width: string with get, set
+        /// Returns whether an element will successfully validate based on forms validation rules and constraints.
         abstract willValidate: bool with get, set
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
         abstract createTextRange: unit -> TextRange
         abstract select: unit -> unit
+        /// <summary>Sets a custom error message that is displayed when a form is submitted.</summary>
+        /// <param name="error">Sets a custom error message that is displayed when a form is submitted.</param>
         abstract setCustomValidity: error: string -> unit
+        /// <summary>Sets the start and end positions of a selection in a text field.</summary>
+        /// <param name="start">The offset into the text field for the start of the selection.</param>
+        /// <param name="end">The offset into the text field for the end of the selection.</param>
         abstract setSelectionRange: start: float * ``end``: float -> unit
+        /// <summary>Decrements a range input control's value by the value given by the Step attribute. If the optional parameter is used, it will decrement the input control's step value multiplied by the parameter's value.</summary>
+        /// <param name="n">Value to decrement the value by.</param>
         abstract stepDown: ?n: float -> unit
+        /// <summary>Increments a range input control's value by the value given by the Step attribute. If the optional parameter is used, will increment the input control's value by that value.</summary>
+        /// <param name="n">Value to increment the value by.</param>
         abstract stepUp: ?n: float -> unit
 
     and [<AllowNullLiteral>] HTMLInputElementType =
@@ -3860,7 +4285,9 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLLIElement =
         inherit HTMLElement
+        /// Sets or retrieves the MIME type of the object.
         abstract ``type``: string with get, set
+        /// Sets or retrieves the value which is returned to the server when the form control is submitted.
         abstract value: float with get, set
 
     and [<AllowNullLiteral>] HTMLLIElementType =
@@ -3870,6 +4297,7 @@ module Browser =
     and [<AllowNullLiteral>] HTMLLabelElement =
         inherit HTMLElement
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the object to which the given label object is assigned.
         abstract htmlFor: string with get, set
 
     and [<AllowNullLiteral>] HTMLLabelElementType =
@@ -3878,6 +4306,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLLegendElement =
         inherit HTMLElement
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
         abstract form: HTMLFormElement with get, set
 
@@ -3888,14 +4317,20 @@ module Browser =
     and [<AllowNullLiteral>] HTMLLinkElement =
         inherit HTMLElement
         inherit LinkStyle
+        /// Sets or retrieves the character set used to encode the object.
         abstract charset: string with get, set
         abstract disabled: bool with get, set
         abstract href: string with get, set
+        /// Sets or retrieves the language code of the object.
         abstract hreflang: string with get, set
+        /// Sets or retrieves the media type.
         abstract media: string with get, set
         abstract rel: string with get, set
+        /// Sets or retrieves the relationship between the object and the destination of the link.
         abstract rev: string with get, set
+        /// Sets or retrieves the window or frame at which to target content.
         abstract target: string with get, set
+        /// Sets or retrieves the content type of the resource designated by the value attribute.
         abstract ``type``: string with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -3905,7 +4340,9 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLMapElement =
         inherit HTMLElement
+        /// Retrieves a collection of the area objects defined for the given map object.
         abstract areas: HTMLAreasCollection with get, set
+        /// Sets or retrieves the name of the object.
         abstract name: string with get, set
 
     and [<AllowNullLiteral>] HTMLMapElementType =
@@ -3917,124 +4354,128 @@ module Browser =
         abstract behavior: string with get, set
         abstract bgColor: obj with get, set
         abstract direction: string with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: string with get, set
         abstract hspace: float with get, set
+        /// Gets or sets a flag to specify whether playback should restart after it completes.
         abstract loop: float with get, set
-        abstract onbounce: Func<Event, obj> with get, set
-        abstract onfinish: Func<Event, obj> with get, set
-        abstract onstart: Func<Event, obj> with get, set
+        abstract onbounce: (Event -> 'Out) with get, set
+        abstract onfinish: (Event -> 'Out) with get, set
+        abstract onstart: (Event -> 'Out) with get, set
         abstract scrollAmount: float with get, set
         abstract scrollDelay: float with get, set
         abstract trueSpeed: bool with get, set
         abstract vspace: float with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: string with get, set
+        /// The starting number.
         abstract start: unit -> unit
         abstract stop: unit -> unit
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('bounce',$1...)")>] abstract addEventListener_bounce: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('finish',$1...)")>] abstract addEventListener_finish: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('start',$1...)")>] abstract addEventListener_start: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('bounce',$1...)")>] abstract addEventListener_bounce: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('finish',$1...)")>] abstract addEventListener_finish: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('start',$1...)")>] abstract addEventListener_start: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLMarqueeElementType =
@@ -4043,40 +4484,70 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLMediaElement =
         inherit HTMLElement
+        /// Returns an AudioTrackList object with the audio tracks for a given video element.
         abstract audioTracks: AudioTrackList with get, set
+        /// Gets or sets a value that indicates whether to start playing the media automatically.
         abstract autoplay: bool with get, set
+        /// Gets a collection of buffered time ranges.
         abstract buffered: TimeRanges with get, set
+        /// Gets or sets a flag that indicates whether the client provides a set of controls for the media (in case the developer does not include controls for the player).
         abstract controls: bool with get, set
         abstract currentSrc: string with get, set
+        /// Gets or sets the current playback position, in seconds.
         abstract currentTime: float with get, set
         abstract defaultMuted: bool with get, set
+        /// Gets or sets the default playback rate when the user is not using fast forward or reverse for a video or audio resource.
         abstract defaultPlaybackRate: float with get, set
+        /// Returns the duration in seconds of the current media resource. A NaN value is returned if duration is not available, or Infinity if the media resource is streaming.
         abstract duration: float with get, set
+        /// Gets information about whether the playback has ended or not.
         abstract ended: bool with get, set
+        /// Returns an object representing the current error state of the audio or video element.
         abstract error: MediaError with get, set
         abstract loop: bool with get, set
+        /// Specifies the purpose of the audio or video media, such as background audio or alerts.
         abstract msAudioCategory: string with get, set
+        /// Specifies the output device id that the audio will be sent to.
         abstract msAudioDeviceType: string with get, set
         abstract msGraphicsTrustStatus: MSGraphicsTrust with get, set
+        /// Gets the MSMediaKeys object, which is used for decrypting media data, that is associated with this media element.
         abstract msKeys: MSMediaKeys with get, set
+        /// Gets or sets whether the DLNA PlayTo device is available.
         abstract msPlayToDisabled: bool with get, set
+        /// Gets or sets the path to the preferred media source. This enables the Play To target device to stream the media content, which can be DRM protected, from a different location, such as a cloud media server.
         abstract msPlayToPreferredSourceUri: string with get, set
+        /// Gets or sets the primary DLNA PlayTo device.
         abstract msPlayToPrimary: bool with get, set
+        /// Gets the source associated with the media element for use by the PlayToManager.
         abstract msPlayToSource: obj with get, set
+        /// Specifies whether or not to enable low-latency playback on the media element.
         abstract msRealTime: bool with get, set
+        /// Gets or sets a flag that indicates whether the audio (either audio or the audio track on video media) is muted.
         abstract muted: bool with get, set
+        /// Gets the current network activity for the element.
         abstract networkState: float with get, set
-        abstract onmsneedkey: Func<MSMediaKeyNeededEvent, obj> with get, set
+        abstract onmsneedkey: (MSMediaKeyNeededEvent -> 'Out) with get, set
+        /// Gets a flag that specifies whether playback is paused.
+        /// Pauses the current playback and sets paused to TRUE. This can be used to test whether the media is playing or paused. You can also use the pause or play events to tell whether the media is playing or not.
         abstract paused: bool with get, set
+        /// Gets or sets the current rate of speed for the media resource to play. This speed is expressed as a multiple of the normal speed of the media resource.
+        /// Loads and starts playback of a media resource.
         abstract playbackRate: float with get, set
+        /// Gets TimeRanges for the current media resource that has been played.
         abstract played: TimeRanges with get, set
+        /// Gets or sets the current playback position, in seconds.
         abstract preload: string with get, set
         abstract readyState: float with get, set
+        /// Returns a TimeRanges object that represents the ranges of the current media resource that can be seeked.
         abstract seekable: TimeRanges with get, set
+        /// Gets a flag that indicates whether the the client is currently moving to a new playback position in the media resource.
         abstract seeking: bool with get, set
+        /// Retrieves the URL to an external file that contains the source code or data.
         abstract src: string with get, set
+        /// Sets or retrieves the text string specified by the option tag.
         abstract textTracks: TextTrackList with get, set
         abstract videoTracks: VideoTrackList with get, set
+        /// Gets or sets the volume level for audio portions of the media element.
         abstract volume: float with get, set
         abstract HAVE_CURRENT_DATA: float with get, set
         abstract HAVE_ENOUGH_DATA: float with get, set
@@ -4088,118 +4559,123 @@ module Browser =
         abstract NETWORK_LOADING: float with get, set
         abstract NETWORK_NO_SOURCE: float with get, set
         abstract addTextTrack: kind: string * ?label: string * ?language: string -> TextTrack
+        /// Returns a string that specifies whether the client can play a given media resource type.
         abstract canPlayType: ``type``: string -> string
+        /// Resets the audio or video object and loads a new media resource.
         abstract load: unit -> unit
+        /// Clears all effects from the media pipeline.
         abstract msClearEffects: unit -> unit
         abstract msGetAsCastingSource: unit -> obj
+        /// Inserts the specified audio effect into media pipeline.
         abstract msInsertAudioEffect: activatableClassId: string * effectRequired: bool * ?config: obj -> unit
         abstract msSetMediaKeys: mediaKeys: MSMediaKeys -> unit
+        /// Specifies the media protection manager for a given media pipeline.
         abstract msSetMediaProtectionManager: ?mediaProtectionManager: obj -> unit
         abstract pause: unit -> unit
         abstract play: unit -> unit
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('msneedkey',$1...)")>] abstract addEventListener_msneedkey: listener: Func<MSMediaKeyNeededEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('msneedkey',$1...)")>] abstract addEventListener_msneedkey: listener: (MSMediaKeyNeededEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLMediaElementType =
@@ -4218,6 +4694,7 @@ module Browser =
     and [<AllowNullLiteral>] HTMLMenuElement =
         inherit HTMLElement
         abstract compact: bool with get, set
+        /// Sets or retrieves the MIME type for the associated scripting engine.
         abstract ``type``: string with get, set
 
     and [<AllowNullLiteral>] HTMLMenuElementType =
@@ -4226,11 +4703,15 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLMetaElement =
         inherit HTMLElement
+        /// Sets or retrieves the character set used to encode the object.
         abstract charset: string with get, set
         abstract content: string with get, set
+        /// Gets or sets information used to bind the value of a content attribute of a meta element to an HTTP response header.
         abstract httpEquiv: string with get, set
         abstract name: string with get, set
+        /// Sets or retrieves a scheme to be used in interpreting the value of a property specified for the object.
         abstract scheme: string with get, set
+        /// Sets or retrieves the URL property that will be loaded after the specified time has elapsed.
         abstract url: string with get, set
 
     and [<AllowNullLiteral>] HTMLMetaElementType =
@@ -4239,7 +4720,9 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLModElement =
         inherit HTMLElement
+        /// Sets or retrieves reference information about the object.
         abstract cite: string with get, set
+        /// Sets or retrieves the date and time of a modification to the object.
         abstract dateTime: string with get, set
 
     and [<AllowNullLiteral>] HTMLModElementType =
@@ -4258,6 +4741,7 @@ module Browser =
         inherit HTMLElement
         abstract compact: bool with get, set
         abstract start: float with get, set
+        /// Retrieves the type of select control based on the value of the MULTIPLE attribute.
         abstract ``type``: string with get, set
 
     and [<AllowNullLiteral>] HTMLOListElementType =
@@ -4267,37 +4751,57 @@ module Browser =
     and [<AllowNullLiteral>] HTMLObjectElement =
         inherit HTMLElement
         inherit GetSVGDocument
+        /// Retrieves a string of the URL where the object tag can be found. This is often the href of the document that the object is in, or the value set by a base element.
         abstract BaseHref: string with get, set
+        /// Sets or retrieves the alignment of the caption or legend.
         abstract align: string with get, set
         abstract alt: string with get, set
+        /// Gets or sets the optional alternative HTML script to execute if the object fails to load.
         abstract altHtml: string with get, set
+        /// Sets or retrieves a character string that can be used to implement your own archive functionality for the object.
         abstract archive: string with get, set
         abstract border: string with get, set
         abstract code: string with get, set
+        /// Sets or retrieves the URL of the component.
         abstract codeBase: string with get, set
+        /// Sets or retrieves the Internet media type for the code associated with the object.
         abstract codeType: string with get, set
+        /// Retrieves the document object of the page or frame.
         abstract contentDocument: Document with get, set
         abstract data: string with get, set
         abstract declare: bool with get, set
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: string with get, set
         abstract hspace: float with get, set
+        /// Gets or sets whether the DLNA PlayTo device is available.
         abstract msPlayToDisabled: bool with get, set
         abstract msPlayToPreferredSourceUri: string with get, set
+        /// Gets or sets the primary DLNA PlayTo device.
         abstract msPlayToPrimary: bool with get, set
+        /// Gets the source associated with the media element for use by the PlayToManager.
         abstract msPlayToSource: obj with get, set
         abstract name: string with get, set
         abstract ``object``: obj with get, set
         abstract readyState: float with get, set
+        /// Sets or retrieves a message to be displayed while an object is loading.
         abstract standby: string with get, set
+        /// Gets or sets the MIME type of a media resource.
         abstract ``type``: string with get, set
+        /// Sets or retrieves the URL, often with a bookmark extension (#name), to use as a client-side image map.
         abstract useMap: string with get, set
+        /// Returns the error message that would be displayed if the user submits the form, or an empty string if no error message. It also triggers the standard error message, such as "this is a required field". The result is that the user sees validation messages without actually submitting.
         abstract validationMessage: string with get, set
+        /// Returns a  ValidityState object that represents the validity states of an element.
         abstract validity: ValidityState with get, set
         abstract vspace: float with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: string with get, set
+        /// Returns whether an element will successfully validate based on forms validation rules and constraints.
         abstract willValidate: bool with get, set
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
+        /// <param name="error">Sets a custom error message that is displayed when a form is submitted.</param>
         abstract setCustomValidity: error: string -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -4307,13 +4811,19 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLOptGroupElement =
         inherit HTMLElement
+        /// Sets or retrieves the status of an option.
         abstract defaultSelected: bool with get, set
         abstract disabled: bool with get, set
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the ordinal position of an option in a list box.
         abstract index: float with get, set
+        /// Sets or retrieves a value that you can use to implement your own label functionality for the object.
         abstract label: string with get, set
+        /// Sets or retrieves whether the option in the list box is the default item.
         abstract selected: bool with get, set
+        /// Retrieves or sets the text of the object as a string.
         abstract text: string with get, set
+        /// Sets or retrieves the value of an input parameter for an element.
         abstract value: string with get, set
 
     and [<AllowNullLiteral>] HTMLOptGroupElementType =
@@ -4322,13 +4832,19 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLOptionElement =
         inherit HTMLElement
+        /// Sets or retrieves the status of an option.
         abstract defaultSelected: bool with get, set
         abstract disabled: bool with get, set
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the ordinal position of an option in a list box.
         abstract index: float with get, set
+        /// Sets or retrieves a value that you can use to implement your own label functionality for the object.
         abstract label: string with get, set
+        /// Sets or retrieves whether the option in the list box is the default item.
         abstract selected: bool with get, set
+        /// Retrieves or sets the text of the object as a string.
         abstract text: string with get, set
+        /// Sets or gets the current value of a progress element. The value must be a non-negative number between 0 and the max value.
         abstract value: string with get, set
 
     and [<AllowNullLiteral>] HTMLOptionElementType =
@@ -4338,6 +4854,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLParagraphElement =
         inherit HTMLElement
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
         abstract clear: string with get, set
 
@@ -4348,8 +4865,12 @@ module Browser =
     and [<AllowNullLiteral>] HTMLParamElement =
         inherit HTMLElement
         abstract name: string with get, set
+        /// Retrieves the CSS language in which the style sheet is written.
         abstract ``type``: string with get, set
+        /// Sets or retrieves the value which is returned to the server when the form control is submitted.
         abstract value: string with get, set
+        /// Sets or retrieves the data type of the value attribute.
+        /// Retrieves or sets the text in the entry field of the textArea element.
         abstract valueType: string with get, set
 
     and [<AllowNullLiteral>] HTMLParamElementType =
@@ -4369,6 +4890,7 @@ module Browser =
         inherit HTMLElement
         abstract cite: string with get, set
         abstract clear: string with get, set
+        /// Sets or retrieves the width of the object.
         abstract width: float with get, set
 
     and [<AllowNullLiteral>] HTMLPreElementType =
@@ -4379,6 +4901,7 @@ module Browser =
         inherit HTMLElement
         abstract form: HTMLFormElement with get, set
         abstract max: float with get, set
+        /// Returns the quotient of value/max when the value attribute is set (determinate progress bar), or -1 when the value attribute is missing (indeterminate progress bar).
         abstract position: float with get, set
         abstract value: float with get, set
 
@@ -4398,12 +4921,18 @@ module Browser =
     and [<AllowNullLiteral>] HTMLScriptElement =
         inherit HTMLElement
         abstract async: bool with get, set
+        /// Sets or retrieves the character set used to encode the object.
         abstract charset: string with get, set
+        /// Sets or retrieves the status of the script.
         abstract defer: bool with get, set
+        /// Sets or retrieves the event for which the script is written.
         abstract ``event``: string with get, set
+        /// Sets or retrieves the object that is bound to the event script.
         abstract htmlFor: string with get, set
+        /// The address or URL of the a media resource that is to be considered.
         abstract src: string with get, set
         abstract text: string with get, set
+        /// Retrieves the type of control.
         abstract ``type``: string with get, set
 
     and [<AllowNullLiteral>] HTMLScriptElementType =
@@ -4412,28 +4941,42 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLSelectElement =
         inherit HTMLElement
+        /// Provides a way to direct a user to a specific field when a document loads. This can provide both direction and convenience for a user, reducing the need to click or tab to a field when a page opens. This attribute is true when present on an element, and false when missing.
         abstract autofocus: bool with get, set
         abstract disabled: bool with get, set
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the number of objects in a collection.
         abstract length: float with get, set
+        /// Sets or retrieves the Boolean value indicating whether multiple items can be selected from a list.
         abstract multiple: bool with get, set
         abstract name: string with get, set
         abstract options: HTMLCollection with get, set
+        /// When present, marks an element that can't be submitted without a value.
         abstract required: bool with get, set
+        /// Sets or retrieves the index of the selected option in a select object.
         abstract selectedIndex: float with get, set
         abstract size: float with get, set
         abstract ``type``: string with get, set
+        /// Returns the error message that would be displayed if the user submits the form, or an empty string if no error message. It also triggers the standard error message, such as "this is a required field". The result is that the user sees validation messages without actually submitting.
         abstract validationMessage: string with get, set
+        /// Returns a  ValidityState object that represents the validity states of an element.
         abstract validity: ValidityState with get, set
         abstract value: string with get, set
+        /// Returns whether an element will successfully validate based on forms validation rules and constraints.
         abstract willValidate: bool with get, set
         abstract selectedOptions: HTMLCollection with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: name: string -> obj with get, set
         abstract add: element: HTMLElement * ?before: U2<HTMLElement, float> -> unit
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
+        /// <param name="name">Variant of type Number or String that specifies the object or collection to retrieve. If this parameter is a Number, it is the zero-based index of the object. If this parameter is a string, all objects with matching name or id properties are retrieved, and a collection is returned if more than one match is made.</param>
+        /// <param name="index">Variant of type Number that specifies the zero-based index of the object to retrieve when a collection is returned.</param>
         abstract item: ?name: obj * ?index: obj -> obj
         abstract namedItem: name: string -> obj
+        /// <param name="index">Number that specifies the zero-based index of the element to remove from the collection.</param>
         abstract remove: ?index: float -> unit
+        /// <summary>Sets a custom error message that is displayed when a form is submitted.</summary>
+        /// <param name="error">Sets a custom error message that is displayed when a form is submitted.</param>
         abstract setCustomValidity: error: string -> unit
 
     and [<AllowNullLiteral>] HTMLSelectElementType =
@@ -4442,6 +4985,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLSourceElement =
         inherit HTMLElement
+        /// Gets or sets the intended media type of the media source.
         abstract media: string with get, set
         abstract msKeySystem: string with get, set
         abstract src: string with get, set
@@ -4462,6 +5006,7 @@ module Browser =
     and [<AllowNullLiteral>] HTMLStyleElement =
         inherit HTMLElement
         inherit LinkStyle
+        /// Sets or retrieves the media type.
         abstract media: string with get, set
         abstract ``type``: string with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
@@ -4472,7 +5017,9 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLTableCaptionElement =
         inherit HTMLElement
+        /// Sets or retrieves the alignment of the object relative to the display or table.
         abstract align: string with get, set
+        /// Sets or retrieves whether the caption appears at the top or bottom of the table.
         abstract vAlign: string with get, set
 
     and [<AllowNullLiteral>] HTMLTableCaptionElementType =
@@ -4482,17 +5029,27 @@ module Browser =
     and [<AllowNullLiteral>] HTMLTableCellElement =
         inherit HTMLElement
         inherit HTMLTableAlignment
+        /// Sets or retrieves abbreviated text for the object.
         abstract abbr: string with get, set
+        /// Sets or retrieves a value that indicates the table alignment.
         abstract align: string with get, set
+        /// Sets or retrieves a comma-delimited list of conceptual categories associated with the object.
         abstract axis: string with get, set
         abstract bgColor: obj with get, set
+        /// Retrieves the position of the object in the cells collection of a row.
         abstract cellIndex: float with get, set
+        /// Sets or retrieves the number columns in the table that the object should span.
         abstract colSpan: float with get, set
+        /// Sets or retrieves a list of header cells that provide information for the object.
         abstract headers: string with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: obj with get, set
         abstract noWrap: bool with get, set
+        /// Sets or retrieves how many rows in a table the cell should span.
         abstract rowSpan: float with get, set
+        /// Sets or retrieves the group of cells in a table to which the object's information applies.
         abstract scope: string with get, set
+        /// Gets or sets the width of the video element.
         abstract width: string with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -4503,7 +5060,9 @@ module Browser =
     and [<AllowNullLiteral>] HTMLTableColElement =
         inherit HTMLElement
         inherit HTMLTableAlignment
+        /// Sets or retrieves how the object is aligned with adjacent text.
         abstract align: string with get, set
+        /// Sets or retrieves the number of columns in the group.
         abstract span: float with get, set
         abstract width: obj with get, set
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
@@ -4522,31 +5081,55 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLTableElement =
         inherit HTMLElement
+        /// Sets or retrieves a value that indicates the table alignment.
         abstract align: string with get, set
         abstract bgColor: obj with get, set
         abstract border: string with get, set
+        /// Sets or retrieves the border color of the object.
         abstract borderColor: obj with get, set
+        /// Retrieves the caption object of a table.
         abstract caption: HTMLTableCaptionElement with get, set
+        /// Sets or retrieves the amount of space between the border of the cell and the content of the cell.
         abstract cellPadding: string with get, set
+        /// Sets or retrieves the amount of space between cells in a table.
         abstract cellSpacing: string with get, set
+        /// Sets or retrieves the number of columns in the table.
         abstract cols: float with get, set
         abstract frame: string with get, set
+        /// Sets or retrieves the height of the object.
         abstract height: obj with get, set
+        /// Sets or retrieves the number of horizontal rows contained in the object.
         abstract rows: HTMLCollection with get, set
+        /// Sets or retrieves which dividing lines (inner borders) are displayed.
         abstract rules: string with get, set
+        /// Sets or retrieves a description and/or structure of the object.
         abstract summary: string with get, set
+        /// Retrieves a collection of all tBody objects in the table. Objects in this collection are in source order.
         abstract tBodies: HTMLCollection with get, set
+        /// Retrieves the tFoot object of the table.
         abstract tFoot: HTMLTableSectionElement with get, set
+        /// Retrieves the tHead object of the table.
         abstract tHead: HTMLTableSectionElement with get, set
         abstract width: string with get, set
+        /// Creates an empty caption element in the table.
         abstract createCaption: unit -> HTMLTableCaptionElement
+        /// Creates an empty tBody element in the table.
         abstract createTBody: unit -> HTMLTableSectionElement
+        /// Creates an empty tFoot element in the table.
         abstract createTFoot: unit -> HTMLTableSectionElement
+        /// Returns the tHead element object if successful, or null otherwise.
         abstract createTHead: unit -> HTMLTableSectionElement
+        /// Deletes the caption element and its contents from the table.
         abstract deleteCaption: unit -> unit
+        /// <summary>Removes the specified row (tr) from the element and from the rows collection.</summary>
+        /// <param name="index">Number that specifies the zero-based position in the rows collection of the row to remove.</param>
         abstract deleteRow: ?index: float -> unit
+        /// Deletes the tFoot element and its contents from the table.
         abstract deleteTFoot: unit -> unit
+        /// Deletes the tHead element and its contents from the table.
         abstract deleteTHead: unit -> unit
+        /// <summary>Creates a new row (tr) in the table, and adds the row to the rows collection.</summary>
+        /// <param name="index">Number that specifies where to insert the row in the rows collection. The default value is -1, which appends the new row to the end of the rows collection.</param>
         abstract insertRow: ?index: float -> HTMLTableRowElement
 
     and [<AllowNullLiteral>] HTMLTableElementType =
@@ -4555,6 +5138,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLTableHeaderCellElement =
         inherit HTMLTableCellElement
+        /// Sets or retrieves the group of cells in a table to which the object's information applies.
         abstract scope: string with get, set
 
     and [<AllowNullLiteral>] HTMLTableHeaderCellElementType =
@@ -4566,11 +5150,19 @@ module Browser =
         inherit HTMLTableAlignment
         abstract align: string with get, set
         abstract bgColor: obj with get, set
+        /// Retrieves a collection of all cells in the table row.
         abstract cells: HTMLCollection with get, set
+        /// Gets or sets the height of the video element.
         abstract height: obj with get, set
+        /// Retrieves the position of the object in the rows collection for the table.
         abstract rowIndex: float with get, set
+        /// Retrieves the position of the object in the collection.
         abstract sectionRowIndex: float with get, set
+        /// <summary>Removes the specified cell from the table row, as well as from the cells collection.</summary>
+        /// <param name="index">Number that specifies the zero-based position of the cell to remove from the table row. If no value is provided, the last cell in the cells collection is deleted.</param>
         abstract deleteCell: ?index: float -> unit
+        /// <summary>Creates a new cell in the table row, and adds the cell to the cells collection.</summary>
+        /// <param name="index">Number that specifies where to insert the cell in the tr. The default value is -1, which appends the new cell to the end of the cells collection.</param>
         abstract insertCell: ?index: float -> HTMLTableCellElement
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -4582,8 +5174,11 @@ module Browser =
         inherit HTMLElement
         inherit HTMLTableAlignment
         abstract align: string with get, set
+        /// Sets or retrieves the number of horizontal rows contained in the object.
         abstract rows: HTMLCollection with get, set
+        /// <param name="index">Number that specifies the zero-based position in the rows collection of the row to remove.</param>
         abstract deleteRow: ?index: float -> unit
+        /// <param name="index">Number that specifies where to insert the row in the rows collection. The default value is -1, which appends the new row to the end of the rows collection.</param>
         abstract insertRow: ?index: float -> HTMLTableRowElement
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
@@ -4593,30 +5188,47 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLTextAreaElement =
         inherit HTMLElement
+        /// Provides a way to direct a user to a specific field when a document loads. This can provide both direction and convenience for a user, reducing the need to click or tab to a field when a page opens. This attribute is true when present on an element, and false when missing.
         abstract autofocus: bool with get, set
+        /// Sets or retrieves the width of the object.
         abstract cols: float with get, set
+        /// Sets or retrieves the initial contents of the object.
         abstract defaultValue: string with get, set
         abstract disabled: bool with get, set
         abstract form: HTMLFormElement with get, set
+        /// Sets or retrieves the maximum number of characters that the user can enter in a text control.
         abstract maxLength: float with get, set
         abstract name: string with get, set
+        /// Gets or sets a text string that is displayed in an input field as a hint or prompt to users as the format or type of information they need to enter.The text appears in an input field until the user puts focus on the field.
         abstract placeholder: string with get, set
         abstract readOnly: bool with get, set
+        /// When present, marks an element that can't be submitted without a value.
         abstract required: bool with get, set
+        /// Sets or retrieves the number of horizontal rows contained in the object.
         abstract rows: float with get, set
+        /// Gets or sets the end position or offset of a text selection.
         abstract selectionEnd: float with get, set
+        /// Gets or sets the starting position or offset of a text selection.
         abstract selectionStart: float with get, set
         abstract status: obj with get, set
         abstract ``type``: string with get, set
+        /// Returns the error message that would be displayed if the user submits the form, or an empty string if no error message. It also triggers the standard error message, such as "this is a required field". The result is that the user sees validation messages without actually submitting.
         abstract validationMessage: string with get, set
+        /// Returns a  ValidityState object that represents the validity states of an element.
         abstract validity: ValidityState with get, set
         abstract value: string with get, set
+        /// Returns whether an element will successfully validate based on forms validation rules and constraints.
         abstract willValidate: bool with get, set
+        /// Sets or retrieves how to handle wordwrapping in the object.
         abstract wrap: string with get, set
+        /// Returns whether a form will validate when it is submitted, without having to submit it.
         abstract checkValidity: unit -> bool
         abstract createTextRange: unit -> TextRange
         abstract select: unit -> unit
+        /// <param name="error">Sets a custom error message that is displayed when a form is submitted.</param>
         abstract setCustomValidity: error: string -> unit
+        /// <param name="start">The offset into the text field for the start of the selection.</param>
+        /// <param name="end">The offset into the text field for the end of the selection.</param>
         abstract setSelectionRange: start: float * ``end``: float -> unit
 
     and [<AllowNullLiteral>] HTMLTextAreaElementType =
@@ -4679,11 +5291,14 @@ module Browser =
         abstract msStereo3DPackingMode: string with get, set
         abstract msStereo3DRenderMode: string with get, set
         abstract msZoom: bool with get, set
-        abstract onMSVideoFormatChanged: Func<Event, obj> with get, set
-        abstract onMSVideoFrameStepCompleted: Func<Event, obj> with get, set
-        abstract onMSVideoOptimalLayoutChanged: Func<Event, obj> with get, set
+        abstract onMSVideoFormatChanged: (Event -> 'Out) with get, set
+        abstract onMSVideoFrameStepCompleted: (Event -> 'Out) with get, set
+        abstract onMSVideoOptimalLayoutChanged: (Event -> 'Out) with get, set
+        /// Gets or sets a URL of an image to display, for example, like a movie poster. This can be a still frame from the video, or another image if no video data is available.
         abstract poster: string with get, set
+        /// Gets the intrinsic height of a video in CSS pixels, or zero if the dimensions are not known.
         abstract videoHeight: float with get, set
+        /// Gets the intrinsic width of a video in CSS pixels, or zero if the dimensions are not known.
         abstract videoWidth: float with get, set
         abstract webkitDisplayingFullscreen: bool with get, set
         abstract webkitSupportsFullscreen: bool with get, set
@@ -4696,112 +5311,112 @@ module Browser =
         abstract webkitEnterFullscreen: unit -> unit
         abstract webkitExitFullScreen: unit -> unit
         abstract webkitExitFullscreen: unit -> unit
-        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: Func<MSManipulationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSVideoFormatChanged',$1...)")>] abstract addEventListener_MSVideoFormatChanged: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSVideoFrameStepCompleted',$1...)")>] abstract addEventListener_MSVideoFrameStepCompleted: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSVideoOptimalLayoutChanged',$1...)")>] abstract addEventListener_MSVideoOptimalLayoutChanged: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('msneedkey',$1...)")>] abstract addEventListener_msneedkey: listener: Func<MSMediaKeyNeededEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSContentZoom',$1...)")>] abstract addEventListener_MSContentZoom: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSManipulationStateChanged',$1...)")>] abstract addEventListener_MSManipulationStateChanged: listener: (MSManipulationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSVideoFormatChanged',$1...)")>] abstract addEventListener_MSVideoFormatChanged: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSVideoFrameStepCompleted',$1...)")>] abstract addEventListener_MSVideoFrameStepCompleted: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSVideoOptimalLayoutChanged',$1...)")>] abstract addEventListener_MSVideoOptimalLayoutChanged: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeactivate',$1...)")>] abstract addEventListener_beforeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecopy',$1...)")>] abstract addEventListener_beforecopy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforecut',$1...)")>] abstract addEventListener_beforecut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforedeactivate',$1...)")>] abstract addEventListener_beforedeactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforepaste',$1...)")>] abstract addEventListener_beforepaste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('copy',$1...)")>] abstract addEventListener_copy: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cut',$1...)")>] abstract addEventListener_cut: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deactivate',$1...)")>] abstract addEventListener_deactivate: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('msneedkey',$1...)")>] abstract addEventListener_msneedkey: listener: (MSMediaKeyNeededEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('paste',$1...)")>] abstract addEventListener_paste: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('selectstart',$1...)")>] abstract addEventListener_selectstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLVideoElementType =
@@ -4864,15 +5479,15 @@ module Browser =
         inherit EventTarget
         abstract name: string with get, set
         abstract objectStoreNames: DOMStringList with get, set
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
         abstract version: float with get, set
         abstract close: unit -> unit
         abstract createObjectStore: name: string * ?optionalParameters: IDBObjectStoreParameters -> IDBObjectStore
         abstract deleteObjectStore: name: string -> unit
         abstract transaction: storeNames: U2<string, ResizeArray<string>> * ?mode: string -> IDBTransaction
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] IDBDatabaseType =
@@ -4941,12 +5556,12 @@ module Browser =
 
     and [<AllowNullLiteral>] IDBOpenDBRequest =
         inherit IDBRequest
-        abstract onblocked: Func<Event, obj> with get, set
-        abstract onupgradeneeded: Func<IDBVersionChangeEvent, obj> with get, set
-        [<Emit("$0.addEventListener('blocked',$1...)")>] abstract addEventListener_blocked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('success',$1...)")>] abstract addEventListener_success: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('upgradeneeded',$1...)")>] abstract addEventListener_upgradeneeded: listener: Func<IDBVersionChangeEvent, obj> * ?useCapture: bool -> unit
+        abstract onblocked: (Event -> 'Out) with get, set
+        abstract onupgradeneeded: (IDBVersionChangeEvent -> 'Out) with get, set
+        [<Emit("$0.addEventListener('blocked',$1...)")>] abstract addEventListener_blocked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('success',$1...)")>] abstract addEventListener_success: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('upgradeneeded',$1...)")>] abstract addEventListener_upgradeneeded: listener: (IDBVersionChangeEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] IDBOpenDBRequestType =
@@ -4956,14 +5571,14 @@ module Browser =
     and [<AllowNullLiteral>] IDBRequest =
         inherit EventTarget
         abstract error: DOMError with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onsuccess: Func<Event, obj> with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onsuccess: (Event -> 'Out) with get, set
         abstract readyState: string with get, set
         abstract result: obj with get, set
         abstract source: U3<IDBObjectStore, IDBIndex, IDBCursor> with get, set
         abstract transaction: IDBTransaction with get, set
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('success',$1...)")>] abstract addEventListener_success: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('success',$1...)")>] abstract addEventListener_success: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] IDBRequestType =
@@ -4975,17 +5590,17 @@ module Browser =
         abstract db: IDBDatabase with get, set
         abstract error: DOMError with get, set
         abstract mode: string with get, set
-        abstract onabort: Func<Event, obj> with get, set
-        abstract oncomplete: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract oncomplete: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
         abstract READ_ONLY: string with get, set
         abstract READ_WRITE: string with get, set
         abstract VERSION_CHANGE: string with get, set
         abstract abort: unit -> unit
         abstract objectStore: name: string -> IDBObjectStore
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] IDBTransactionType =
@@ -5101,16 +5716,16 @@ module Browser =
     and [<AllowNullLiteral>] MSAppAsyncOperation =
         inherit EventTarget
         abstract error: DOMError with get, set
-        abstract oncomplete: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
+        abstract oncomplete: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
         abstract readyState: float with get, set
         abstract result: obj with get, set
         abstract COMPLETED: float with get, set
         abstract ERROR: float with get, set
         abstract STARTED: float with get, set
         abstract start: unit -> unit
-        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] MSAppAsyncOperationType =
@@ -5252,17 +5867,17 @@ module Browser =
         inherit EventTarget
         abstract compositionEndOffset: float with get, set
         abstract compositionStartOffset: float with get, set
-        abstract oncandidatewindowhide: Func<Event, obj> with get, set
-        abstract oncandidatewindowshow: Func<Event, obj> with get, set
-        abstract oncandidatewindowupdate: Func<Event, obj> with get, set
+        abstract oncandidatewindowhide: (Event -> 'Out) with get, set
+        abstract oncandidatewindowshow: (Event -> 'Out) with get, set
+        abstract oncandidatewindowupdate: (Event -> 'Out) with get, set
         abstract target: HTMLElement with get, set
         abstract getCandidateWindowClientRect: unit -> ClientRect
         abstract getCompositionAlternatives: unit -> ResizeArray<string>
         abstract hasComposition: unit -> bool
         abstract isCandidateWindowVisible: unit -> bool
-        [<Emit("$0.addEventListener('MSCandidateWindowHide',$1...)")>] abstract addEventListener_MSCandidateWindowHide: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSCandidateWindowShow',$1...)")>] abstract addEventListener_MSCandidateWindowShow: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSCandidateWindowUpdate',$1...)")>] abstract addEventListener_MSCandidateWindowUpdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSCandidateWindowHide',$1...)")>] abstract addEventListener_MSCandidateWindowHide: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSCandidateWindowShow',$1...)")>] abstract addEventListener_MSCandidateWindowShow: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSCandidateWindowUpdate',$1...)")>] abstract addEventListener_MSCandidateWindowUpdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] MSInputMethodContextType =
@@ -5437,8 +6052,8 @@ module Browser =
     and [<AllowNullLiteral>] MSWebViewAsyncOperation =
         inherit EventTarget
         abstract error: DOMError with get, set
-        abstract oncomplete: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
+        abstract oncomplete: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
         abstract readyState: float with get, set
         abstract result: obj with get, set
         abstract target: MSHTMLWebViewElement with get, set
@@ -5450,8 +6065,8 @@ module Browser =
         abstract TYPE_CREATE_DATA_PACKAGE_FROM_SELECTION: float with get, set
         abstract TYPE_INVOKE_SCRIPT: float with get, set
         abstract start: unit -> unit
-        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] MSWebViewAsyncOperationType =
@@ -5558,11 +6173,11 @@ module Browser =
 
     and [<AllowNullLiteral>] MessagePort =
         inherit EventTarget
-        abstract onmessage: Func<MessageEvent, obj> with get, set
+        abstract onmessage: (MessageEvent -> 'Out) with get, set
         abstract close: unit -> unit
         abstract postMessage: ?message: obj * ?ports: obj -> unit
         abstract start: unit -> unit
-        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: Func<MessageEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: (MessageEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] MessagePortType =
@@ -5908,9 +6523,9 @@ module Browser =
 
     and [<AllowNullLiteral>] OfflineAudioContext =
         inherit AudioContext
-        abstract oncomplete: Func<Event, obj> with get, set
+        abstract oncomplete: (Event -> 'Out) with get, set
         abstract startRendering: unit -> unit
-        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] OfflineAudioContextType =
@@ -5921,12 +6536,12 @@ module Browser =
         inherit AudioNode
         abstract detune: AudioParam with get, set
         abstract frequency: AudioParam with get, set
-        abstract onended: Func<Event, obj> with get, set
+        abstract onended: (Event -> 'Out) with get, set
         abstract ``type``: string with get, set
         abstract setPeriodicWave: periodicWave: PeriodicWave -> unit
         abstract start: ?``when``: float -> unit
         abstract stop: ?``when``: float -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] OscillatorNodeType =
@@ -6505,66 +7120,66 @@ module Browser =
     and [<AllowNullLiteral>] SVGElement =
         inherit Element
         abstract id: string with get, set
-        abstract onclick: Func<MouseEvent, obj> with get, set
-        abstract ondblclick: Func<MouseEvent, obj> with get, set
-        abstract onfocusin: Func<FocusEvent, obj> with get, set
-        abstract onfocusout: Func<FocusEvent, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onmousedown: Func<MouseEvent, obj> with get, set
-        abstract onmousemove: Func<MouseEvent, obj> with get, set
-        abstract onmouseout: Func<MouseEvent, obj> with get, set
-        abstract onmouseover: Func<MouseEvent, obj> with get, set
-        abstract onmouseup: Func<MouseEvent, obj> with get, set
+        abstract onclick: (MouseEvent -> 'Out) with get, set
+        abstract ondblclick: (MouseEvent -> 'Out) with get, set
+        abstract onfocusin: (FocusEvent -> 'Out) with get, set
+        abstract onfocusout: (FocusEvent -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onmousedown: (MouseEvent -> 'Out) with get, set
+        abstract onmousemove: (MouseEvent -> 'Out) with get, set
+        abstract onmouseout: (MouseEvent -> 'Out) with get, set
+        abstract onmouseover: (MouseEvent -> 'Out) with get, set
+        abstract onmouseup: (MouseEvent -> 'Out) with get, set
         abstract ownerSVGElement: SVGSVGElement with get, set
         abstract viewportElement: SVGElement with get, set
         abstract xmlbase: string with get, set
         abstract className: obj with get, set
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focusin',$1...)")>] abstract addEventListener_focusin: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focusout',$1...)")>] abstract addEventListener_focusout: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focusin',$1...)")>] abstract addEventListener_focusin: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focusout',$1...)")>] abstract addEventListener_focusout: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] SVGElementType =
@@ -7716,12 +8331,12 @@ module Browser =
         abstract currentScale: float with get, set
         abstract currentTranslate: SVGPoint with get, set
         abstract height: SVGAnimatedLength with get, set
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onresize: Func<UIEvent, obj> with get, set
-        abstract onscroll: Func<UIEvent, obj> with get, set
-        abstract onunload: Func<Event, obj> with get, set
-        abstract onzoom: Func<SVGZoomEvent, obj> with get, set
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onresize: (UIEvent -> 'Out) with get, set
+        abstract onscroll: (UIEvent -> 'Out) with get, set
+        abstract onunload: (Event -> 'Out) with get, set
+        abstract onzoom: (SVGZoomEvent -> 'Out) with get, set
         abstract pixelUnitToMillimeterX: float with get, set
         abstract pixelUnitToMillimeterY: float with get, set
         abstract screenPixelToMillimeterX: float with get, set
@@ -7753,58 +8368,58 @@ module Browser =
         abstract unpauseAnimations: unit -> unit
         abstract unsuspendRedraw: suspendHandleID: float -> unit
         abstract unsuspendRedrawAll: unit -> unit
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('SVGAbort',$1...)")>] abstract addEventListener_SVGAbort: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('SVGError',$1...)")>] abstract addEventListener_SVGError: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('SVGUnload',$1...)")>] abstract addEventListener_SVGUnload: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('SVGZoom',$1...)")>] abstract addEventListener_SVGZoom: listener: Func<SVGZoomEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: Func<AriaRequestEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: Func<CommandEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focusin',$1...)")>] abstract addEventListener_focusin: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focusout',$1...)")>] abstract addEventListener_focusout: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: Func<TouchEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGotPointerCapture',$1...)")>] abstract addEventListener_MSGotPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSLostPointerCapture',$1...)")>] abstract addEventListener_MSLostPointerCapture: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('SVGAbort',$1...)")>] abstract addEventListener_SVGAbort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('SVGError',$1...)")>] abstract addEventListener_SVGError: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('SVGUnload',$1...)")>] abstract addEventListener_SVGUnload: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('SVGZoom',$1...)")>] abstract addEventListener_SVGZoom: listener: (SVGZoomEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ariarequest',$1...)")>] abstract addEventListener_ariarequest: listener: (AriaRequestEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('command',$1...)")>] abstract addEventListener_command: listener: (CommandEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focusin',$1...)")>] abstract addEventListener_focusin: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focusout',$1...)")>] abstract addEventListener_focusout: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('gotpointercapture',$1...)")>] abstract addEventListener_gotpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('lostpointercapture',$1...)")>] abstract addEventListener_lostpointercapture: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchcancel',$1...)")>] abstract addEventListener_touchcancel: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchend',$1...)")>] abstract addEventListener_touchend: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchmove',$1...)")>] abstract addEventListener_touchmove: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('touchstart',$1...)")>] abstract addEventListener_touchstart: listener: (TouchEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenchange',$1...)")>] abstract addEventListener_webkitfullscreenchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('webkitfullscreenerror',$1...)")>] abstract addEventListener_webkitfullscreenerror: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] SVGSVGElementType =
@@ -8090,14 +8705,14 @@ module Browser =
         abstract logicalXDPI: float with get, set
         abstract logicalYDPI: float with get, set
         abstract msOrientation: string with get, set
-        abstract onmsorientationchange: Func<Event, obj> with get, set
+        abstract onmsorientationchange: (Event -> 'Out) with get, set
         abstract pixelDepth: float with get, set
         abstract systemXDPI: float with get, set
         abstract systemYDPI: float with get, set
         abstract width: float with get, set
         abstract msLockOrientation: orientations: U2<string, ResizeArray<string>> -> bool
         abstract msUnlockOrientation: unit -> unit
-        [<Emit("$0.addEventListener('MSOrientationChange',$1...)")>] abstract addEventListener_MSOrientationChange: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSOrientationChange',$1...)")>] abstract addEventListener_MSOrientationChange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] ScreenType =
@@ -8116,8 +8731,8 @@ module Browser =
     and [<AllowNullLiteral>] ScriptProcessorNode =
         inherit AudioNode
         abstract bufferSize: float with get, set
-        abstract onaudioprocess: Func<AudioProcessingEvent, obj> with get, set
-        [<Emit("$0.addEventListener('audioprocess',$1...)")>] abstract addEventListener_audioprocess: listener: Func<AudioProcessingEvent, obj> * ?useCapture: bool -> unit
+        abstract onaudioprocess: (AudioProcessingEvent -> 'Out) with get, set
+        [<Emit("$0.addEventListener('audioprocess',$1...)")>] abstract addEventListener_audioprocess: listener: (AudioProcessingEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] ScriptProcessorNodeType =
@@ -8380,9 +8995,9 @@ module Browser =
         abstract label: string with get, set
         abstract language: string with get, set
         abstract mode: obj with get, set
-        abstract oncuechange: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
+        abstract oncuechange: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
         abstract readyState: float with get, set
         abstract DISABLED: float with get, set
         abstract ERROR: float with get, set
@@ -8393,9 +9008,9 @@ module Browser =
         abstract SHOWING: float with get, set
         abstract addCue: cue: TextTrackCue -> unit
         abstract removeCue: cue: TextTrackCue -> unit
-        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('cuechange',$1...)")>] abstract addEventListener_cuechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] TextTrackType =
@@ -8413,15 +9028,15 @@ module Browser =
         inherit EventTarget
         abstract endTime: float with get, set
         abstract id: string with get, set
-        abstract onenter: Func<Event, obj> with get, set
-        abstract onexit: Func<Event, obj> with get, set
+        abstract onenter: (Event -> 'Out) with get, set
+        abstract onexit: (Event -> 'Out) with get, set
         abstract pauseOnExit: bool with get, set
         abstract startTime: float with get, set
         abstract text: string with get, set
         abstract track: TextTrack with get, set
         abstract getCueAsHTML: unit -> DocumentFragment
-        [<Emit("$0.addEventListener('enter',$1...)")>] abstract addEventListener_enter: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('exit',$1...)")>] abstract addEventListener_exit: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('enter',$1...)")>] abstract addEventListener_enter: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('exit',$1...)")>] abstract addEventListener_exit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] TextTrackCueType =
@@ -8441,10 +9056,10 @@ module Browser =
     and [<AllowNullLiteral>] TextTrackList =
         inherit EventTarget
         abstract length: float with get, set
-        abstract onaddtrack: Func<TrackEvent, obj> with get, set
+        abstract onaddtrack: (TrackEvent -> 'Out) with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> TextTrack with get, set
         abstract item: index: float -> TextTrack
-        [<Emit("$0.addEventListener('addtrack',$1...)")>] abstract addEventListener_addtrack: listener: Func<TrackEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('addtrack',$1...)")>] abstract addEventListener_addtrack: listener: (TrackEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] TextTrackListType =
@@ -8544,8 +9159,41 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: ``type``: string * ?eventInitDict: UIEventInit -> UIEvent
 
     and [<AllowNullLiteral>] URL =
-        abstract createObjectURL: ``object``: obj * ?options: ObjectURLOptions -> string
-        abstract revokeObjectURL: url: string -> unit
+        abstract hash: string with get, set
+        abstract host: string with get, set
+        abstract hostname: string with get, set
+        abstract href: string with get, set
+        abstract origin: string
+        abstract password: string with get, set
+        abstract pathname: string with get, set
+        abstract port: string with get, set
+        abstract protocol: string with get, set
+        abstract search: string with get, set
+        abstract username: string with get, set
+        abstract searchParams: URLSearchParams
+        abstract toString: unit -> string
+
+    and [<AllowNullLiteral>] URLType =
+        abstract prototype: URL with get, set
+        [<Emit("new $0($1...)")>] abstract Create: url: string -> URL
+
+    and [<AllowNullLiteral>] URLSearchParams =
+        /// Appends a specified key/value pair as a new search parameter.
+        abstract append: name: string * value: string -> unit
+        /// Deletes the given search parameter, and its associated value, from the list of all search parameters.
+        abstract delete: name: string -> unit
+        /// Returns the first value associated to the given search parameter.
+        abstract get: name: string -> string option
+        /// Returns all the values association with a given search parameter.
+        abstract getAll: name: string -> ResizeArray<string>
+        /// Returns a Boolean indicating if such a search parameter exists.
+        abstract has: name: string -> bool
+        /// Sets the value associated to a given search parameter to the given value. If there were several values, delete the others.
+        abstract set: name: string * value: string -> unit
+
+    and [<AllowNullLiteral>] URLSearchParamsType =
+        abstract prototype: URLSearchParams with get, set
+        [<Emit("new $0($1...)")>] abstract Create: arg: obj -> URLSearchParams
 
     and [<AllowNullLiteral>] UnviewableContentIdentifiedEvent =
         inherit NavigationEventWithReferrer
@@ -8598,16 +9246,16 @@ module Browser =
     and [<AllowNullLiteral>] VideoTrackList =
         inherit EventTarget
         abstract length: float with get, set
-        abstract onaddtrack: Func<TrackEvent, obj> with get, set
-        abstract onchange: Func<Event, obj> with get, set
-        abstract onremovetrack: Func<TrackEvent, obj> with get, set
+        abstract onaddtrack: (TrackEvent -> 'Out) with get, set
+        abstract onchange: (Event -> 'Out) with get, set
+        abstract onremovetrack: (TrackEvent -> 'Out) with get, set
         abstract selectedIndex: float with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> VideoTrack with get, set
         abstract getTrackById: id: string -> VideoTrack
         abstract item: index: float -> VideoTrack
-        [<Emit("$0.addEventListener('addtrack',$1...)")>] abstract addEventListener_addtrack: listener: Func<TrackEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('removetrack',$1...)")>] abstract addEventListener_removetrack: listener: Func<TrackEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('addtrack',$1...)")>] abstract addEventListener_addtrack: listener: (TrackEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('removetrack',$1...)")>] abstract addEventListener_removetrack: listener: (TrackEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] VideoTrackListType =
@@ -9541,10 +10189,10 @@ module Browser =
         abstract binaryType: string with get, set
         abstract bufferedAmount: float with get, set
         abstract extensions: string with get, set
-        abstract onclose: Func<CloseEvent, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onmessage: Func<MessageEvent, obj> with get, set
-        abstract onopen: Func<Event, obj> with get, set
+        abstract onclose: (CloseEvent -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onmessage: (MessageEvent -> 'Out) with get, set
+        abstract onopen: (Event -> 'Out) with get, set
         abstract protocol: string with get, set
         abstract readyState: float with get, set
         abstract url: string with get, set
@@ -9554,10 +10202,10 @@ module Browser =
         abstract OPEN: float with get, set
         abstract close: ?code: float * ?reason: string -> unit
         abstract send: data: obj -> unit
-        [<Emit("$0.addEventListener('close',$1...)")>] abstract addEventListener_close: listener: Func<CloseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: Func<MessageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('open',$1...)")>] abstract addEventListener_open: listener: Func<Event, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('close',$1...)")>] abstract addEventListener_close: listener: (CloseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: (MessageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('open',$1...)")>] abstract addEventListener_open: listener: (Event -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] WebSocketType =
@@ -9620,95 +10268,95 @@ module Browser =
         abstract name: string with get, set
         abstract navigator: Navigator with get, set
         abstract offscreenBuffering: U2<string, bool> with get, set
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onafterprint: Func<Event, obj> with get, set
-        abstract onbeforeprint: Func<Event, obj> with get, set
-        abstract onbeforeunload: Func<BeforeUnloadEvent, obj> with get, set
-        abstract onblur: Func<FocusEvent, obj> with get, set
-        abstract oncanplay: Func<Event, obj> with get, set
-        abstract oncanplaythrough: Func<Event, obj> with get, set
-        abstract onchange: Func<Event, obj> with get, set
-        abstract onclick: Func<MouseEvent, obj> with get, set
-        abstract oncompassneedscalibration: Func<Event, obj> with get, set
-        abstract oncontextmenu: Func<PointerEvent, obj> with get, set
-        abstract ondblclick: Func<MouseEvent, obj> with get, set
-        abstract ondevicemotion: Func<DeviceMotionEvent, obj> with get, set
-        abstract ondeviceorientation: Func<DeviceOrientationEvent, obj> with get, set
-        abstract ondrag: Func<DragEvent, obj> with get, set
-        abstract ondragend: Func<DragEvent, obj> with get, set
-        abstract ondragenter: Func<DragEvent, obj> with get, set
-        abstract ondragleave: Func<DragEvent, obj> with get, set
-        abstract ondragover: Func<DragEvent, obj> with get, set
-        abstract ondragstart: Func<DragEvent, obj> with get, set
-        abstract ondrop: Func<DragEvent, obj> with get, set
-        abstract ondurationchange: Func<Event, obj> with get, set
-        abstract onemptied: Func<Event, obj> with get, set
-        abstract onended: Func<Event, obj> with get, set
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract onafterprint: (Event -> 'Out) with get, set
+        abstract onbeforeprint: (Event -> 'Out) with get, set
+        abstract onbeforeunload: (BeforeUnloadEvent -> 'Out) with get, set
+        abstract onblur: (FocusEvent -> 'Out) with get, set
+        abstract oncanplay: (Event -> 'Out) with get, set
+        abstract oncanplaythrough: (Event -> 'Out) with get, set
+        abstract onchange: (Event -> 'Out) with get, set
+        abstract onclick: (MouseEvent -> 'Out) with get, set
+        abstract oncompassneedscalibration: (Event -> 'Out) with get, set
+        abstract oncontextmenu: (PointerEvent -> 'Out) with get, set
+        abstract ondblclick: (MouseEvent -> 'Out) with get, set
+        abstract ondevicemotion: (DeviceMotionEvent -> 'Out) with get, set
+        abstract ondeviceorientation: (DeviceOrientationEvent -> 'Out) with get, set
+        abstract ondrag: (DragEvent -> 'Out) with get, set
+        abstract ondragend: (DragEvent -> 'Out) with get, set
+        abstract ondragenter: (DragEvent -> 'Out) with get, set
+        abstract ondragleave: (DragEvent -> 'Out) with get, set
+        abstract ondragover: (DragEvent -> 'Out) with get, set
+        abstract ondragstart: (DragEvent -> 'Out) with get, set
+        abstract ondrop: (DragEvent -> 'Out) with get, set
+        abstract ondurationchange: (Event -> 'Out) with get, set
+        abstract onemptied: (Event -> 'Out) with get, set
+        abstract onended: (Event -> 'Out) with get, set
         abstract onerror: ErrorEventHandler with get, set
-        abstract onfocus: Func<FocusEvent, obj> with get, set
-        abstract onhashchange: Func<HashChangeEvent, obj> with get, set
-        abstract oninput: Func<Event, obj> with get, set
-        abstract onkeydown: Func<KeyboardEvent, obj> with get, set
-        abstract onkeypress: Func<KeyboardEvent, obj> with get, set
-        abstract onkeyup: Func<KeyboardEvent, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onloadeddata: Func<Event, obj> with get, set
-        abstract onloadedmetadata: Func<Event, obj> with get, set
-        abstract onloadstart: Func<Event, obj> with get, set
-        abstract onmessage: Func<MessageEvent, obj> with get, set
-        abstract onmousedown: Func<MouseEvent, obj> with get, set
-        abstract onmouseenter: Func<MouseEvent, obj> with get, set
-        abstract onmouseleave: Func<MouseEvent, obj> with get, set
-        abstract onmousemove: Func<MouseEvent, obj> with get, set
-        abstract onmouseout: Func<MouseEvent, obj> with get, set
-        abstract onmouseover: Func<MouseEvent, obj> with get, set
-        abstract onmouseup: Func<MouseEvent, obj> with get, set
-        abstract onmousewheel: Func<MouseWheelEvent, obj> with get, set
-        abstract onmsgesturechange: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturedoubletap: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgestureend: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturehold: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturestart: Func<MSGestureEvent, obj> with get, set
-        abstract onmsgesturetap: Func<MSGestureEvent, obj> with get, set
-        abstract onmsinertiastart: Func<MSGestureEvent, obj> with get, set
-        abstract onmspointercancel: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerdown: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerenter: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerleave: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointermove: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerout: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerover: Func<MSPointerEvent, obj> with get, set
-        abstract onmspointerup: Func<MSPointerEvent, obj> with get, set
-        abstract onoffline: Func<Event, obj> with get, set
-        abstract ononline: Func<Event, obj> with get, set
-        abstract onorientationchange: Func<Event, obj> with get, set
-        abstract onpagehide: Func<PageTransitionEvent, obj> with get, set
-        abstract onpageshow: Func<PageTransitionEvent, obj> with get, set
-        abstract onpause: Func<Event, obj> with get, set
-        abstract onplay: Func<Event, obj> with get, set
-        abstract onplaying: Func<Event, obj> with get, set
-        abstract onpopstate: Func<PopStateEvent, obj> with get, set
-        abstract onprogress: Func<ProgressEvent, obj> with get, set
-        abstract onratechange: Func<Event, obj> with get, set
-        abstract onreadystatechange: Func<ProgressEvent, obj> with get, set
-        abstract onreset: Func<Event, obj> with get, set
-        abstract onresize: Func<UIEvent, obj> with get, set
-        abstract onscroll: Func<UIEvent, obj> with get, set
-        abstract onseeked: Func<Event, obj> with get, set
-        abstract onseeking: Func<Event, obj> with get, set
-        abstract onselect: Func<UIEvent, obj> with get, set
-        abstract onstalled: Func<Event, obj> with get, set
-        abstract onstorage: Func<StorageEvent, obj> with get, set
-        abstract onsubmit: Func<Event, obj> with get, set
-        abstract onsuspend: Func<Event, obj> with get, set
-        abstract ontimeupdate: Func<Event, obj> with get, set
+        abstract onfocus: (FocusEvent -> 'Out) with get, set
+        abstract onhashchange: (HashChangeEvent -> 'Out) with get, set
+        abstract oninput: (Event -> 'Out) with get, set
+        abstract onkeydown: (KeyboardEvent -> 'Out) with get, set
+        abstract onkeypress: (KeyboardEvent -> 'Out) with get, set
+        abstract onkeyup: (KeyboardEvent -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onloadeddata: (Event -> 'Out) with get, set
+        abstract onloadedmetadata: (Event -> 'Out) with get, set
+        abstract onloadstart: (Event -> 'Out) with get, set
+        abstract onmessage: (MessageEvent -> 'Out) with get, set
+        abstract onmousedown: (MouseEvent -> 'Out) with get, set
+        abstract onmouseenter: (MouseEvent -> 'Out) with get, set
+        abstract onmouseleave: (MouseEvent -> 'Out) with get, set
+        abstract onmousemove: (MouseEvent -> 'Out) with get, set
+        abstract onmouseout: (MouseEvent -> 'Out) with get, set
+        abstract onmouseover: (MouseEvent -> 'Out) with get, set
+        abstract onmouseup: (MouseEvent -> 'Out) with get, set
+        abstract onmousewheel: (MouseWheelEvent -> 'Out) with get, set
+        abstract onmsgesturechange: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturedoubletap: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgestureend: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturehold: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturestart: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsgesturetap: (MSGestureEvent -> 'Out) with get, set
+        abstract onmsinertiastart: (MSGestureEvent -> 'Out) with get, set
+        abstract onmspointercancel: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerdown: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerenter: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerleave: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointermove: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerout: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerover: (MSPointerEvent -> 'Out) with get, set
+        abstract onmspointerup: (MSPointerEvent -> 'Out) with get, set
+        abstract onoffline: (Event -> 'Out) with get, set
+        abstract ononline: (Event -> 'Out) with get, set
+        abstract onorientationchange: (Event -> 'Out) with get, set
+        abstract onpagehide: (PageTransitionEvent -> 'Out) with get, set
+        abstract onpageshow: (PageTransitionEvent -> 'Out) with get, set
+        abstract onpause: (Event -> 'Out) with get, set
+        abstract onplay: (Event -> 'Out) with get, set
+        abstract onplaying: (Event -> 'Out) with get, set
+        abstract onpopstate: (PopStateEvent -> 'Out) with get, set
+        abstract onprogress: (ProgressEvent -> 'Out) with get, set
+        abstract onratechange: (Event -> 'Out) with get, set
+        abstract onreadystatechange: (ProgressEvent -> 'Out) with get, set
+        abstract onreset: (Event -> 'Out) with get, set
+        abstract onresize: (UIEvent -> 'Out) with get, set
+        abstract onscroll: (UIEvent -> 'Out) with get, set
+        abstract onseeked: (Event -> 'Out) with get, set
+        abstract onseeking: (Event -> 'Out) with get, set
+        abstract onselect: (UIEvent -> 'Out) with get, set
+        abstract onstalled: (Event -> 'Out) with get, set
+        abstract onstorage: (StorageEvent -> 'Out) with get, set
+        abstract onsubmit: (Event -> 'Out) with get, set
+        abstract onsuspend: (Event -> 'Out) with get, set
+        abstract ontimeupdate: (Event -> 'Out) with get, set
         abstract ontouchcancel: obj with get, set
         abstract ontouchend: obj with get, set
         abstract ontouchmove: obj with get, set
         abstract ontouchstart: obj with get, set
-        abstract onunload: Func<Event, obj> with get, set
-        abstract onvolumechange: Func<Event, obj> with get, set
-        abstract onwaiting: Func<Event, obj> with get, set
+        abstract onunload: (Event -> 'Out) with get, set
+        abstract onvolumechange: (Event -> 'Out) with get, set
+        abstract onwaiting: (Event -> 'Out) with get, set
         abstract opener: Window with get, set
         abstract orientation: U2<string, float> with get, set
         abstract outerHeight: float with get, set
@@ -9733,7 +10381,6 @@ module Browser =
         abstract toolbar: BarProp with get, set
         abstract top: Window with get, set
         abstract window: Window with get, set
-        abstract URL: URL with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> Window with get, set
         abstract alert: ?message: obj -> unit
         abstract blur: unit -> unit
@@ -9765,99 +10412,99 @@ module Browser =
         abstract scrollTo: ?x: float * ?y: float -> unit
         abstract webkitConvertPointFromNodeToPage: node: Node * pt: WebKitPoint -> WebKitPoint
         abstract webkitConvertPointFromPageToNode: node: Node * pt: WebKitPoint -> WebKitPoint
-        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: Func<MSGestureEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: Func<MSPointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('afterprint',$1...)")>] abstract addEventListener_afterprint: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeprint',$1...)")>] abstract addEventListener_beforeprint: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('beforeunload',$1...)")>] abstract addEventListener_beforeunload: listener: Func<BeforeUnloadEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('compassneedscalibration',$1...)")>] abstract addEventListener_compassneedscalibration: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('devicemotion',$1...)")>] abstract addEventListener_devicemotion: listener: Func<DeviceMotionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('deviceorientation',$1...)")>] abstract addEventListener_deviceorientation: listener: Func<DeviceOrientationEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: Func<DragEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: Func<FocusEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('hashchange',$1...)")>] abstract addEventListener_hashchange: listener: Func<HashChangeEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: Func<KeyboardEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: Func<MessageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: Func<MouseEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: Func<MouseWheelEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('offline',$1...)")>] abstract addEventListener_offline: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('online',$1...)")>] abstract addEventListener_online: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('orientationchange',$1...)")>] abstract addEventListener_orientationchange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pagehide',$1...)")>] abstract addEventListener_pagehide: listener: Func<PageTransitionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pageshow',$1...)")>] abstract addEventListener_pageshow: listener: Func<PageTransitionEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('popstate',$1...)")>] abstract addEventListener_popstate: listener: Func<PopStateEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('readystatechange',$1...)")>] abstract addEventListener_readystatechange: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: Func<UIEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('storage',$1...)")>] abstract addEventListener_storage: listener: Func<StorageEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('unload',$1...)")>] abstract addEventListener_unload: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureChange',$1...)")>] abstract addEventListener_MSGestureChange: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureDoubleTap',$1...)")>] abstract addEventListener_MSGestureDoubleTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureEnd',$1...)")>] abstract addEventListener_MSGestureEnd: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureHold',$1...)")>] abstract addEventListener_MSGestureHold: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureStart',$1...)")>] abstract addEventListener_MSGestureStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSGestureTap',$1...)")>] abstract addEventListener_MSGestureTap: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSInertiaStart',$1...)")>] abstract addEventListener_MSInertiaStart: listener: (MSGestureEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerCancel',$1...)")>] abstract addEventListener_MSPointerCancel: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerDown',$1...)")>] abstract addEventListener_MSPointerDown: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerEnter',$1...)")>] abstract addEventListener_MSPointerEnter: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerLeave',$1...)")>] abstract addEventListener_MSPointerLeave: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerMove',$1...)")>] abstract addEventListener_MSPointerMove: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOut',$1...)")>] abstract addEventListener_MSPointerOut: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerOver',$1...)")>] abstract addEventListener_MSPointerOver: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('MSPointerUp',$1...)")>] abstract addEventListener_MSPointerUp: listener: (MSPointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('afterprint',$1...)")>] abstract addEventListener_afterprint: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeprint',$1...)")>] abstract addEventListener_beforeprint: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('beforeunload',$1...)")>] abstract addEventListener_beforeunload: listener: (BeforeUnloadEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('blur',$1...)")>] abstract addEventListener_blur: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplay',$1...)")>] abstract addEventListener_canplay: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('canplaythrough',$1...)")>] abstract addEventListener_canplaythrough: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('change',$1...)")>] abstract addEventListener_change: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('click',$1...)")>] abstract addEventListener_click: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('compassneedscalibration',$1...)")>] abstract addEventListener_compassneedscalibration: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('contextmenu',$1...)")>] abstract addEventListener_contextmenu: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dblclick',$1...)")>] abstract addEventListener_dblclick: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('devicemotion',$1...)")>] abstract addEventListener_devicemotion: listener: (DeviceMotionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('deviceorientation',$1...)")>] abstract addEventListener_deviceorientation: listener: (DeviceOrientationEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drag',$1...)")>] abstract addEventListener_drag: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragend',$1...)")>] abstract addEventListener_dragend: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragenter',$1...)")>] abstract addEventListener_dragenter: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragleave',$1...)")>] abstract addEventListener_dragleave: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragover',$1...)")>] abstract addEventListener_dragover: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('dragstart',$1...)")>] abstract addEventListener_dragstart: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('drop',$1...)")>] abstract addEventListener_drop: listener: (DragEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('durationchange',$1...)")>] abstract addEventListener_durationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('emptied',$1...)")>] abstract addEventListener_emptied: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('focus',$1...)")>] abstract addEventListener_focus: listener: (FocusEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('hashchange',$1...)")>] abstract addEventListener_hashchange: listener: (HashChangeEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('input',$1...)")>] abstract addEventListener_input: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keydown',$1...)")>] abstract addEventListener_keydown: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keypress',$1...)")>] abstract addEventListener_keypress: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('keyup',$1...)")>] abstract addEventListener_keyup: listener: (KeyboardEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadeddata',$1...)")>] abstract addEventListener_loadeddata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadedmetadata',$1...)")>] abstract addEventListener_loadedmetadata: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: (MessageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousedown',$1...)")>] abstract addEventListener_mousedown: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseenter',$1...)")>] abstract addEventListener_mouseenter: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseleave',$1...)")>] abstract addEventListener_mouseleave: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousemove',$1...)")>] abstract addEventListener_mousemove: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseout',$1...)")>] abstract addEventListener_mouseout: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseover',$1...)")>] abstract addEventListener_mouseover: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mouseup',$1...)")>] abstract addEventListener_mouseup: listener: (MouseEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('mousewheel',$1...)")>] abstract addEventListener_mousewheel: listener: (MouseWheelEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('offline',$1...)")>] abstract addEventListener_offline: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('online',$1...)")>] abstract addEventListener_online: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('orientationchange',$1...)")>] abstract addEventListener_orientationchange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pagehide',$1...)")>] abstract addEventListener_pagehide: listener: (PageTransitionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pageshow',$1...)")>] abstract addEventListener_pageshow: listener: (PageTransitionEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pause',$1...)")>] abstract addEventListener_pause: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('play',$1...)")>] abstract addEventListener_play: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('playing',$1...)")>] abstract addEventListener_playing: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('popstate',$1...)")>] abstract addEventListener_popstate: listener: (PopStateEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('ratechange',$1...)")>] abstract addEventListener_ratechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('readystatechange',$1...)")>] abstract addEventListener_readystatechange: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('reset',$1...)")>] abstract addEventListener_reset: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('resize',$1...)")>] abstract addEventListener_resize: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('scroll',$1...)")>] abstract addEventListener_scroll: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeked',$1...)")>] abstract addEventListener_seeked: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('seeking',$1...)")>] abstract addEventListener_seeking: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('select',$1...)")>] abstract addEventListener_select: listener: (UIEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('stalled',$1...)")>] abstract addEventListener_stalled: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('storage',$1...)")>] abstract addEventListener_storage: listener: (StorageEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('submit',$1...)")>] abstract addEventListener_submit: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('suspend',$1...)")>] abstract addEventListener_suspend: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeupdate',$1...)")>] abstract addEventListener_timeupdate: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('unload',$1...)")>] abstract addEventListener_unload: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('volumechange',$1...)")>] abstract addEventListener_volumechange: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('waiting',$1...)")>] abstract addEventListener_waiting: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] WindowType =
@@ -9867,11 +10514,11 @@ module Browser =
     and [<AllowNullLiteral>] Worker =
         inherit EventTarget
         inherit AbstractWorker
-        abstract onmessage: Func<MessageEvent, obj> with get, set
+        abstract onmessage: (MessageEvent -> 'Out) with get, set
         abstract postMessage: message: obj * ?ports: obj -> unit
         abstract terminate: unit -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: Func<MessageEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('message',$1...)")>] abstract addEventListener_message: listener: (MessageEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] WorkerType =
@@ -9890,7 +10537,7 @@ module Browser =
         inherit EventTarget
         inherit XMLHttpRequestEventTarget
         abstract msCaching: string with get, set
-        abstract onreadystatechange: Func<ProgressEvent, obj> with get, set
+        abstract onreadystatechange: (ProgressEvent -> 'Out) with get, set
         abstract readyState: float with get, set
         abstract response: obj with get, set
         abstract responseBody: obj with get, set
@@ -9917,14 +10564,14 @@ module Browser =
         abstract send: ?data: string -> unit
         abstract send: ?data: obj -> unit
         abstract setRequestHeader: header: string * value: string -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadend',$1...)")>] abstract addEventListener_loadend: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('readystatechange',$1...)")>] abstract addEventListener_readystatechange: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeout',$1...)")>] abstract addEventListener_timeout: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadend',$1...)")>] abstract addEventListener_loadend: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('readystatechange',$1...)")>] abstract addEventListener_readystatechange: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeout',$1...)")>] abstract addEventListener_timeout: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] XMLHttpRequestType =
@@ -10026,8 +10673,8 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> XSLTProcessor
 
     and [<AllowNullLiteral>] AbstractWorker =
-        abstract onerror: Func<Event, obj> with get, set
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
+        abstract onerror: (Event -> 'Out) with get, set
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] ChildNode =
@@ -10108,29 +10755,32 @@ module Browser =
         abstract getSVGDocument: unit -> Document
 
     and [<AllowNullLiteral>] GlobalEventHandlers =
-        abstract onpointercancel: Func<PointerEvent, obj> with get, set
-        abstract onpointerdown: Func<PointerEvent, obj> with get, set
-        abstract onpointerenter: Func<PointerEvent, obj> with get, set
-        abstract onpointerleave: Func<PointerEvent, obj> with get, set
-        abstract onpointermove: Func<PointerEvent, obj> with get, set
-        abstract onpointerout: Func<PointerEvent, obj> with get, set
-        abstract onpointerover: Func<PointerEvent, obj> with get, set
-        abstract onpointerup: Func<PointerEvent, obj> with get, set
-        abstract onwheel: Func<WheelEvent, obj> with get, set
-        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: Func<PointerEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: Func<WheelEvent, obj> * ?useCapture: bool -> unit
+        abstract onpointercancel: (PointerEvent -> 'Out) with get, set
+        abstract onpointerdown: (PointerEvent -> 'Out) with get, set
+        abstract onpointerenter: (PointerEvent -> 'Out) with get, set
+        abstract onpointerleave: (PointerEvent -> 'Out) with get, set
+        abstract onpointermove: (PointerEvent -> 'Out) with get, set
+        abstract onpointerout: (PointerEvent -> 'Out) with get, set
+        abstract onpointerover: (PointerEvent -> 'Out) with get, set
+        abstract onpointerup: (PointerEvent -> 'Out) with get, set
+        abstract onwheel: (WheelEvent -> 'Out) with get, set
+        [<Emit("$0.addEventListener('pointercancel',$1...)")>] abstract addEventListener_pointercancel: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerdown',$1...)")>] abstract addEventListener_pointerdown: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerenter',$1...)")>] abstract addEventListener_pointerenter: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerleave',$1...)")>] abstract addEventListener_pointerleave: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointermove',$1...)")>] abstract addEventListener_pointermove: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerout',$1...)")>] abstract addEventListener_pointerout: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerover',$1...)")>] abstract addEventListener_pointerover: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('pointerup',$1...)")>] abstract addEventListener_pointerup: listener: (PointerEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] HTMLTableAlignment =
+        /// Sets or retrieves a value that you can use to implement your own ch functionality for the object.
         abstract ch: string with get, set
+        /// Sets or retrieves a value that you can use to implement your own chOff functionality for the object.
         abstract chOff: string with get, set
+        /// Sets or retrieves how text and other content are vertically aligned within the object that contains them.
         abstract vAlign: string with get, set
 
     and [<AllowNullLiteral>] IDBEnvironment =
@@ -10141,24 +10791,24 @@ module Browser =
         abstract sheet: StyleSheet with get, set
 
     and [<AllowNullLiteral>] MSBaseReader =
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onloadend: Func<ProgressEvent, obj> with get, set
-        abstract onloadstart: Func<Event, obj> with get, set
-        abstract onprogress: Func<ProgressEvent, obj> with get, set
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onloadend: (ProgressEvent -> 'Out) with get, set
+        abstract onloadstart: (Event -> 'Out) with get, set
+        abstract onprogress: (ProgressEvent -> 'Out) with get, set
         abstract readyState: float with get, set
         abstract result: obj with get, set
         abstract DONE: float with get, set
         abstract EMPTY: float with get, set
         abstract LOADING: float with get, set
         abstract abort: unit -> unit
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadend',$1...)")>] abstract addEventListener_loadend: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadend',$1...)")>] abstract addEventListener_loadend: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] MSFileSaver =
@@ -10280,20 +10930,20 @@ module Browser =
         abstract setImmediate: expression: obj * [<ParamArray>] args: obj[] -> float
 
     and [<AllowNullLiteral>] XMLHttpRequestEventTarget =
-        abstract onabort: Func<Event, obj> with get, set
-        abstract onerror: Func<Event, obj> with get, set
-        abstract onload: Func<Event, obj> with get, set
-        abstract onloadend: Func<ProgressEvent, obj> with get, set
-        abstract onloadstart: Func<Event, obj> with get, set
-        abstract onprogress: Func<ProgressEvent, obj> with get, set
-        abstract ontimeout: Func<ProgressEvent, obj> with get, set
-        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: Func<ErrorEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadend',$1...)")>] abstract addEventListener_loadend: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: Func<Event, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
-        [<Emit("$0.addEventListener('timeout',$1...)")>] abstract addEventListener_timeout: listener: Func<ProgressEvent, obj> * ?useCapture: bool -> unit
+        abstract onabort: (Event -> 'Out) with get, set
+        abstract onerror: (Event -> 'Out) with get, set
+        abstract onload: (Event -> 'Out) with get, set
+        abstract onloadend: (ProgressEvent -> 'Out) with get, set
+        abstract onloadstart: (Event -> 'Out) with get, set
+        abstract onprogress: (ProgressEvent -> 'Out) with get, set
+        abstract ontimeout: (ProgressEvent -> 'Out) with get, set
+        [<Emit("$0.addEventListener('abort',$1...)")>] abstract addEventListener_abort: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('error',$1...)")>] abstract addEventListener_error: listener: (ErrorEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('load',$1...)")>] abstract addEventListener_load: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadend',$1...)")>] abstract addEventListener_loadend: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('loadstart',$1...)")>] abstract addEventListener_loadstart: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('progress',$1...)")>] abstract addEventListener_progress: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
+        [<Emit("$0.addEventListener('timeout',$1...)")>] abstract addEventListener_timeout: listener: (ProgressEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] StorageEventInit =
@@ -10362,30 +11012,28 @@ module Browser =
     and EventListenerOrEventListenerObject =
         U2<EventListener, EventListenerObject>
 
-    and ErrorEventHandler = Func<string, string, float, float, Error, unit>
+    and ErrorEventHandler = (string -> string -> float -> float -> Error -> unit)
 
-    and PositionCallback = Func<Position, unit>
+    and PositionCallback = (Position -> unit)
 
-    and PositionErrorCallback = Func<PositionError, unit>
+    and PositionErrorCallback = (PositionError -> unit)
 
-    and MediaQueryListListener = Func<MediaQueryList, unit>
+    and MediaQueryListListener = (MediaQueryList -> unit)
 
-    and MSLaunchUriCallback = Func<unit, unit>
+    and MSLaunchUriCallback = (unit -> unit)
 
-    and FrameRequestCallback = Func<float, unit>
-
-    and MSUnsafeFunctionCallback = Func<unit, obj>
+    and FrameRequestCallback = (float -> unit)
 
     and MSExecAtPriorityFunctionCallback =
         [<Emit("$0($1...)")>] abstract Invoke: [<ParamArray>] args: obj[] -> obj
 
-    and MutationCallback = Func<ResizeArray<MutationRecord>, MutationObserver, unit>
+    and MutationCallback = (ResizeArray<MutationRecord> -> MutationObserver -> unit)
 
-    and DecodeSuccessCallback = Func<AudioBuffer, unit>
+    and DecodeSuccessCallback = (AudioBuffer -> unit)
 
-    and DecodeErrorCallback = Func<DOMException, unit>
+    and DecodeErrorCallback = (DOMException -> unit)
 
-    and FunctionStringCallback = Func<string, unit>
+    and FunctionStringCallback = (string -> unit)
 
     and AudioType =
         [<Emit("new $0($1...)")>] abstract Create: ?src: string -> HTMLAudioElement
@@ -10872,95 +11520,95 @@ module Browser =
     let [<Global>] name: string = jsNative
     let [<Global>] navigator: Navigator = jsNative
     let [<Global>] offscreenBuffering: U2<string, bool> = jsNative
-    let [<Global>] mutable onabort: Func<Event, obj> = jsNative
-    let [<Global>] mutable onafterprint: Func<Event, obj> = jsNative
-    let [<Global>] mutable onbeforeprint: Func<Event, obj> = jsNative
-    let [<Global>] mutable onbeforeunload: Func<BeforeUnloadEvent, obj> = jsNative
-    let [<Global>] mutable onblur: Func<FocusEvent, obj> = jsNative
-    let [<Global>] mutable oncanplay: Func<Event, obj> = jsNative
-    let [<Global>] mutable oncanplaythrough: Func<Event, obj> = jsNative
-    let [<Global>] mutable onchange: Func<Event, obj> = jsNative
-    let [<Global>] mutable onclick: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable oncompassneedscalibration: Func<Event, obj> = jsNative
-    let [<Global>] mutable oncontextmenu: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable ondblclick: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable ondevicemotion: Func<DeviceMotionEvent, obj> = jsNative
-    let [<Global>] mutable ondeviceorientation: Func<DeviceOrientationEvent, obj> = jsNative
-    let [<Global>] mutable ondrag: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondragend: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondragenter: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondragleave: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondragover: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondragstart: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondrop: Func<DragEvent, obj> = jsNative
-    let [<Global>] mutable ondurationchange: Func<Event, obj> = jsNative
-    let [<Global>] mutable onemptied: Func<Event, obj> = jsNative
-    let [<Global>] mutable onended: Func<Event, obj> = jsNative
+    let [<Global>] mutable onabort: (Event -> obj) = jsNative
+    let [<Global>] mutable onafterprint: (Event -> obj) = jsNative
+    let [<Global>] mutable onbeforeprint: (Event -> obj) = jsNative
+    let [<Global>] mutable onbeforeunload: (BeforeUnloadEvent -> obj) = jsNative
+    let [<Global>] mutable onblur: (FocusEvent -> obj) = jsNative
+    let [<Global>] mutable oncanplay: (Event -> obj) = jsNative
+    let [<Global>] mutable oncanplaythrough: (Event -> obj) = jsNative
+    let [<Global>] mutable onchange: (Event -> obj) = jsNative
+    let [<Global>] mutable onclick: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable oncompassneedscalibration: (Event -> obj) = jsNative
+    let [<Global>] mutable oncontextmenu: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable ondblclick: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable ondevicemotion: (DeviceMotionEvent -> obj) = jsNative
+    let [<Global>] mutable ondeviceorientation: (DeviceOrientationEvent -> obj) = jsNative
+    let [<Global>] mutable ondrag: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondragend: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondragenter: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondragleave: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondragover: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondragstart: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondrop: (DragEvent -> obj) = jsNative
+    let [<Global>] mutable ondurationchange: (Event -> obj) = jsNative
+    let [<Global>] mutable onemptied: (Event -> obj) = jsNative
+    let [<Global>] mutable onended: (Event -> obj) = jsNative
     let [<Global>] mutable onerror: ErrorEventHandler = jsNative
-    let [<Global>] mutable onfocus: Func<FocusEvent, obj> = jsNative
-    let [<Global>] mutable onhashchange: Func<HashChangeEvent, obj> = jsNative
-    let [<Global>] mutable oninput: Func<Event, obj> = jsNative
-    let [<Global>] mutable onkeydown: Func<KeyboardEvent, obj> = jsNative
-    let [<Global>] mutable onkeypress: Func<KeyboardEvent, obj> = jsNative
-    let [<Global>] mutable onkeyup: Func<KeyboardEvent, obj> = jsNative
-    let [<Global>] mutable onload: Func<Event, obj> = jsNative
-    let [<Global>] mutable onloadeddata: Func<Event, obj> = jsNative
-    let [<Global>] mutable onloadedmetadata: Func<Event, obj> = jsNative
-    let [<Global>] mutable onloadstart: Func<Event, obj> = jsNative
-    let [<Global>] mutable onmessage: Func<MessageEvent, obj> = jsNative
-    let [<Global>] mutable onmousedown: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmouseenter: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmouseleave: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmousemove: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmouseout: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmouseover: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmouseup: Func<MouseEvent, obj> = jsNative
-    let [<Global>] mutable onmousewheel: Func<MouseWheelEvent, obj> = jsNative
-    let [<Global>] mutable onmsgesturechange: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmsgesturedoubletap: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmsgestureend: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmsgesturehold: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmsgesturestart: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmsgesturetap: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmsinertiastart: Func<MSGestureEvent, obj> = jsNative
-    let [<Global>] mutable onmspointercancel: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointerdown: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointerenter: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointerleave: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointermove: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointerout: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointerover: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onmspointerup: Func<MSPointerEvent, obj> = jsNative
-    let [<Global>] mutable onoffline: Func<Event, obj> = jsNative
-    let [<Global>] mutable ononline: Func<Event, obj> = jsNative
-    let [<Global>] mutable onorientationchange: Func<Event, obj> = jsNative
-    let [<Global>] mutable onpagehide: Func<PageTransitionEvent, obj> = jsNative
-    let [<Global>] mutable onpageshow: Func<PageTransitionEvent, obj> = jsNative
-    let [<Global>] mutable onpause: Func<Event, obj> = jsNative
-    let [<Global>] mutable onplay: Func<Event, obj> = jsNative
-    let [<Global>] mutable onplaying: Func<Event, obj> = jsNative
-    let [<Global>] mutable onpopstate: Func<PopStateEvent, obj> = jsNative
-    let [<Global>] mutable onprogress: Func<ProgressEvent, obj> = jsNative
-    let [<Global>] mutable onratechange: Func<Event, obj> = jsNative
-    let [<Global>] mutable onreadystatechange: Func<ProgressEvent, obj> = jsNative
-    let [<Global>] mutable onreset: Func<Event, obj> = jsNative
-    let [<Global>] mutable onresize: Func<UIEvent, obj> = jsNative
-    let [<Global>] mutable onscroll: Func<UIEvent, obj> = jsNative
-    let [<Global>] mutable onseeked: Func<Event, obj> = jsNative
-    let [<Global>] mutable onseeking: Func<Event, obj> = jsNative
-    let [<Global>] mutable onselect: Func<UIEvent, obj> = jsNative
-    let [<Global>] mutable onstalled: Func<Event, obj> = jsNative
-    let [<Global>] mutable onstorage: Func<StorageEvent, obj> = jsNative
-    let [<Global>] mutable onsubmit: Func<Event, obj> = jsNative
-    let [<Global>] mutable onsuspend: Func<Event, obj> = jsNative
-    let [<Global>] mutable ontimeupdate: Func<Event, obj> = jsNative
+    let [<Global>] mutable onfocus: (FocusEvent -> obj) = jsNative
+    let [<Global>] mutable onhashchange: (HashChangeEvent -> obj) = jsNative
+    let [<Global>] mutable oninput: (Event -> obj) = jsNative
+    let [<Global>] mutable onkeydown: (KeyboardEvent -> obj) = jsNative
+    let [<Global>] mutable onkeypress: (KeyboardEvent -> obj) = jsNative
+    let [<Global>] mutable onkeyup: (KeyboardEvent -> obj) = jsNative
+    let [<Global>] mutable onload: (Event -> obj) = jsNative
+    let [<Global>] mutable onloadeddata: (Event -> obj) = jsNative
+    let [<Global>] mutable onloadedmetadata: (Event -> obj) = jsNative
+    let [<Global>] mutable onloadstart: (Event -> obj) = jsNative
+    let [<Global>] mutable onmessage: (MessageEvent -> obj) = jsNative
+    let [<Global>] mutable onmousedown: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmouseenter: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmouseleave: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmousemove: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmouseout: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmouseover: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmouseup: (MouseEvent -> obj) = jsNative
+    let [<Global>] mutable onmousewheel: (MouseWheelEvent -> obj) = jsNative
+    let [<Global>] mutable onmsgesturechange: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmsgesturedoubletap: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmsgestureend: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmsgesturehold: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmsgesturestart: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmsgesturetap: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmsinertiastart: (MSGestureEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointercancel: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointerdown: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointerenter: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointerleave: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointermove: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointerout: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointerover: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onmspointerup: (MSPointerEvent -> obj) = jsNative
+    let [<Global>] mutable onoffline: (Event -> obj) = jsNative
+    let [<Global>] mutable ononline: (Event -> obj) = jsNative
+    let [<Global>] mutable onorientationchange: (Event -> obj) = jsNative
+    let [<Global>] mutable onpagehide: (PageTransitionEvent -> obj) = jsNative
+    let [<Global>] mutable onpageshow: (PageTransitionEvent -> obj) = jsNative
+    let [<Global>] mutable onpause: (Event -> obj) = jsNative
+    let [<Global>] mutable onplay: (Event -> obj) = jsNative
+    let [<Global>] mutable onplaying: (Event -> obj) = jsNative
+    let [<Global>] mutable onpopstate: (PopStateEvent -> obj) = jsNative
+    let [<Global>] mutable onprogress: (ProgressEvent -> obj) = jsNative
+    let [<Global>] mutable onratechange: (Event -> obj) = jsNative
+    let [<Global>] mutable onreadystatechange: (ProgressEvent -> obj) = jsNative
+    let [<Global>] mutable onreset: (Event -> obj) = jsNative
+    let [<Global>] mutable onresize: (UIEvent -> obj) = jsNative
+    let [<Global>] mutable onscroll: (UIEvent -> obj) = jsNative
+    let [<Global>] mutable onseeked: (Event -> obj) = jsNative
+    let [<Global>] mutable onseeking: (Event -> obj) = jsNative
+    let [<Global>] mutable onselect: (UIEvent -> obj) = jsNative
+    let [<Global>] mutable onstalled: (Event -> obj) = jsNative
+    let [<Global>] mutable onstorage: (StorageEvent -> obj) = jsNative
+    let [<Global>] mutable onsubmit: (Event -> obj) = jsNative
+    let [<Global>] mutable onsuspend: (Event -> obj) = jsNative
+    let [<Global>] mutable ontimeupdate: (Event -> obj) = jsNative
     let [<Global>] mutable ontouchcancel: obj = jsNative
     let [<Global>] mutable ontouchend: obj = jsNative
     let [<Global>] mutable ontouchmove: obj = jsNative
     let [<Global>] mutable ontouchstart: obj = jsNative
-    let [<Global>] mutable onunload: Func<Event, obj> = jsNative
-    let [<Global>] mutable onvolumechange: Func<Event, obj> = jsNative
-    let [<Global>] mutable onwaiting: Func<Event, obj> = jsNative
+    let [<Global>] mutable onunload: (Event -> obj) = jsNative
+    let [<Global>] mutable onvolumechange: (Event -> obj) = jsNative
+    let [<Global>] mutable onwaiting: (Event -> obj) = jsNative
     let [<Global>] opener: Window = jsNative
     let [<Global>] orientation: U2<string, float> = jsNative
     let [<Global>] outerHeight: float = jsNative
@@ -10985,19 +11633,20 @@ module Browser =
     let [<Global>] toolbar: BarProp = jsNative
     let [<Global>] top: Window = jsNative
     let [<Global>] window: Window = jsNative
-    let [<Global>] URL: URL = jsNative
+    let [<Global>] URL: URLType = jsNative
+    let [<Global>] URLSearchParams: URLSearchParamsType = jsNative
     let [<Global>] sessionStorage: Storage = jsNative
     let [<Global>] localStorage: Storage = jsNative
     let [<Global>] console: Console = jsNative
-    let [<Global>] mutable onpointercancel: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointerdown: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointerenter: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointerleave: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointermove: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointerout: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointerover: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onpointerup: Func<PointerEvent, obj> = jsNative
-    let [<Global>] mutable onwheel: Func<WheelEvent, obj> = jsNative
+    let [<Global>] mutable onpointercancel: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointerdown: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointerenter: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointerleave: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointermove: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointerout: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointerover: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onpointerup: (PointerEvent -> obj) = jsNative
+    let [<Global>] mutable onwheel: (WheelEvent -> obj) = jsNative
     let [<Global>] indexedDB: IDBFactory = jsNative
     let [<Global>] msIndexedDB: IDBFactory = jsNative
 

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <Version>0.1.2</Version>
     <TargetFramework>netstandard1.6</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Fable.Import.Browser.fs" />
