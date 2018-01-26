@@ -4,7 +4,7 @@ jobs:
             stage: test
             env: Type='unit test'
             language: csharp
-            dotnet: 2.1.3
+            dotnet: 2.1.4
             mono: latest
             before_script:
                 - nvm install 8
@@ -12,12 +12,13 @@ jobs:
                 - cd test
                 - npm i
                 - dotnet restore
-                - dotnet fable npm-run test
+                - dotnet restore Node/NodeTest.fsproj
+                - dotnet fable npm-test
         -
             stage: deploy
             env: Type='node bindings'
             language: csharp
-            dotnet: 2.1.3
+            dotnet: 2.1.4
             mono: latest
             if: branch =~ ^v.+node$
             script:
