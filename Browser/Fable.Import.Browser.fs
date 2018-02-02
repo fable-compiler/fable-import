@@ -184,8 +184,8 @@ module Browser =
 
     and [<AllowNullLiteral>] AnalyserNode =
         inherit AudioNode
-        abstract fftSize: float with get, set
-        abstract frequencyBinCount: float with get, set
+        abstract fftSize: int with get, set
+        abstract frequencyBinCount: int with get
         abstract maxDecibels: float with get, set
         abstract minDecibels: float with get, set
         abstract smoothingTimeConstant: float with get, set
@@ -269,11 +269,13 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> Attr
 
     and [<AllowNullLiteral>] AudioBuffer =
-        abstract duration: float with get, set
-        abstract length: float with get, set
-        abstract numberOfChannels: float with get, set
-        abstract sampleRate: float with get, set
+        abstract duration: float with get
+        abstract length: int with get
+        abstract numberOfChannels: int with get
+        abstract sampleRate: float with get
         abstract getChannelData: channel: float -> Float32Array
+        abstract copyFromChannel: destination: Float32Array * channelNumber: int * ?startInChannel: int -> unit 
+        abstract copyToChannel: source: Float32Array * channelNumber: int * ?startInChannel: int -> unit 
 
     and [<AllowNullLiteral>] AudioBufferType =
         abstract prototype: AudioBuffer with get, set
@@ -286,7 +288,8 @@ module Browser =
         abstract loopEnd: float with get, set
         abstract loopStart: float with get, set
         abstract onended: (Event -> 'Out) with get, set
-        abstract playbackRate: AudioParam with get, set
+        abstract playbackRate: AudioParam with get
+        abstract detune: AudioParam with get 
         abstract start: ?``when``: float * ?offset: float * ?duration: float -> unit
         abstract stop: ?``when``: float -> unit
         [<Emit("$0.addEventListener('ended',$1...)")>] abstract addEventListener_ended: listener: (Event -> 'Out) * ?useCapture: bool -> unit
@@ -297,49 +300,39 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> AudioBufferSourceNode
 
     and [<AllowNullLiteral>] AudioContext =
-        inherit EventTarget
-        abstract currentTime: float with get, set
-        abstract destination: AudioDestinationNode with get, set
-        abstract listener: AudioListener with get, set
-        abstract sampleRate: float with get, set
-        abstract state: string with get, set
-        abstract createAnalyser: unit -> AnalyserNode
-        abstract createBiquadFilter: unit -> BiquadFilterNode
-        abstract createBuffer: numberOfChannels: float * length: float * sampleRate: float -> AudioBuffer
-        abstract createBufferSource: unit -> AudioBufferSourceNode
-        abstract createChannelMerger: ?numberOfInputs: float -> ChannelMergerNode
-        abstract createChannelSplitter: ?numberOfOutputs: float -> ChannelSplitterNode
-        abstract createConvolver: unit -> ConvolverNode
-        abstract createDelay: ?maxDelayTime: float -> DelayNode
-        abstract createDynamicsCompressor: unit -> DynamicsCompressorNode
-        abstract createGain: unit -> GainNode
+        inherit BaseAudioContext
         abstract createMediaElementSource: mediaElement: HTMLMediaElement -> MediaElementAudioSourceNode
-        abstract createOscillator: unit -> OscillatorNode
-        abstract createPanner: unit -> PannerNode
-        abstract createPeriodicWave: real: Float32Array * imag: Float32Array -> PeriodicWave
-        abstract createScriptProcessor: ?bufferSize: float * ?numberOfInputChannels: float * ?numberOfOutputChannels: float -> ScriptProcessorNode
-        abstract createStereoPanner: unit -> StereoPannerNode
-        abstract createWaveShaper: unit -> WaveShaperNode
-        abstract decodeAudioData: audioData: ArrayBuffer * successCallback: DecodeSuccessCallback * ?errorCallback: DecodeErrorCallback -> unit
-
+        abstract createMediaStreamSource: mediaStream: MediaStream -> MediaStreamAudioSourceNode 
+        abstract createMediaStreamDestination: unit -> MediaStreamAudioDestinationNode 
+ 
     and [<AllowNullLiteral>] AudioContextType =
         abstract prototype: AudioContext with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> AudioContext
 
+    and [<AllowNullLiteral>] AudioContextOptions = 
+        abstract playbackCategory : AudioContextPlaybackCategory 
+
+    and [<StringEnum>] AudioContextPlaybackCategory = 
+        | Balanced 
+        | Interactive 
+        | Playback 
+     
+    and [<StringEnum>] AudioContextState = 
+        | Suspended 
+        | Running 
+        | Closed 
+
     and [<AllowNullLiteral>] AudioDestinationNode =
         inherit AudioNode
-        abstract maxChannelCount: float with get, set
+        abstract maxChannelCount: int with get
 
     and [<AllowNullLiteral>] AudioDestinationNodeType =
         abstract prototype: AudioDestinationNode with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> AudioDestinationNode
 
     and [<AllowNullLiteral>] AudioListener =
-        abstract dopplerFactor: float with get, set
-        abstract speedOfSound: float with get, set
         abstract setOrientation: x: float * y: float * z: float * xUp: float * yUp: float * zUp: float -> unit
         abstract setPosition: x: float * y: float * z: float -> unit
-        abstract setVelocity: x: float * y: float * z: float -> unit
 
     and [<AllowNullLiteral>] AudioListenerType =
         abstract prototype: AudioListener with get, set
@@ -347,30 +340,31 @@ module Browser =
 
     and [<AllowNullLiteral>] AudioNode =
         inherit EventTarget
-        abstract channelCount: float with get, set
-        abstract channelCountMode: string with get, set
-        abstract channelInterpretation: string with get, set
-        abstract context: AudioContext with get, set
-        abstract numberOfInputs: float with get, set
-        abstract numberOfOutputs: float with get, set
-        abstract connect: destination: AudioNode * ?output: float * ?input: float -> unit
-        abstract disconnect: ?output: float -> unit
-        abstract disconnect: destination: AudioNode * ?output: float * ?input: float -> unit
-        abstract disconnect: destination: AudioParam * ?output: float -> unit
+        abstract channelCount: int with get,set
+        abstract channelCountMode: ChannelCountMode with get, set
+        abstract channelInterpretation: ChannelInterpretation with get, set
+        abstract context: AudioContext with get
+        abstract numberOfInputs: int with get
+        abstract numberOfOutputs: int with get
+        abstract connect: destination: AudioNode * ?output: int * ?input: int -> unit
+        abstract connect: destination: AudioParam * ?output: int -> unit 
+        abstract disconnect: ?output: int -> unit
+        abstract disconnect: destination: AudioNode * ?output: int * ?input: int -> unit
+        abstract disconnect: destination: AudioParam * ?output: int -> unit
 
     and [<AllowNullLiteral>] AudioNodeType =
         abstract prototype: AudioNode with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> AudioNode
 
     and [<AllowNullLiteral>] AudioParam =
-        abstract defaultValue: float with get, set
+        abstract defaultValue: float with get
         abstract value: float with get, set
-        abstract cancelScheduledValues: startTime: float -> unit
-        abstract exponentialRampToValueAtTime: value: float * endTime: float -> unit
-        abstract linearRampToValueAtTime: value: float * endTime: float -> unit
-        abstract setTargetAtTime: target: float * startTime: float * timeConstant: float -> unit
-        abstract setValueAtTime: value: float * startTime: float -> unit
-        abstract setValueCurveAtTime: values: Float32Array * startTime: float * duration: float -> unit
+        abstract cancelScheduledValues: startTime: float -> AudioParam
+        abstract exponentialRampToValueAtTime: value: float * endTime: float -> AudioParam
+        abstract linearRampToValueAtTime: value: float * endTime: float -> AudioParam
+        abstract setTargetAtTime: target: float * startTime: float * timeConstant: float -> AudioParam
+        abstract setValueAtTime: value: float * startTime: float -> AudioParam
+        abstract setValueCurveAtTime: values: Float32Array * startTime: float * duration: float -> AudioParam
 
     and [<AllowNullLiteral>] AudioParamType =
         abstract prototype: AudioParam with get, set
@@ -378,9 +372,9 @@ module Browser =
 
     and [<AllowNullLiteral>] AudioProcessingEvent =
         inherit Event
-        abstract inputBuffer: AudioBuffer with get, set
-        abstract outputBuffer: AudioBuffer with get, set
-        abstract playbackTime: float with get, set
+        abstract inputBuffer: AudioBuffer with get
+        abstract outputBuffer: AudioBuffer with get
+        abstract playbackTime: float with get
 
     and [<AllowNullLiteral>] AudioProcessingEventType =
         abstract prototype: AudioProcessingEvent with get, set
@@ -416,13 +410,98 @@ module Browser =
         abstract prototype: AudioTrackList with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> AudioTrackList
 
-    and [<AllowNullLiteral>] BarProp =
+    and [<AllowNullLiteral>] AudioWorker = 
+        inherit Worker 
+        abstract terminate: unit -> unit 
+        abstract postMessage: message: obj * ?transfer: obj 
+        abstract parameters: AudioWorkerParamDescriptor array with get 
+        abstract onerror: (Event -> 'Out) with get, set 
+        abstract onmessage: (Event -> 'Out) with get, set 
+        abstract onloaded: (Event -> 'Out) with get, set 
+        abstract createNode: numberOfInputs: int * numberOfOutputs: int -> AudioWorkerNode 
+        abstract addParameter: name: string * defaultValue: float -> AudioParam 
+        abstract removeParameter: name: string -> unit 
+ 
+    and [<AllowNullLiteral>] AudioWorkerGlobalScope = 
+        abstract sampleRate: float with get 
+        abstract addParameter: name: string * defaultValue: float -> AudioParam 
+        abstract removeParameter: name: string -> unit 
+        abstract onnodecreate: (Event -> 'Out) with get, set 
+        abstract parameters: AudioWorkerParamDescriptor array with get 
+ 
+    and [<AllowNullLiteral>] AudioWorkerGlobalScopeType = 
+        abstract prototype: AudioWorkerGlobalScope with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> AudioWorkerGlobalScope 
+ 
+    and [<AllowNullLiteral>] AudioWorkerNode = 
+        inherit AudioNode 
+        abstract postMessage: message: obj * ?transfer: obj 
+        abstract onmessage: (Event -> 'Out) with get, set 
+     
+    and [<AllowNullLiteral>] AudioWorkerNodeType = 
+        abstract prototype: AudioWorkerNode with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> AudioWorkerNode 
+ 
+    and [<AllowNullLiteral>] AudioWorkerNodeProcessor = 
+        inherit EventTarget 
+        abstract onmessage: (Event -> 'Out) with get, set 
+        abstract postMessage: message: obj * ?transfer: obj 
+     
+    and [<AllowNullLiteral>] AudioWorkerNodeProcessorType = 
+        abstract prototype: AudioWorkerNodeProcessor with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> AudioWorkerNodeProcessor 
+ 
+    and [<AllowNullLiteral>] AudioWorkerParamDescriptor = 
+        abstract name: string with get 
+        abstract defaultValue: float with get 
+ 
+    and [<AllowNullLiteral>] AudioWorkerType = 
+        abstract prototype: AudioWorker with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> AudioWorker 
+ 
+     and [<AllowNullLiteral>] BarProp =
         abstract visible: bool with get, set
 
     and [<AllowNullLiteral>] BarPropType =
         abstract prototype: BarProp with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> BarProp
 
+    and [<AllowNullLiteral>] BaseAudioContext = 
+        inherit EventTarget 
+        abstract destination: AudioDestinationNode with get 
+        abstract sampleRate: float with get 
+        abstract currentTime: float with get 
+        abstract listener: AudioListener with get 
+        abstract suspend: unit -> Promise<unit> 
+        abstract resume: unit -> Promise<unit> 
+        abstract close: unit -> Promise<unit> 
+        abstract state: AudioContextState with get 
+        abstract onstatechange: (Event -> 'Out) with get, set 
+        abstract createBuffer: numberOfChannels: int * length: int * sampleRate: float -> AudioBuffer 
+        abstract decodeAudioData: audioData: ArrayBuffer * ?successCallback: DecodeSuccessCallback * ?errorCallback: DecodeErrorCallback -> unit 
+        abstract createBufferSource: unit -> AudioBufferSourceNode 
+        abstract createAudioWorker: string -> Promise<AudioWorker> 
+        abstract createScriptProcessor: ?bufferSize: int * ?numberOfInputChannels: int * ?numberOfOutputChannels: int -> ScriptProcessorNode 
+        abstract createAnalyser: unit -> AnalyserNode 
+        abstract createGain: unit -> GainNode 
+        abstract createDelay: ?maxDelayTime: float -> DelayNode 
+        abstract createBiquadFilter: unit -> BiquadFilterNode 
+        abstract createIIRFilter: feedforward: Float32Array * feedback: Float32Array -> IIRFilterNode 
+        abstract createWaveShaper: unit -> WaveShaperNode 
+        abstract createPanner: unit -> PannerNode 
+        abstract createSpatialPanner: unit -> SpatialPannerNode 
+        abstract createStereoPanner: unit -> StereoPannerNode 
+        abstract createConvolver: unit -> ConvolverNode 
+        abstract createChannelSplitter: ?numberOfOutputs: int -> ChannelSplitterNode 
+        abstract createChannelMerger: ?numberOfInputs: int -> ChannelMergerNode 
+        abstract createDynamicsCompressor: unit -> DynamicsCompressorNode 
+        abstract createOscillator: unit -> OscillatorNode 
+        abstract createPeriodicWave: real: Float32Array * imag: Float32Array * ?constraints: PeriodicWaveConstraints -> PeriodicWave 
+ 
+    and [<AllowNullLiteral>] BaseAudioContextType = 
+        abstract prototype: BaseAudioContext with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: ?contextOptions: AudioContextOptions -> AudioContext 
+ 
     and [<AllowNullLiteral>] BeforeUnloadEvent =
         inherit Event
         abstract returnValue: obj with get, set
@@ -433,17 +512,27 @@ module Browser =
 
     and [<AllowNullLiteral>] BiquadFilterNode =
         inherit AudioNode
-        abstract Q: AudioParam with get, set
-        abstract detune: AudioParam with get, set
-        abstract frequency: AudioParam with get, set
-        abstract gain: AudioParam with get, set
-        abstract ``type``: string with get, set
+        abstract Q: AudioParam with get
+        abstract detune: AudioParam with get
+        abstract frequency: AudioParam with get
+        abstract gain: AudioParam with get
+        abstract ``type``: BiquadFilterType with get, set
         abstract getFrequencyResponse: frequencyHz: Float32Array * magResponse: Float32Array * phaseResponse: Float32Array -> unit
 
     and [<AllowNullLiteral>] BiquadFilterNodeType =
         abstract prototype: BiquadFilterNode with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> BiquadFilterNode
 
+    and [<StringEnum>] BiquadFilterType = 
+        | [<CompiledName("lowpass")>] LowPass 
+        | [<CompiledName("highpass")>] HighPass 
+        | [<CompiledName("bandpass")>] BandPass 
+        | [<CompiledName("lowshelf")>] LowShelf 
+        | [<CompiledName("highshelf")>] HighShelf 
+        | Peaking 
+        | Notch 
+        | [<CompiledName("allpass")>] AllPass 
+     
     and [<AllowNullLiteral>] Blob =
         abstract size: float with get, set
         abstract ``type``: string with get, set
@@ -1069,9 +1158,17 @@ module Browser =
         abstract prototype: CanvasRenderingContext2D with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> CanvasRenderingContext2D
 
-    and [<AllowNullLiteral>] ChannelMergerNode =
+    and [<StringEnum>] ChannelCountMode = 
+        | Max 
+        | [<CompiledName("clamped-max")>] ClampedMax 
+        | Explicit 
+     
+    and [<StringEnum>] ChannelInterpretation = 
+        | Speakers 
+        | Discrete 
+ 
+     and [<AllowNullLiteral>] ChannelMergerNode =
         inherit AudioNode
-
 
     and [<AllowNullLiteral>] ChannelMergerNodeType =
         abstract prototype: ChannelMergerNode with get, set
@@ -1079,7 +1176,6 @@ module Browser =
 
     and [<AllowNullLiteral>] ChannelSplitterNode =
         inherit AudioNode
-
 
     and [<AllowNullLiteral>] ChannelSplitterNodeType =
         abstract prototype: ChannelSplitterNode with get, set
@@ -1251,6 +1347,11 @@ module Browser =
         abstract prototype: CustomEvent with get, set
         [<Emit("new $0($1...)")>] abstract Create: typeArg: string * ?eventInitDict: CustomEventInit -> CustomEvent
 
+    and [<StringEnum>] DistanceModelType = 
+        | Linear 
+        | Inverse 
+        | Exponential 
+     
     and [<AllowNullLiteral>] DOMError =
         abstract name: string with get, set
         abstract toString: unit -> string
@@ -1436,7 +1537,7 @@ module Browser =
 
     and [<AllowNullLiteral>] DelayNode =
         inherit AudioNode
-        abstract delayTime: AudioParam with get, set
+        abstract delayTime: AudioParam with get
 
     and [<AllowNullLiteral>] DelayNodeType =
         abstract prototype: DelayNode with get, set
@@ -2309,12 +2410,12 @@ module Browser =
 
     and [<AllowNullLiteral>] DynamicsCompressorNode =
         inherit AudioNode
-        abstract attack: AudioParam with get, set
-        abstract knee: AudioParam with get, set
-        abstract ratio: AudioParam with get, set
-        abstract reduction: AudioParam with get, set
-        abstract release: AudioParam with get, set
-        abstract threshold: AudioParam with get, set
+        abstract attack: AudioParam with get
+        abstract knee: AudioParam with get
+        abstract ratio: AudioParam with get
+        abstract reduction: AudioParam with get
+        abstract release: AudioParam with get
+        abstract threshold: AudioParam with get
 
     and [<AllowNullLiteral>] DynamicsCompressorNodeType =
         abstract prototype: DynamicsCompressorNode with get, set
@@ -2733,7 +2834,7 @@ module Browser =
 
     and [<AllowNullLiteral>] GainNode =
         inherit AudioNode
-        abstract gain: AudioParam with get, set
+        abstract gain: AudioParam with get
 
     and [<AllowNullLiteral>] GainNodeType =
         abstract prototype: GainNode with get, set
@@ -5619,6 +5720,14 @@ module Browser =
         abstract prototype: IDBVersionChangeEvent with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> IDBVersionChangeEvent
 
+    and [<AllowNullLiteral>] IIRFilterNode =
+        inherit AudioNode
+        abstract getFrequencyResponse: frequencyHz: Float32Array * magResponse: Float32Array * phaseResponse: Float32Array -> unit
+ 
+    and [<AllowNullLiteral>] IIRFilterNodeType =
+        abstract prototype: IIRFilterNode with get, set
+        [<Emit("new $0($1...)")>] abstract Create: unit -> IIRFilterNode
+ 
     and [<AllowNullLiteral>] ImageData =
         abstract data: Uint8ClampedArray with get, set
         abstract height: float with get, set
@@ -6151,7 +6260,29 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: unit -> MediaSource
         abstract isTypeSupported: ``type``: string -> bool
 
-    and [<AllowNullLiteral>] MessageChannel =
+    and [<AllowNullLiteral>] MediaStream =  
+        interface end 
+ 
+    and [<AllowNullLiteral>] MediaStreamType = 
+        abstract prototype: MediaStream with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> MediaStream 
+ 
+    and [<AllowNullLiteral>] MediaStreamAudioDestinationNode =  
+        inherit AudioNode 
+        abstract stream: MediaStream with get 
+     
+    and [<AllowNullLiteral>] MediaStreamAudioDestinationNodeType = 
+        abstract prototype: MediaStreamAudioDestinationNode with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> MediaStreamAudioDestinationNode 
+ 
+    and [<AllowNullLiteral>] MediaStreamAudioSourceNode =  
+        inherit AudioNode 
+     
+    and [<AllowNullLiteral>] MediaStreamAudioSourceNodeType = 
+        abstract prototype: MediaStreamAudioSourceNode with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> MediaStreamAudioSourceNode 
+ 
+     and [<AllowNullLiteral>] MessageChannel =
         abstract port1: MessagePort with get, set
         abstract port2: MessagePort with get, set
 
@@ -6515,7 +6646,7 @@ module Browser =
 
     and [<AllowNullLiteral>] OfflineAudioCompletionEvent =
         inherit Event
-        abstract renderedBuffer: AudioBuffer with get, set
+        abstract renderedBuffer: AudioBuffer with get
 
     and [<AllowNullLiteral>] OfflineAudioCompletionEventType =
         abstract prototype: OfflineAudioCompletionEvent with get, set
@@ -6523,9 +6654,11 @@ module Browser =
 
     and [<AllowNullLiteral>] OfflineAudioContext =
         inherit AudioContext
-        abstract oncomplete: (Event -> 'Out) with get, set
+        abstract oncomplete: (OfflineAudioCompletionEvent -> 'Out) with get, set
         abstract startRendering: unit -> unit
-        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: (Event -> 'Out) * ?useCapture: bool -> unit
+        abstract resume: unit -> Promise<unit> 
+        abstract suspend: suspendTime: float -> Promise<unit> 
+        [<Emit("$0.addEventListener('complete',$1...)")>] abstract addEventListener_complete: listener: (OfflineAudioCompletionEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
     and [<AllowNullLiteral>] OfflineAudioContextType =
@@ -6534,10 +6667,10 @@ module Browser =
 
     and [<AllowNullLiteral>] OscillatorNode =
         inherit AudioNode
-        abstract detune: AudioParam with get, set
-        abstract frequency: AudioParam with get, set
+        abstract detune: AudioParam with get
+        abstract frequency: AudioParam with get
         abstract onended: (Event -> 'Out) with get, set
-        abstract ``type``: string with get, set
+        abstract ``type``: OscillatorType with get, set
         abstract setPeriodicWave: periodicWave: PeriodicWave -> unit
         abstract start: ?``when``: float -> unit
         abstract stop: ?``when``: float -> unit
@@ -6548,7 +6681,19 @@ module Browser =
         abstract prototype: OscillatorNode with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> OscillatorNode
 
-    and [<AllowNullLiteral>] PageTransitionEvent =
+    and [<StringEnum>] OscillatorType = 
+        | Sine 
+        | Square 
+        | Sawtooth 
+        | Triangle 
+        | Custom 
+     
+    and [<StringEnum>] OverSampleType = 
+        | None 
+        | [<CompiledName("2x")>] X2 
+        | [<CompiledName("4x")>] X4 
+ 
+     and [<AllowNullLiteral>] PageTransitionEvent =
         inherit Event
         abstract persisted: bool with get, set
 
@@ -6561,9 +6706,9 @@ module Browser =
         abstract coneInnerAngle: float with get, set
         abstract coneOuterAngle: float with get, set
         abstract coneOuterGain: float with get, set
-        abstract distanceModel: string with get, set
+        abstract distanceModel: DistanceModelType with get, set
         abstract maxDistance: float with get, set
-        abstract panningModel: string with get, set
+        abstract panningModel: PanningModelType with get, set
         abstract refDistance: float with get, set
         abstract rolloffFactor: float with get, set
         abstract setOrientation: x: float * y: float * z: float -> unit
@@ -6574,6 +6719,10 @@ module Browser =
         abstract prototype: PannerNode with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> PannerNode
 
+    and [<StringEnum>] PanningModelType = 
+        | [<CompiledName("equalpower")>] EqualPower 
+        | [<CompiledName("HRTF")>] HRTF 
+     
     and [<AllowNullLiteral>] PerfWidgetExternal =
         abstract activeNetworkRequestCount: float with get, set
         abstract averageFrameTime: float with get, set
@@ -6743,6 +6892,9 @@ module Browser =
     and [<AllowNullLiteral>] PeriodicWave =
         interface end
 
+    and [<AllowNullLiteral>] PeriodicWaveConstraints = 
+        abstract disableNormalisation: bool 
+ 
     and [<AllowNullLiteral>] PeriodicWaveType =
         abstract prototype: PeriodicWave with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> PeriodicWave
@@ -8730,7 +8882,7 @@ module Browser =
 
     and [<AllowNullLiteral>] ScriptProcessorNode =
         inherit AudioNode
-        abstract bufferSize: float with get, set
+        abstract bufferSize: int with get
         abstract onaudioprocess: (AudioProcessingEvent -> 'Out) with get, set
         [<Emit("$0.addEventListener('audioprocess',$1...)")>] abstract addEventListener_audioprocess: listener: (AudioProcessingEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
@@ -8795,7 +8947,43 @@ module Browser =
         abstract prototype: SourceBufferList with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> SourceBufferList
 
-    and [<AllowNullLiteral>] StereoPannerNode =
+    and [<AllowNullLiteral>] SpatialListener = 
+        abstract positionX: AudioParam with get 
+        abstract positionY: AudioParam with get 
+        abstract positionZ: AudioParam with get 
+        abstract forwardX: AudioParam with get 
+        abstract forwardY: AudioParam with get 
+        abstract forwardZ: AudioParam with get 
+        abstract upX: AudioParam with get 
+        abstract upY: AudioParam with get 
+        abstract upZ: AudioParam with get 
+ 
+    and [<AllowNullLiteral>] SpatialListenerType = 
+        abstract prototype: SpatialListener with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> SpatialListener 
+ 
+    and [<AllowNullLiteral>] SpatialPannerNode = 
+        inherit AudioNode 
+        abstract panningModel: PanningModelType with get,set 
+        abstract positionX: AudioParam with get 
+        abstract positionY: AudioParam with get 
+        abstract positionZ: AudioParam with get 
+        abstract orientationX: AudioParam with get 
+        abstract orientationY: AudioParam with get 
+        abstract orientationZ: AudioParam with get 
+        abstract distanceModel: DistanceModelType with get, set 
+        abstract refDistance: float with get, set 
+        abstract maxDistance: float with get, set 
+        abstract rolloffFactor: float with get, set 
+        abstract coneInnerAngle: float with get, set 
+        abstract coneOuterAngle: float with get, set 
+        abstract coneOuterGain: float with get, set 
+ 
+    and [<AllowNullLiteral>] SpatialPannerNodeType = 
+        abstract prototype: SpatialPannerNode with get, set 
+        [<Emit("new $0($1...)")>] abstract Create: unit -> SpatialPannerNode 
+ 
+     and [<AllowNullLiteral>] StereoPannerNode =
         inherit AudioNode
         abstract pan: AudioParam with get, set
 
@@ -9297,7 +9485,7 @@ module Browser =
     and [<AllowNullLiteral>] WaveShaperNode =
         inherit AudioNode
         abstract curve: Float32Array with get, set
-        abstract oversample: string with get, set
+        abstract oversample: OverSampleType with get, set
 
     and [<AllowNullLiteral>] WaveShaperNodeType =
         abstract prototype: WaveShaperNode with get, set
@@ -11060,6 +11248,10 @@ module Browser =
     let [<Global>] AudioProcessingEvent: AudioProcessingEventType = jsNative
     let [<Global>] AudioTrack: AudioTrackType = jsNative
     let [<Global>] AudioTrackList: AudioTrackListType = jsNative
+    let [<Global>] AudioWorker: AudioWorkerType = jsNative 
+    let [<Global>] AudioWorkerGlobalScope: AudioWorkerGlobalScopeType = jsNative 
+    let [<Global>] AudioWorkerNode: AudioWorkerNodeType = jsNative 
+    let [<Global>] AudioWorkerNodeProcessor: AudioWorkerNodeProcessorType = jsNative 
     let [<Global>] BarProp: BarPropType = jsNative
     let [<Global>] BeforeUnloadEvent: BeforeUnloadEventType = jsNative
     let [<Global>] BiquadFilterNode: BiquadFilterNodeType = jsNative
@@ -11229,6 +11421,7 @@ module Browser =
     let [<Global>] IDBRequest: IDBRequestType = jsNative
     let [<Global>] IDBTransaction: IDBTransactionType = jsNative
     let [<Global>] IDBVersionChangeEvent: IDBVersionChangeEventType = jsNative
+    let [<Global>] IIRFilterNode: IIRFilterNodeType = jsNative 
     let [<Global>] ImageData: ImageDataType = jsNative
     let [<Global>] KeyboardEvent: KeyboardEventType = jsNative
     let [<Global>] Location: LocationType = jsNative
@@ -11262,6 +11455,9 @@ module Browser =
     let [<Global>] MediaList: MediaListType = jsNative
     let [<Global>] MediaQueryList: MediaQueryListType = jsNative
     let [<Global>] MediaSource: MediaSourceType = jsNative
+    let [<Global>] MediaStream: MediaStreamType = jsNative 
+    let [<Global>] MediaStreamAudioDestinationNode: MediaStreamAudioDestinationNodeType = jsNative 
+    let [<Global>] MediaStreamAudioSourceNode: MediaStreamAudioSourceNodeType = jsNative 
     let [<Global>] MessageChannel: MessageChannelType = jsNative
     let [<Global>] MessageEvent: MessageEventType = jsNative
     let [<Global>] MessagePort: MessagePortType = jsNative
@@ -11430,6 +11626,8 @@ module Browser =
     let [<Global>] Selection: SelectionType = jsNative
     let [<Global>] SourceBuffer: SourceBufferType = jsNative
     let [<Global>] SourceBufferList: SourceBufferListType = jsNative
+    let [<Global>] SpatialListener: SpatialListenerType = jsNative 
+    let [<Global>] SpatialPannerNode: SpatialPannerNodeType = jsNative 
     let [<Global>] StereoPannerNode: StereoPannerNodeType = jsNative
     let [<Global>] Storage: StorageType = jsNative
     let [<Global>] StorageEvent: StorageEventType = jsNative
