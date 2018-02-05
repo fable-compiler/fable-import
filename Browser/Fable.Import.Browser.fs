@@ -6688,7 +6688,7 @@ module Browser =
         | Triangle 
         | Custom 
      
-    and [<StringEnum>] OverSampleType = 
+    and [<StringEnum; RequireQualifiedAccess>] OverSampleType = 
         | None 
         | [<CompiledName("2x")>] X2 
         | [<CompiledName("4x")>] X4 
