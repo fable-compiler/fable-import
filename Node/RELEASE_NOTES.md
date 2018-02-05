@@ -1,3 +1,8 @@
+### 0.4.2
+
+* Add `ConnectOptions` to `net` @jgrund
+* Fix broken module casing in `Node.fsproj` @jgrund
+
 ### 0.4.1
 
 * Remove Func from connection listeners @tanabarr
