@@ -6,8 +6,9 @@ open Fake
 open Fable.FakeHelpers
 
 let packages = [
+    // Node is automatically published by CI
+    // "Node/Fable.Import.Node"
     "Browser/Fable.Import.Browser"
-    "Node/Fable.Import.Node"
     "Express/Fable.Import.Express"
     "Pg/Fable.Import.Pg"
     "SocketIo/Fable.Import.SocketIo"

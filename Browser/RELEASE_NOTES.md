@@ -2,6 +2,10 @@
 
 * Fix: OverSampleType.None breaks Option.None
 
+### 1.1.0
+
+* Update webaudio to match 2015 draft specification @JohnStov
+
 ### 1.0.0
 
 * Add doc comments
