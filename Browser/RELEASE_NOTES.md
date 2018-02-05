@@ -1,3 +1,7 @@
+### 1.1.1
+
+* Fix: OverSampleType.None breaks Option.None
+
 ### 1.0.0
 
 * Add doc comments
