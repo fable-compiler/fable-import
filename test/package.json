@@ -8,7 +8,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "jest": "^22.1.4",
+    "jest": "^22.2.2",
     "jest-fable-preprocessor": "^1.4.0"
   }
 }
