@@ -41,7 +41,7 @@ type [<AllowNullLiteral>] Server =
     abstract listen: path: string * ?listeningListener:(unit -> unit) -> Server
     abstract listen: handle: Fd * ?listeningListener:(unit -> unit) -> Server
     abstract listen: handle: obj * ?listeningListener:(unit -> unit) -> Server
-    abstract close: ?callback: Function -> Server
+    abstract close: ?callback: (Error option -> unit) -> Server
     abstract address: unit -> obj
 
 type [<AllowNullLiteral>] ServerStatic =
