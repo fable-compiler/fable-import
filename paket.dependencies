@@ -6,6 +6,7 @@ nuget Fable.Core
 nuget Fable.Import.Node
 nuget Fable.Import.Browser
 nuget Fable.Import.Jest
+nuget Fable.PowerPack
 
 group Build
   source https://nuget.org/api/v2
