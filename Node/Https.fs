@@ -57,5 +57,5 @@ type IExports =
     abstract Agent: AgentStatic with get, set
     abstract globalAgent: Agent with get, set
     abstract createServer: options: ServerOptions * ?requestListener: (Http.IncomingMessage -> Http.ServerResponse -> unit) -> Server
-    abstract request: options: RequestOptions * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest
-    abstract get: options: RequestOptions * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest
+    abstract request: options: RequestOptions * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest<_>
+    abstract get: options: RequestOptions * ?callback: (Http.IncomingMessage -> unit) -> Http.ClientRequest<_>

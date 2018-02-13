@@ -10,7 +10,7 @@ type [<AllowNullLiteral>] RequestOptions =
     abstract protocol: string option with get, set
     abstract host: string option with get, set
     abstract hostname: string option with get, set
-    abstract family: float option with get, set
+    abstract family: int option with get, set
     abstract port: int option with get, set
     abstract localAddress: string option with get, set
     abstract socketPath: string option with get, set
@@ -22,10 +22,10 @@ type [<AllowNullLiteral>] RequestOptions =
 
 type [<AllowNullLiteral>] Server =
     inherit Net.Server
-    abstract maxHeadersCount: float with get, set
-    abstract timeout: float with get, set
+    abstract maxHeadersCount: int with get, set
+    abstract timeout: int with get, set
     abstract listening: bool with get, set
-    abstract setTimeout: msecs: float * callback: (unit -> unit) -> unit
+    abstract setTimeout: msecs: int * callback: (unit -> unit) -> unit
 
 type [<AllowNullLiteral>] ServerRequest =
     inherit IncomingMessage
@@ -33,7 +33,7 @@ type [<AllowNullLiteral>] ServerRequest =
 
 type [<AllowNullLiteral>] ServerResponse =
     inherit Stream.Writable<Buffer.Buffer>
-    abstract statusCode: float with get, set
+    abstract statusCode: int with get, set
     abstract statusMessage: string with get, set
     abstract headersSent: bool with get, set
     abstract sendDate: bool with get, set
@@ -44,10 +44,11 @@ type [<AllowNullLiteral>] ServerResponse =
     abstract write: str: string * ?encoding: string * ?cb: Function -> bool
     abstract write: str: string * ?encoding: string * ?fd: string -> bool
     abstract writeContinue: unit -> unit
-    abstract writeHead: statusCode: float * ?reasonPhrase: string * ?headers: obj -> unit
-    abstract writeHead: statusCode: float * ?headers: obj -> unit
+    abstract writeHead: statusCode: int -> unit
+    abstract writeHead: statusCode: int * reasonPhrase: string * ?headers: obj -> unit
+    abstract writeHead: statusCode: int * headers: obj -> unit
     abstract setHeader: name: string * value: U2<string, ResizeArray<string>> -> unit
-    abstract setTimeout: msecs: float * callback: Function -> ServerResponse
+    abstract setTimeout: msecs: int * callback: Function -> ServerResponse
     abstract getHeader: name: string -> string
     abstract removeHeader: name: string -> unit
     abstract write: chunk: obj * ?encoding: string -> obj
@@ -55,36 +56,25 @@ type [<AllowNullLiteral>] ServerResponse =
     abstract ``end``: unit -> unit
     abstract ``end``: buffer: Buffer.Buffer * ?cb: Function -> unit
     abstract ``end``: str: string * ?cb: Function -> unit
-    abstract ``end``: str: string * ?encoding: string * ?cb: Function -> unit
-    abstract ``end``: ?data: obj * ?encoding: string -> unit
+    abstract ``end``: str: string * encoding: string * ?cb: Function -> unit
 
-type [<AllowNullLiteral>] ClientRequest =
-    inherit Stream.Writable<Buffer.Buffer>
-    abstract write: buffer: Buffer.Buffer -> bool
-    abstract write: buffer: Buffer.Buffer * ?cb: Function -> bool
-    abstract write: str: string * ?cb: Function -> bool
-    abstract write: str: string * ?encoding: string * ?cb: Function -> bool
-    abstract write: str: string * ?encoding: string * ?fd: string -> bool
-    abstract write: chunk: obj * ?encoding: string -> unit
+type [<AllowNullLiteral>] ClientRequest<'a> =
+    inherit Stream.Writable<'a>
     abstract abort: unit -> unit
-    abstract setTimeout: timeout: float * ?callback: Function -> unit
+    abstract setTimeout: timeout: int * ?callback: Function -> unit
     abstract setNoDelay: ?noDelay: bool -> unit
-    abstract setSocketKeepAlive: ?enable: bool * ?initialDelay: float -> unit
-    abstract setHeader: name: string * value: U2<string, ResizeArray<string>> -> unit
+    abstract setSocketKeepAlive: ?enable: bool * ?initialDelay: int -> unit
+    abstract setHeader: name: string * value: string -> unit
+    abstract setHeader: name: string * value: ResizeArray<string> -> unit
     abstract getHeader: name: string -> string
     abstract removeHeader: name: string -> unit
     abstract addTrailers: headers: obj -> unit
-    abstract ``end``: unit -> unit
-    abstract ``end``: buffer: Buffer.Buffer * ?cb: Function -> unit
-    abstract ``end``: str: string * ?cb: Function -> unit
-    abstract ``end``: str: string * ?encoding: string * ?cb: Function -> unit
-    abstract ``end``: ?data: obj * ?encoding: string -> unit
 
 type [<AllowNullLiteral>] IncomingMessage =
     inherit Stream.Readable<Buffer.Buffer>
     abstract httpVersion: string with get, set
-    abstract httpVersionMajor: float with get, set
-    abstract httpVersionMinor: float with get, set
+    abstract httpVersionMajor: int with get, set
+    abstract httpVersionMinor: int with get, set
     abstract connection: Net.Socket with get, set
     abstract headers: obj with get, set
     abstract rawHeaders: ResizeArray<string> with get, set
@@ -92,10 +82,10 @@ type [<AllowNullLiteral>] IncomingMessage =
     abstract rawTrailers: obj with get, set
     abstract ``method``: string option with get, set
     abstract url: string option with get, set
-    abstract statusCode: float option with get, set
+    abstract statusCode: int option with get, set
     abstract statusMessage: string option with get, set
     abstract socket: Net.Socket with get, set
-    abstract setTimeout: msecs: float * callback: (unit -> unit) -> Base.NodeJS.Timer
+    abstract setTimeout: msecs: int * callback: (unit -> unit) -> Base.NodeJS.Timer
     abstract destroy: ?error: Error -> unit
 
 type [<AllowNullLiteral>] ClientResponse =
@@ -103,12 +93,12 @@ type [<AllowNullLiteral>] ClientResponse =
 
 type [<AllowNullLiteral>] AgentOptions =
     abstract keepAlive: bool option with get, set
-    abstract keepAliveMsecs: float option with get, set
-    abstract maxSockets: float option with get, set
-    abstract maxFreeSockets: float option with get, set
+    abstract keepAliveMsecs: int option with get, set
+    abstract maxSockets: int option with get, set
+    abstract maxFreeSockets: int option with get, set
 
 type [<AllowNullLiteral>] Agent =
-    abstract maxSockets: float with get, set
+    abstract maxSockets: int with get, set
     abstract sockets: obj with get, set
     abstract requests: obj with get, set
     abstract destroy: unit -> unit
@@ -118,7 +108,7 @@ type [<AllowNullLiteral>] AgentStatic =
 
 
 type [<AllowNullLiteral>] STATUS_CODESType =
-    [<Emit("$0[$1]{{=$2}}")>] abstract Item: errorCode: float -> string with get, set
+    [<Emit("$0[$1]{{=$2}}")>] abstract Item: errorCode: int -> string with get, set
     [<Emit("$0[$1]{{=$2}}")>] abstract Item: errorCode: string -> string with get, set
 
 type [<StringEnum>] Methods =
@@ -131,5 +121,6 @@ type IExports =
     abstract globalAgent: Agent with get, set
     abstract createServer: ?requestListener: (IncomingMessage -> ServerResponse -> unit) -> Server
     abstract createClient: ?port: int * ?host: string -> obj
-    abstract request: options: RequestOptions * ?callback: (IncomingMessage -> unit) -> ClientRequest
-    abstract get: options: obj * ?callback: (IncomingMessage -> unit) -> ClientRequest
+    abstract request: options: RequestOptions * ?callback: (IncomingMessage -> unit) -> ClientRequest<_>
+    abstract get: options: RequestOptions * ?callback: (IncomingMessage -> unit) -> ClientRequest<_>
+    abstract get: options: string * ?callback: (IncomingMessage -> unit) -> ClientRequest<_>
