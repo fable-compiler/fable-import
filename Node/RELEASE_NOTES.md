@@ -1,3 +1,7 @@
+### 0.4.3
+
+* Update ClientRequest @jgrund
+
 ### 0.4.2
 
 * Add `ConnectOptions` to `net` @jgrund
