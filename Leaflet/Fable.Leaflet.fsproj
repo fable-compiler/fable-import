@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../GeoJSON/Fable.Geojson.fsproj" />
+    <ProjectReference Include="../Browser/Fable.Import.Browser.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Leaflet.fs" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

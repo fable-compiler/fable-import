@@ -20,6 +20,8 @@ let packages = [
     "PixiSound/Fable.Import.Pixi.Sound"
     "PixiParticles/Fable.Import.Pixi.Particles"
     "Animejs/Fable.Import.Animejs"
+    "GeoJSON/Fable.Geojson"
+    "Leaflet/Fable.Leaflet"
 ]
 
 #if MONO
