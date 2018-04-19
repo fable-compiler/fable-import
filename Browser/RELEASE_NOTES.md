@@ -1,3 +1,7 @@
+### 1.1.2
+
+* Added: ServiceWorker
+
 ### 1.1.1
 
 * Fix: OverSampleType.None breaks Option.None
