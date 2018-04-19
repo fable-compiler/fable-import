@@ -1,18 +1,52 @@
 namespace Fable.Import
 
 open System
-open System.Collections.Generic
-open Fable.Core
 open Fable.Import.JS
+open Fable.Core
+open System
 
 module Browser =
-    type [<AllowNullLiteral>] Algorithm =
+    
+    type [<AllowNullLiteral>] ActivateEvent =
+        inherit ExtendableEvent
+
+    and [<AllowNullLiteral>] Algorithm =
         abstract name: string option with get, set
 
     and [<AllowNullLiteral>] AriaRequestEventInit =
         inherit EventInit
         abstract attributeName: string option with get, set
         abstract attributeValue: string option with get, set
+
+    and [<AllowNullLiteral>] Body =
+        abstract bodyUsed: bool with get, set
+        abstract arrayBuffer: unit -> Promise<ArrayBuffer>
+        abstract blob: unit -> Promise<Blob>
+        abstract formData: unit -> Promise<FormData>
+        abstract json: unit -> Promise<obj option>
+        abstract text: unit -> Promise<string>
+
+    and [<AllowNullLiteral>] Cache =
+        abstract add: request: Request -> Promise<unit>
+        abstract addAll: requestArray: Array<Request> -> Promise<unit>
+        abstract delete: request: Request * ?options: CacheStorageOptions -> Promise<bool>
+        abstract keys: ?request: Request * ?options: CacheStorageOptions -> Promise<Array<string>>
+        abstract ``match``: request: Request * ?options: CacheStorageOptions -> Promise<Response>
+        abstract matchAll: request: Request * ?options: CacheStorageOptions -> Promise<Array<Response>>
+        abstract put: request: U2<Request, string> * response: Response -> Promise<unit>
+
+    and [<AllowNullLiteral>] CacheStorage =
+        abstract delete: cacheName: string -> Promise<bool>
+        abstract has: cacheName: string -> Promise<bool>
+        abstract keys: unit -> Promise<Array<string>>
+        abstract ``match``: request: Request * ?options: CacheStorageOptions -> Promise<Response>
+        abstract ``open``: cacheName: string -> Promise<Cache>
+
+    and [<AllowNullLiteral>] CacheStorageOptions =
+        abstract cacheName: string option with get, set
+        abstract ignoreMethod: bool option with get, set
+        abstract ignoreSearch: bool option with get, set
+        abstract ignoreVary: bool option with get, set
 
     and [<AllowNullLiteral>] ClipboardEventInit =
         inherit EventInit
@@ -46,12 +80,17 @@ module Browser =
         abstract beta: float option with get, set
         abstract gamma: float option with get, set
 
+
     and [<AllowNullLiteral>] EventInit =
         abstract bubbles: bool option with get, set
         abstract cancelable: bool option with get, set
 
     and [<AllowNullLiteral>] ExceptionInformation =
         abstract domain: string option with get, set
+
+    and [<AllowNullLiteral>] ExtendableEvent =
+        inherit Event
+        abstract waitUntil: fn: Promise<obj option> -> unit
 
     and [<AllowNullLiteral>] FocusEventInit =
         inherit UIEventInit
@@ -61,6 +100,27 @@ module Browser =
         inherit EventInit
         abstract newURL: string option with get, set
         abstract oldURL: string option with get, set
+
+    and [<AllowNullLiteral>] Headers =
+        abstract append: name: string * value: string -> unit
+        abstract delete: name: string -> unit
+        abstract entries: unit -> Array<Array<string>>
+        abstract get: name: string -> string
+        abstract getAll: name: string -> Array<string>
+        abstract has: name: string -> bool
+        abstract keys: unit -> Array<string>
+        abstract set: name: string * value: string -> unit
+        abstract values: unit -> Array<string>
+
+    and [<AllowNullLiteral>] HeadersStatic =
+        [<Emit "new $0($1...)">] abstract Create: ?init: obj option -> Headers
+
+    and [<AllowNullLiteral>] IExports =
+        abstract Headers: HeadersStatic
+        abstract Request: RequestStatic
+        abstract Response: ResponseStatic
+        abstract fetch: request: U2<Request, string> -> Promise<Response>
+        abstract skipWaiting: unit -> unit
 
     and [<AllowNullLiteral>] KeyAlgorithm =
         abstract name: string option with get, set
@@ -144,6 +204,8 @@ module Browser =
     and [<AllowNullLiteral>] StoreSiteSpecificExceptionsInformation =
         inherit StoreExceptionsInformation
         abstract arrayOfDomainStrings: ResizeArray<string> option with get, set
+
+
 
     and [<AllowNullLiteral>] UIEventInit =
         inherit EventInit
@@ -2783,6 +2845,11 @@ module Browser =
     and [<AllowNullLiteral>] ExternalType =
         abstract prototype: External with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> External
+
+    and [<AllowNullLiteral>] FetchEvent =
+        inherit Event
+        abstract request: Request with get, set
+        abstract respondWith: response: U2<Promise<Response>, Response> -> Promise<Response>
 
     and [<AllowNullLiteral>] File =
         inherit Blob
@@ -5738,6 +5805,10 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: width: float * height: float -> ImageData
         [<Emit("new $0($1...)")>] abstract Create: array: Uint8ClampedArray * width: float * height: float -> ImageData
 
+    and [<AllowNullLiteral>] InstallEvent =
+        inherit ExtendableEvent
+        abstract activeWorker: ServiceWorker with get, set
+        
     and [<AllowNullLiteral>] KeyboardEvent =
         inherit UIEvent
         abstract altKey: bool with get, set
@@ -6492,6 +6563,8 @@ module Browser =
         abstract msLaunchUri: uri: string * ?successCallback: MSLaunchUriCallback * ?noHandlerCallback: MSLaunchUriCallback -> unit
         abstract vibrate: pattern: U2<float, ResizeArray<float>> -> bool
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
+        abstract serviceWorker: ServiceWorkerContainer with get, set
+        
 
     and [<AllowNullLiteral>] NavigatorType =
         abstract prototype: Navigator with get, set
@@ -6614,6 +6687,23 @@ module Browser =
     and [<AllowNullLiteral>] NodeListType =
         abstract prototype: NodeList with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> NodeList
+
+    and [<AllowNullLiteral>] Notification =
+        abstract body: string with get, set
+        abstract data: obj option with get, set
+        abstract icon: string with get, set
+        abstract lang: string with get, set
+        abstract requireInteraction: bool with get, set
+        abstract silent: bool with get, set
+        abstract tag: string with get, set
+        abstract timestamp: float with get, set
+        abstract title: string with get, set
+        abstract close: unit -> unit
+        abstract requestPermission: unit -> Promise<string>
+
+    and [<AllowNullLiteral>] NotificationEvent =
+        abstract action: string with get, set
+        abstract notification: Notification with get, set
 
     and [<AllowNullLiteral>] OES_element_index_uint =
         interface end
@@ -7013,6 +7103,27 @@ module Browser =
     and [<AllowNullLiteral>] ProgressEventType =
         abstract prototype: ProgressEvent with get, set
         [<Emit("new $0($1...)")>] abstract Create: ``type``: string * ?eventInitDict: ProgressEventInit -> ProgressEvent
+    
+    and [<AllowNullLiteral>] PushEvent =
+        inherit ExtendableEvent
+        abstract data: PushMessageData with get, set
+
+    and [<AllowNullLiteral>] PushManager =
+        abstract getSubscription: unit -> Promise<PushSubscription>
+        abstract permissionState: unit -> Promise<string>
+        abstract subscribe: unit -> Promise<PushSubscription>
+
+    and [<AllowNullLiteral>] PushMessageData =
+        abstract arrayBuffer: unit -> ArrayBuffer
+        abstract blob: unit -> Blob
+        abstract json: unit -> obj option
+        abstract text: unit -> string
+
+    and [<AllowNullLiteral>] PushSubscription =
+        abstract endpoint: string with get, set
+        abstract getKey: ``method``: string -> ArrayBuffer
+        abstract toJSON: unit -> string
+        abstract unsubscribe: unit -> Promise<bool>
 
     and [<AllowNullLiteral>] Range =
         abstract collapsed: bool with get, set
@@ -7055,6 +7166,132 @@ module Browser =
         abstract START_TO_END: float with get, set
         abstract START_TO_START: float with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> Range
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] ReferrerPolicy =
+        | [<CompiledName "">] Empty
+        | [<CompiledName "no-referrer">] NoReferrer
+        | [<CompiledName "no-referrer-when-downgrade">] NoReferrerWhenDowngrade
+        | [<CompiledName "origin-only">] OriginOnly
+        | [<CompiledName "origin-when-cross-origin">] OriginWhenCrossOrigin
+        | [<CompiledName "unsafe-url">] UnsafeUrl
+
+    and [<AllowNullLiteral>] Request =
+        inherit Body
+        abstract cache: RequestCache with get, set
+        abstract credentials: RequestCredentials with get, set
+        abstract headers: Headers with get, set
+        abstract integrity: string with get, set
+        abstract ``method``: string with get, set
+        abstract mode: RequestMode with get, set
+        abstract referrer: string with get, set
+        abstract referrerPolicy: ReferrerPolicy with get, set
+        abstract redirect: RequestRedirect with get, set
+        abstract url: string with get, set
+        abstract clone: unit -> Request
+
+    and [<AllowNullLiteral>] RequestStatic =
+        [<Emit "new $0($1...)">] abstract Create: url: string * ?init: RequestStaticInit -> Request
+
+    and [<AllowNullLiteral>] RequestStaticInit =
+        abstract ``method``: string option with get, set
+        abstract url: string option with get, set
+        abstract referrer: string option with get, set
+        abstract mode: U4<string, string, string, string> option with get, set
+        abstract credentials: U3<string, string, string> option with get, set
+        abstract redirect: U3<string, string, string> option with get, set
+        abstract integrity: string option with get, set
+        abstract cache: U5<string, string, string, string, string> option with get, set
+        abstract headers: Headers option with get, set
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] RequestCache =
+        | Default
+        | [<CompiledName "no-store">] NoStore
+        | Reload
+        | [<CompiledName "no-cache">] NoCache
+        | [<CompiledName "force-cache">] ForceCache
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] RequestCredentials =
+        | Omit
+        | [<CompiledName "same-origin">] SameOrigin
+        | Include
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] RequestMode =
+        | Cors
+        | [<CompiledName "no-cors">] NoCors
+        | [<CompiledName "same-origin">] SameOrigin
+        | Navigate
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] RequestRedirect =
+        | Follow
+        | Error
+        | Manual
+
+    and [<AllowNullLiteral>] Response =
+        inherit Body
+        abstract headers: Headers with get, set
+        abstract ok: bool with get, set
+        abstract redirected: bool with get, set
+        abstract status: float with get, set
+        abstract statusText: string with get, set
+        abstract ``type``: ResponseType with get, set
+        abstract url: string with get, set
+        abstract useFinalURL: bool with get, set
+        abstract clone: unit -> Response
+        abstract error: unit -> Response
+        abstract redirect: unit -> Response
+
+    and [<AllowNullLiteral>] ResponseStatic =
+        [<Emit "new $0($1...)">] abstract Create: url: string -> Response
+
+    and [<AllowNullLiteral>] ResponseStaticInit =
+        abstract status: float option with get, set
+        abstract statusText: string option with get, set
+        abstract headers: U2<Headers, obj> option with get, set
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] ResponseType =
+        | Basic
+        | Cores
+        | Error
+        | Opaque
+
+    and [<AllowNullLiteral>] ServiceWorker =
+        inherit Worker
+        abstract scriptURL: string with get, set
+        abstract state: ServiceWorkerState with get, set
+
+    and [<AllowNullLiteral>] ServiceWorkerContainer =
+        abstract controller: ServiceWorker option with get, set
+        abstract oncontrollerchange: (Event -> obj option) option with get, set
+        abstract onerror: (Event -> obj option) option with get, set
+        abstract onmessage: (Event -> obj option) option with get, set
+        abstract ready: Promise<ServiceWorkerRegistration> with get, set
+        abstract getRegistration: ?scope: string -> Promise<ServiceWorkerRegistration>
+        abstract getRegistrations: unit -> Promise<Array<ServiceWorkerRegistration>>
+        abstract register: url: string * ?options: ServiceWorkerRegistrationOptions -> Promise<ServiceWorkerRegistration>
+
+    and [<AllowNullLiteral>] ServiceWorkerNotificationOptions =
+        abstract tag: string option with get, set
+
+    and [<AllowNullLiteral>] ServiceWorkerRegistration =
+        abstract active: ServiceWorker option with get, set
+        abstract installing: ServiceWorker option with get, set
+        abstract onupdatefound: (Event -> obj option) option with get, set
+        abstract pushManager: PushManager with get, set
+        abstract scope: string with get, set
+        abstract waiting: ServiceWorker option with get, set
+        abstract getNotifications: ?options: ServiceWorkerNotificationOptions -> Promise<Array<Notification>>
+        abstract update: unit -> unit
+        abstract unregister: unit -> Promise<bool>
+
+    and [<AllowNullLiteral>] ServiceWorkerRegistrationOptions =
+        abstract scope: string option with get, set
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] ServiceWorkerState =
+        | Installing
+        | Installed
+        | Activating
+        | Activated
+        | Redundant
 
     and [<AllowNullLiteral>] SVGAElement =
         inherit SVGElement
@@ -9074,6 +9311,11 @@ module Browser =
         abstract prototype: SubtleCrypto with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> SubtleCrypto
 
+    and [<AllowNullLiteral>] SyncEvent =
+        inherit Event
+        abstract lastChance: bool with get, set
+        abstract tag: string with get, set
+
     and [<AllowNullLiteral>] Text =
         inherit CharacterData
         abstract wholeText: string with get, set
@@ -10695,6 +10937,18 @@ module Browser =
         [<Emit("$0.addEventListener('wheel',$1...)")>] abstract addEventListener_wheel: listener: (WheelEvent -> 'Out) * ?useCapture: bool -> unit
         abstract addEventListener: ``type``: string * listener: EventListenerOrEventListenerObject * ?useCapture: bool -> unit
 
+    and [<AllowNullLiteral>] WindowClient =
+        abstract focused: bool with get, set
+        abstract visibilityState: WindowClientState with get, set
+        abstract focus: unit -> Promise<WindowClient>
+        abstract navigate: url: string -> Promise<WindowClient>
+
+    and [<StringEnum>] [<RequireQualifiedAccess>] WindowClientState =
+        | Hidden
+        | Visible
+        | Prerender
+        | Unloaded
+
     and [<AllowNullLiteral>] WindowType =
         abstract prototype: Window with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> Window
@@ -11847,6 +12101,21 @@ module Browser =
     let [<Global>] mutable onwheel: (WheelEvent -> obj) = jsNative
     let [<Global>] indexedDB: IDBFactory = jsNative
     let [<Global>] msIndexedDB: IDBFactory = jsNative
+    let [<Global>] Headers: Headers = jsNative
+    let [<Global>] Response: Response = jsNative
+    let [<Global>] Request: Request = jsNative
+    let [<Global>] caches: CacheStorage = jsNative
+//    let [<Global>] clients: Clients = jsNative
+    let [<Global>] onactivate: (ExtendableEvent -> obj option) = jsNative
+    let [<Global>] onfetch: (FetchEvent -> obj option) = jsNative
+    let [<Global>] oninstall: (ExtendableEvent -> obj option) = jsNative
+    let [<Global>] onnotificationclick: (NotificationEvent -> obj option) = jsNative
+    let [<Global>] onnotificationclose: (NotificationEvent -> obj option) = jsNative
+    let [<Global>] onpush: (PushEvent -> obj option) = jsNative
+    let [<Global>] onpushsubscriptionchange: (unit -> obj option) = jsNative
+    let [<Global>] onsync: (SyncEvent -> obj option) = jsNative
+    let [<Global>] registration: ServiceWorkerRegistration = jsNative
+    
 
 
     [<Global>]
