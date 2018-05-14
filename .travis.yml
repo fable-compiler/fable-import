@@ -4,10 +4,10 @@ jobs:
             stage: test
             env: Type='unit test'
             language: csharp
-            dotnet: 2.1.4
+            dotnet: 2.1.200
             mono: latest
             before_script:
-                - nvm install 8
+                - nvm install 10
             script:
                 - cd test
                 - npm i
@@ -18,7 +18,7 @@ jobs:
             stage: deploy
             env: Type='node bindings'
             language: csharp
-            dotnet: 2.1.4
+            dotnet: 2.1.200
             mono: latest
             if: branch =~ ^v.+node$
             script:
