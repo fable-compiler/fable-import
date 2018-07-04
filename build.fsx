@@ -22,6 +22,7 @@ let packages = [
     "Animejs/Fable.Import.Animejs"
     "GeoJSON/Fable.Geojson"
     "Leaflet/Fable.Leaflet"
+    "HMR/Fable.Import.HMR"
 ]
 
 #if MONO
@@ -29,7 +30,7 @@ let packages = [
 System.Console.OutputEncoding <- System.Text.Encoding.UTF8
 #endif
 
-let dotnetcliVersion = "2.1.4"
+let dotnetcliVersion = "2.1.301"
 let mutable dotnetExePath = environVarOrDefault "DOTNET" "dotnet"
 
 // Clean and install dotnet SDK
