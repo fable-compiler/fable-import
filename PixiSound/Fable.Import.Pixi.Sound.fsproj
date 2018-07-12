@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Version>0.1.0</Version>
+    <PackageVersion>0.1.0</PackageVersion>
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Pixi/Fable.Import.Pixi.fsproj" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Fable.Import.Pixi.Sound.fs" />
   </ItemGroup>

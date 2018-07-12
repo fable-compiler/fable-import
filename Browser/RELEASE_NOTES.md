@@ -1,3 +1,7 @@
+### 1.1.3
+
+* ServiceWorker events #66
+
 ### 1.1.2
 
 * Added: ServiceWorker

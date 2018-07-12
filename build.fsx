@@ -3,6 +3,7 @@
 #load "paket-files/build/fable-compiler/fake-helpers/Fable.FakeHelpers.fs"
 
 open Fake
+open System.IO
 open Fable.FakeHelpers
 
 let packages = [
@@ -30,11 +31,14 @@ let packages = [
 System.Console.OutputEncoding <- System.Text.Encoding.UTF8
 #endif
 
-let dotnetcliVersion = "2.1.301"
 let mutable dotnetExePath = environVarOrDefault "DOTNET" "dotnet"
 
 // Clean and install dotnet SDK
 Target "Bootstrap" (fun () ->
+    let dotnetcliVersion =
+        Path.Combine(__SOURCE_DIRECTORY__, "global.json")
+        |> findLineAndGetGroupValue "\"version\": \"(.*?)\"" 1
+
     !! "**/bin" ++ "**/obj" |> CleanDirs
     dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
 )

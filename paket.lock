@@ -624,4 +624,4 @@ NUGET
     FAKE (4.64.13)
 GITHUB
   remote: fable-compiler/fake-helpers
-    Fable.FakeHelpers.fs (ac8d3f6677366c381350023977dbe91adc9aa8a0)
+    Fable.FakeHelpers.fs (46b48de9f1b532b63b015a9e2e2b22d150734728)
