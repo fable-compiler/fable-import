@@ -7258,6 +7258,13 @@ module Browser =
         inherit Worker
         abstract scriptURL: string with get, set
         abstract state: ServiceWorkerState with get, set
+        [<Emit("$0.addEventListener('install',$1...)")>] abstract addEventListener_install: listener: (InstallEvent -> 'Out) * ?useCapture : bool -> unit
+        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (ActivateEvent -> 'Out) * ?useCapture : bool -> unit
+        [<Emit("$0.addEventListener('fetch',$1...)")>] abstract addEventListener_fetch: listener: (FetchEvent -> 'Out) * ?useCapture : bool -> unit
+        [<Emit("$0.addEventListener('push',$1...)")>] abstract addEventListener_push: listener: (PushEvent -> 'Out) * ?useCapture : bool -> unit
+        [<Emit("$0.addEventListener('notificationclick',$1...)")>] abstract addEventListener_notificationclick: listener: (NotificationEvent -> 'Out) * ?useCapture : bool -> unit
+        [<Emit("$0.addEventListener('notificationclose',$1...)")>] abstract addEventListener_notificationclose: listener: (NotificationEvent -> 'Out) * ?useCapture : bool -> unit
+        [<Emit("$0.addEventListener('sync',$1...)")>] abstract addEventListener_sync: listener: (SyncEvent -> 'Out) * ?useCapture : bool -> unit
 
     and [<AllowNullLiteral>] ServiceWorkerContainer =
         abstract controller: ServiceWorker option with get, set
