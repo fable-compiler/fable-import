@@ -1,3 +1,7 @@
+### 1.3.0
+
+* Override 1.2.0-beta-001 release
+
 ### 1.1.3
 
 * ServiceWorker events #66
