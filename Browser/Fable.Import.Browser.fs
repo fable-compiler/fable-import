@@ -2861,9 +2861,9 @@ module Browser =
         [<Emit("new $0($1...)")>] abstract Create: parts: ResizeArray<U4<ArrayBuffer, ArrayBufferView, Blob, string>> * filename: string * ?properties: FilePropertyBag -> File
 
     and [<AllowNullLiteral>] FileList =
-        abstract length: float with get, set
+        abstract length: int with get, set
         [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> File with get, set
-        abstract item: index: float -> File
+        abstract item: index: int -> File
 
     and [<AllowNullLiteral>] FileListType =
         abstract prototype: FileList with get, set
