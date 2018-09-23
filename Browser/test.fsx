@@ -1,9 +1,7 @@
 #load "Fable.Import.WebWorker.fs"
-#r @"C:\Users\nojaf\.nuget\packages\fable.core\2.0.0-beta-001\lib\netstandard2.0\Fable.Core.dll"
 
 open Fable.Import.WebWorker
 open Fable.Import.WebWorker.ServiceWorker
-open Fable.Core.JsInterop
 
 self.addEventListener_install(fun installEvent ->
     printfn "service worker installed, %A" installEvent
