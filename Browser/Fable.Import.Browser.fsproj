@@ -6,7 +6,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Fable.Import.WebWorker.fs" />
     <Compile Include="Fable.Import.Browser.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.fsx" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

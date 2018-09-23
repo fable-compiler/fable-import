@@ -5807,7 +5807,7 @@ module Browser =
 
     and [<AllowNullLiteral>] InstallEvent =
         inherit ExtendableEvent
-        abstract activeWorker: ServiceWorker with get, set
+        abstract activeWorker: Fable.Import.WebWorker.ServiceWorker with get, set
         
     and [<AllowNullLiteral>] KeyboardEvent =
         inherit UIEvent
@@ -7254,20 +7254,8 @@ module Browser =
         | Error
         | Opaque
 
-    and [<AllowNullLiteral>] ServiceWorker =
-        inherit Worker
-        abstract scriptURL: string with get, set
-        abstract state: ServiceWorkerState with get, set
-        [<Emit("$0.addEventListener('install',$1...)")>] abstract addEventListener_install: listener: (InstallEvent -> 'Out) * ?useCapture : bool -> unit
-        [<Emit("$0.addEventListener('activate',$1...)")>] abstract addEventListener_activate: listener: (ActivateEvent -> 'Out) * ?useCapture : bool -> unit
-        [<Emit("$0.addEventListener('fetch',$1...)")>] abstract addEventListener_fetch: listener: (FetchEvent -> 'Out) * ?useCapture : bool -> unit
-        [<Emit("$0.addEventListener('push',$1...)")>] abstract addEventListener_push: listener: (PushEvent -> 'Out) * ?useCapture : bool -> unit
-        [<Emit("$0.addEventListener('notificationclick',$1...)")>] abstract addEventListener_notificationclick: listener: (NotificationEvent -> 'Out) * ?useCapture : bool -> unit
-        [<Emit("$0.addEventListener('notificationclose',$1...)")>] abstract addEventListener_notificationclose: listener: (NotificationEvent -> 'Out) * ?useCapture : bool -> unit
-        [<Emit("$0.addEventListener('sync',$1...)")>] abstract addEventListener_sync: listener: (SyncEvent -> 'Out) * ?useCapture : bool -> unit
-
     and [<AllowNullLiteral>] ServiceWorkerContainer =
-        abstract controller: ServiceWorker option with get, set
+        abstract controller: Fable.Import.WebWorker.ServiceWorker option with get, set
         abstract oncontrollerchange: (Event -> obj option) option with get, set
         abstract onerror: (Event -> obj option) option with get, set
         abstract onmessage: (Event -> obj option) option with get, set
@@ -7280,12 +7268,12 @@ module Browser =
         abstract tag: string option with get, set
 
     and [<AllowNullLiteral>] ServiceWorkerRegistration =
-        abstract active: ServiceWorker option with get, set
-        abstract installing: ServiceWorker option with get, set
+        abstract active: Fable.Import.WebWorker.ServiceWorker option with get, set
+        abstract installing: Fable.Import.WebWorker.ServiceWorker option with get, set
         abstract onupdatefound: (Event -> obj option) option with get, set
         abstract pushManager: PushManager with get, set
         abstract scope: string with get, set
-        abstract waiting: ServiceWorker option with get, set
+        abstract waiting: Fable.Import.WebWorker.ServiceWorker option with get, set
         abstract getNotifications: ?options: ServiceWorkerNotificationOptions -> Promise<Array<Notification>>
         abstract update: unit -> unit
         abstract unregister: unit -> Promise<bool>
