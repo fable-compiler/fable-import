@@ -18,3 +18,9 @@ open Fable.Core.JsInterop
                 latLngBoundsLiteral.south <- south
                 latLngBoundsLiteral.west <- west
             )
+
+        let createCircle center radius : CircleLiteral =
+            jsOptions (fun circleLiteral ->
+                circleLiteral.center <- center
+                circleLiteral.radius <- radius
+            )
