@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Include="Fable.Import.GoogleMaps.fs" />
+    <Compile Include="Fable.Helper.GoogleMaps.fs" />
   </ItemGroup>
 
   <ItemGroup>
