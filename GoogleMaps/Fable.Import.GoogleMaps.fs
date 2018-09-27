@@ -7,7 +7,7 @@ open Fable.Import.JS
 open Fable.Import.Browser
 
     // [<Global("window.google.maps")>]
-    [<Import("google-maps")>]
+    [<Import("window.google.maps")>]
     let maps: IExports = jsNative
 
         type [<AllowNullLiteral>] IExports =
