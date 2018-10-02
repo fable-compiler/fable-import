@@ -24,6 +24,7 @@ let packages = [
     "GeoJSON/Fable.Geojson"
     "Leaflet/Fable.Leaflet"
     "HMR/Fable.Import.HMR"
+    "GoogleMaps/Fable.Import.GoogleMaps"
 ]
 
 #if MONO
