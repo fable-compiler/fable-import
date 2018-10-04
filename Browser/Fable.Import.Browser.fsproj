@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Fable.Import.WebWorker.fs" />
     <Compile Include="Fable.Import.Browser.fs" />
+    <Compile Include="Fable.Helpers.WebWorker.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.fsx" />

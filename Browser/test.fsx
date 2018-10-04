@@ -1,7 +1,10 @@
 #load "Fable.Import.WebWorker.fs"
+#load "Fable.Helpers.WebWorker.fs"
 
 open Fable.Import.WebWorker
 open Fable.Import.WebWorker.ServiceWorker
+open Fable.Helpers.WebWorker.Notification
+
 
 self.addEventListener_install(fun installEvent ->
     printfn "service worker installed, %A" installEvent
@@ -26,49 +29,11 @@ self.addEventListener_push (fun ev ->
         
         let title = "My title"
         let options:NotificationOptions =
-            { new NotificationOptions with 
-              member x.body 
-                with get () = Some"Body text"
-                and set (value) = ()
-              member x.icon
-                with get() = Some "/assets/android-chrome-192x192.png"
-                and set (value) = ()
-              member x.badge
-                with get() = Some "/assets/android-chrome-192x192.png"
-                and set (value) = ()
-              member x.data
-                with get() =  Some (box myInfo)
-                and set (value) = ()
-              member x.actions
-                with get() = None
-                and set (value) = () 
-              member x.dir
-                with get() = None
-                and set (value) = ()
-              member x.image
-                with get() = None
-                and set (value) = () 
-              member x.lang
-                with get() = None
-                and set (value) = () 
-              member x.renotify
-                with get() = None
-                and set (value) = () 
-              member x.requireInteraction
-                with get() = None
-                and set (value) = ()
-              member x.silent
-                with get() = None
-                and set (value) = () 
-              member x.tag
-                with get() = None
-                and set (value) = () 
-              member x.timestamp
-                with get() = None
-                and set (value) = () 
-              member x.vibrate
-                with get() = None
-                and set (value) = () }
+            emptyNotification()
+            |> withBody "Body text"
+            |> withIcon "/assets/android-chrome-192x192.png"
+            |> withBadge "/assets/android-chrome-192x192.png"
+            |> withData myInfo
             
         ev.waitUntil(self.registration.showNotification (title, options))
         
