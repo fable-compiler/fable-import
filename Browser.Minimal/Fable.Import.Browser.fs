@@ -587,410 +587,410 @@ module Browser =
         abstract prototype: CDATASection with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> CDATASection
 
-    and [<AllowNullLiteral>] CSS =
-        abstract supports: property: string * ?value: string -> bool
+    // and [<AllowNullLiteral>] CSS =
+    //     abstract supports: property: string * ?value: string -> bool
 
-    and [<AllowNullLiteral>] CSSConditionRule =
-        inherit CSSGroupingRule
-        abstract conditionText: string with get, set
+    // and [<AllowNullLiteral>] CSSConditionRule =
+    //     inherit CSSGroupingRule
+    //     abstract conditionText: string with get, set
 
-    and [<AllowNullLiteral>] CSSConditionRuleType =
-        abstract prototype: CSSConditionRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSConditionRule
+    // and [<AllowNullLiteral>] CSSConditionRuleType =
+    //     abstract prototype: CSSConditionRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSConditionRule
 
-    and [<AllowNullLiteral>] CSSFontFaceRule =
-        inherit CSSRule
-        abstract style: CSSStyleDeclaration with get, set
+    // and [<AllowNullLiteral>] CSSFontFaceRule =
+    //     inherit CSSRule
+    //     abstract style: CSSStyleDeclaration with get, set
 
-    and [<AllowNullLiteral>] CSSFontFaceRuleType =
-        abstract prototype: CSSFontFaceRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSFontFaceRule
+    // and [<AllowNullLiteral>] CSSFontFaceRuleType =
+    //     abstract prototype: CSSFontFaceRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSFontFaceRule
 
-    and [<AllowNullLiteral>] CSSGroupingRule =
-        inherit CSSRule
-        abstract cssRules: CSSRuleList with get, set
-        abstract deleteRule: ?index: float -> unit
-        abstract insertRule: rule: string * ?index: float -> float
+    // and [<AllowNullLiteral>] CSSGroupingRule =
+    //     inherit CSSRule
+    //     abstract cssRules: CSSRuleList with get, set
+    //     abstract deleteRule: ?index: float -> unit
+    //     abstract insertRule: rule: string * ?index: float -> float
 
-    and [<AllowNullLiteral>] CSSGroupingRuleType =
-        abstract prototype: CSSGroupingRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSGroupingRule
+    // and [<AllowNullLiteral>] CSSGroupingRuleType =
+    //     abstract prototype: CSSGroupingRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSGroupingRule
 
-    and [<AllowNullLiteral>] CSSImportRule =
-        inherit CSSRule
-        abstract href: string with get, set
-        abstract media: MediaList with get, set
-        abstract styleSheet: CSSStyleSheet with get, set
+    // and [<AllowNullLiteral>] CSSImportRule =
+    //     inherit CSSRule
+    //     abstract href: string with get, set
+    //     abstract media: MediaList with get, set
+    //     abstract styleSheet: CSSStyleSheet with get, set
 
-    and [<AllowNullLiteral>] CSSImportRuleType =
-        abstract prototype: CSSImportRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSImportRule
+    // and [<AllowNullLiteral>] CSSImportRuleType =
+    //     abstract prototype: CSSImportRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSImportRule
 
-    and [<AllowNullLiteral>] CSSKeyframeRule =
-        inherit CSSRule
-        abstract keyText: string with get, set
-        abstract style: CSSStyleDeclaration with get, set
+    // and [<AllowNullLiteral>] CSSKeyframeRule =
+    //     inherit CSSRule
+    //     abstract keyText: string with get, set
+    //     abstract style: CSSStyleDeclaration with get, set
 
-    and [<AllowNullLiteral>] CSSKeyframeRuleType =
-        abstract prototype: CSSKeyframeRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSKeyframeRule
+    // and [<AllowNullLiteral>] CSSKeyframeRuleType =
+    //     abstract prototype: CSSKeyframeRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSKeyframeRule
 
-    and [<AllowNullLiteral>] CSSKeyframesRule =
-        inherit CSSRule
-        abstract cssRules: CSSRuleList with get, set
-        abstract name: string with get, set
-        abstract appendRule: rule: string -> unit
-        abstract deleteRule: rule: string -> unit
-        abstract findRule: rule: string -> CSSKeyframeRule
+    // and [<AllowNullLiteral>] CSSKeyframesRule =
+    //     inherit CSSRule
+    //     abstract cssRules: CSSRuleList with get, set
+    //     abstract name: string with get, set
+    //     abstract appendRule: rule: string -> unit
+    //     abstract deleteRule: rule: string -> unit
+    //     abstract findRule: rule: string -> CSSKeyframeRule
 
-    and [<AllowNullLiteral>] CSSKeyframesRuleType =
-        abstract prototype: CSSKeyframesRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSKeyframesRule
+    // and [<AllowNullLiteral>] CSSKeyframesRuleType =
+    //     abstract prototype: CSSKeyframesRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSKeyframesRule
 
-    and [<AllowNullLiteral>] CSSMediaRule =
-        inherit CSSConditionRule
-        abstract media: MediaList with get, set
+    // and [<AllowNullLiteral>] CSSMediaRule =
+    //     inherit CSSConditionRule
+    //     abstract media: MediaList with get, set
 
-    and [<AllowNullLiteral>] CSSMediaRuleType =
-        abstract prototype: CSSMediaRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSMediaRule
+    // and [<AllowNullLiteral>] CSSMediaRuleType =
+    //     abstract prototype: CSSMediaRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSMediaRule
 
-    and [<AllowNullLiteral>] CSSNamespaceRule =
-        inherit CSSRule
-        abstract namespaceURI: string with get, set
-        abstract prefix: string with get, set
+    // and [<AllowNullLiteral>] CSSNamespaceRule =
+    //     inherit CSSRule
+    //     abstract namespaceURI: string with get, set
+    //     abstract prefix: string with get, set
 
-    and [<AllowNullLiteral>] CSSNamespaceRuleType =
-        abstract prototype: CSSNamespaceRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSNamespaceRule
+    // and [<AllowNullLiteral>] CSSNamespaceRuleType =
+    //     abstract prototype: CSSNamespaceRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSNamespaceRule
 
-    and [<AllowNullLiteral>] CSSPageRule =
-        inherit CSSRule
-        abstract pseudoClass: string with get, set
-        abstract selector: string with get, set
-        abstract selectorText: string with get, set
-        abstract style: CSSStyleDeclaration with get, set
+    // and [<AllowNullLiteral>] CSSPageRule =
+    //     inherit CSSRule
+    //     abstract pseudoClass: string with get, set
+    //     abstract selector: string with get, set
+    //     abstract selectorText: string with get, set
+    //     abstract style: CSSStyleDeclaration with get, set
 
-    and [<AllowNullLiteral>] CSSPageRuleType =
-        abstract prototype: CSSPageRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSPageRule
+    // and [<AllowNullLiteral>] CSSPageRuleType =
+    //     abstract prototype: CSSPageRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSPageRule
 
-    and [<AllowNullLiteral>] CSSRule =
-        abstract cssText: string with get, set
-        abstract parentRule: CSSRule with get, set
-        abstract parentStyleSheet: CSSStyleSheet with get, set
-        abstract ``type``: float with get, set
-        abstract CHARSET_RULE: float with get, set
-        abstract FONT_FACE_RULE: float with get, set
-        abstract IMPORT_RULE: float with get, set
-        abstract KEYFRAMES_RULE: float with get, set
-        abstract KEYFRAME_RULE: float with get, set
-        abstract MEDIA_RULE: float with get, set
-        abstract NAMESPACE_RULE: float with get, set
-        abstract PAGE_RULE: float with get, set
-        abstract STYLE_RULE: float with get, set
-        abstract SUPPORTS_RULE: float with get, set
-        abstract UNKNOWN_RULE: float with get, set
-        abstract VIEWPORT_RULE: float with get, set
+    // and [<AllowNullLiteral>] CSSRule =
+    //     abstract cssText: string with get, set
+    //     abstract parentRule: CSSRule with get, set
+    //     abstract parentStyleSheet: CSSStyleSheet with get, set
+    //     abstract ``type``: float with get, set
+    //     abstract CHARSET_RULE: float with get, set
+    //     abstract FONT_FACE_RULE: float with get, set
+    //     abstract IMPORT_RULE: float with get, set
+    //     abstract KEYFRAMES_RULE: float with get, set
+    //     abstract KEYFRAME_RULE: float with get, set
+    //     abstract MEDIA_RULE: float with get, set
+    //     abstract NAMESPACE_RULE: float with get, set
+    //     abstract PAGE_RULE: float with get, set
+    //     abstract STYLE_RULE: float with get, set
+    //     abstract SUPPORTS_RULE: float with get, set
+    //     abstract UNKNOWN_RULE: float with get, set
+    //     abstract VIEWPORT_RULE: float with get, set
 
-    and [<AllowNullLiteral>] CSSRuleType =
-        abstract prototype: CSSRule with get, set
-        abstract CHARSET_RULE: float with get, set
-        abstract FONT_FACE_RULE: float with get, set
-        abstract IMPORT_RULE: float with get, set
-        abstract KEYFRAMES_RULE: float with get, set
-        abstract KEYFRAME_RULE: float with get, set
-        abstract MEDIA_RULE: float with get, set
-        abstract NAMESPACE_RULE: float with get, set
-        abstract PAGE_RULE: float with get, set
-        abstract STYLE_RULE: float with get, set
-        abstract SUPPORTS_RULE: float with get, set
-        abstract UNKNOWN_RULE: float with get, set
-        abstract VIEWPORT_RULE: float with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSRule
+    // and [<AllowNullLiteral>] CSSRuleType =
+    //     abstract prototype: CSSRule with get, set
+    //     abstract CHARSET_RULE: float with get, set
+    //     abstract FONT_FACE_RULE: float with get, set
+    //     abstract IMPORT_RULE: float with get, set
+    //     abstract KEYFRAMES_RULE: float with get, set
+    //     abstract KEYFRAME_RULE: float with get, set
+    //     abstract MEDIA_RULE: float with get, set
+    //     abstract NAMESPACE_RULE: float with get, set
+    //     abstract PAGE_RULE: float with get, set
+    //     abstract STYLE_RULE: float with get, set
+    //     abstract SUPPORTS_RULE: float with get, set
+    //     abstract UNKNOWN_RULE: float with get, set
+    //     abstract VIEWPORT_RULE: float with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSRule
 
-    and [<AllowNullLiteral>] CSSRuleList =
-        abstract length: float with get, set
-        [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> CSSRule with get, set
-        abstract item: index: float -> CSSRule
+    // and [<AllowNullLiteral>] CSSRuleList =
+    //     abstract length: float with get, set
+    //     [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> CSSRule with get, set
+    //     abstract item: index: float -> CSSRule
 
-    and [<AllowNullLiteral>] CSSRuleListType =
-        abstract prototype: CSSRuleList with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSRuleList
+    // and [<AllowNullLiteral>] CSSRuleListType =
+    //     abstract prototype: CSSRuleList with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSRuleList
 
-    and [<AllowNullLiteral>] CSSStyleDeclaration =
-        abstract alignContent: string with get, set
-        abstract alignItems: string with get, set
-        abstract alignSelf: string with get, set
-        abstract alignmentBaseline: string with get, set
-        abstract animation: string with get, set
-        abstract animationDelay: string with get, set
-        abstract animationDirection: string with get, set
-        abstract animationDuration: string with get, set
-        abstract animationFillMode: string with get, set
-        abstract animationIterationCount: string with get, set
-        abstract animationName: string with get, set
-        abstract animationPlayState: string with get, set
-        abstract animationTimingFunction: string with get, set
-        abstract backfaceVisibility: string with get, set
-        abstract background: string with get, set
-        abstract backgroundAttachment: string with get, set
-        abstract backgroundClip: string with get, set
-        abstract backgroundColor: string with get, set
-        abstract backgroundImage: string with get, set
-        abstract backgroundOrigin: string with get, set
-        abstract backgroundPosition: string with get, set
-        abstract backgroundPositionX: string with get, set
-        abstract backgroundPositionY: string with get, set
-        abstract backgroundRepeat: string with get, set
-        abstract backgroundSize: string with get, set
-        abstract baselineShift: string with get, set
-        abstract border: string with get, set
-        abstract borderBottom: string with get, set
-        abstract borderBottomColor: string with get, set
-        abstract borderBottomLeftRadius: string with get, set
-        abstract borderBottomRightRadius: string with get, set
-        abstract borderBottomStyle: string with get, set
-        abstract borderBottomWidth: string with get, set
-        abstract borderCollapse: string with get, set
-        abstract borderColor: string with get, set
-        abstract borderImage: string with get, set
-        abstract borderImageOutset: string with get, set
-        abstract borderImageRepeat: string with get, set
-        abstract borderImageSlice: string with get, set
-        abstract borderImageSource: string with get, set
-        abstract borderImageWidth: string with get, set
-        abstract borderLeft: string with get, set
-        abstract borderLeftColor: string with get, set
-        abstract borderLeftStyle: string with get, set
-        abstract borderLeftWidth: string with get, set
-        abstract borderRadius: string with get, set
-        abstract borderRight: string with get, set
-        abstract borderRightColor: string with get, set
-        abstract borderRightStyle: string with get, set
-        abstract borderRightWidth: string with get, set
-        abstract borderSpacing: string with get, set
-        abstract borderStyle: string with get, set
-        abstract borderTop: string with get, set
-        abstract borderTopColor: string with get, set
-        abstract borderTopLeftRadius: string with get, set
-        abstract borderTopRightRadius: string with get, set
-        abstract borderTopStyle: string with get, set
-        abstract borderTopWidth: string with get, set
-        abstract borderWidth: string with get, set
-        abstract bottom: string with get, set
-        abstract boxShadow: string with get, set
-        abstract boxSizing: string with get, set
-        abstract breakAfter: string with get, set
-        abstract breakBefore: string with get, set
-        abstract breakInside: string with get, set
-        abstract captionSide: string with get, set
-        abstract clear: string with get, set
-        abstract clip: string with get, set
-        abstract clipPath: string with get, set
-        abstract clipRule: string with get, set
-        abstract color: string with get, set
-        abstract colorInterpolationFilters: string with get, set
-        abstract columnCount: obj with get, set
-        abstract columnFill: string with get, set
-        abstract columnGap: obj with get, set
-        abstract columnRule: string with get, set
-        abstract columnRuleColor: obj with get, set
-        abstract columnRuleStyle: string with get, set
-        abstract columnRuleWidth: obj with get, set
-        abstract columnSpan: string with get, set
-        abstract columnWidth: obj with get, set
-        abstract columns: string with get, set
-        abstract content: string with get, set
-        abstract counterIncrement: string with get, set
-        abstract counterReset: string with get, set
-        abstract cssFloat: string with get, set
-        abstract cssText: string with get, set
-        abstract cursor: string with get, set
-        abstract direction: string with get, set
-        abstract display: string with get, set
-        abstract dominantBaseline: string with get, set
-        abstract emptyCells: string with get, set
-        abstract enableBackground: string with get, set
-        abstract fill: string with get, set
-        abstract fillOpacity: string with get, set
-        abstract fillRule: string with get, set
-        abstract filter: string with get, set
-        abstract flex: string with get, set
-        abstract flexBasis: string with get, set
-        abstract flexDirection: string with get, set
-        abstract flexFlow: string with get, set
-        abstract flexGrow: string with get, set
-        abstract flexShrink: string with get, set
-        abstract flexWrap: string with get, set
-        abstract floodColor: string with get, set
-        abstract floodOpacity: string with get, set
-        abstract font: string with get, set
-        abstract fontFamily: string with get, set
-        abstract fontFeatureSettings: string with get, set
-        abstract fontSize: string with get, set
-        abstract fontSizeAdjust: string with get, set
-        abstract fontStretch: string with get, set
-        abstract fontStyle: string with get, set
-        abstract fontVariant: string with get, set
-        abstract fontWeight: string with get, set
-        abstract glyphOrientationHorizontal: string with get, set
-        abstract glyphOrientationVertical: string with get, set
-        abstract height: string with get, set
-        abstract imeMode: string with get, set
-        abstract justifyContent: string with get, set
-        abstract kerning: string with get, set
-        abstract left: string with get, set
-        abstract length: float with get, set
-        abstract letterSpacing: string with get, set
-        abstract lightingColor: string with get, set
-        abstract lineHeight: string with get, set
-        abstract listStyle: string with get, set
-        abstract listStyleImage: string with get, set
-        abstract listStylePosition: string with get, set
-        abstract listStyleType: string with get, set
-        abstract margin: string with get, set
-        abstract marginBottom: string with get, set
-        abstract marginLeft: string with get, set
-        abstract marginRight: string with get, set
-        abstract marginTop: string with get, set
-        abstract marker: string with get, set
-        abstract markerEnd: string with get, set
-        abstract markerMid: string with get, set
-        abstract markerStart: string with get, set
-        abstract mask: string with get, set
-        abstract maxHeight: string with get, set
-        abstract maxWidth: string with get, set
-        abstract minHeight: string with get, set
-        abstract minWidth: string with get, set
-        abstract opacity: string with get, set
-        abstract order: string with get, set
-        abstract orphans: string with get, set
-        abstract outline: string with get, set
-        abstract outlineColor: string with get, set
-        abstract outlineStyle: string with get, set
-        abstract outlineWidth: string with get, set
-        abstract overflow: string with get, set
-        abstract overflowX: string with get, set
-        abstract overflowY: string with get, set
-        abstract padding: string with get, set
-        abstract paddingBottom: string with get, set
-        abstract paddingLeft: string with get, set
-        abstract paddingRight: string with get, set
-        abstract paddingTop: string with get, set
-        abstract pageBreakAfter: string with get, set
-        abstract pageBreakBefore: string with get, set
-        abstract pageBreakInside: string with get, set
-        abstract parentRule: CSSRule with get, set
-        abstract perspective: string with get, set
-        abstract perspectiveOrigin: string with get, set
-        abstract pointerEvents: string with get, set
-        abstract position: string with get, set
-        abstract quotes: string with get, set
-        abstract right: string with get, set
-        abstract rubyAlign: string with get, set
-        abstract rubyOverhang: string with get, set
-        abstract rubyPosition: string with get, set
-        abstract stopColor: string with get, set
-        abstract stopOpacity: string with get, set
-        abstract stroke: string with get, set
-        abstract strokeDasharray: string with get, set
-        abstract strokeDashoffset: string with get, set
-        abstract strokeLinecap: string with get, set
-        abstract strokeLinejoin: string with get, set
-        abstract strokeMiterlimit: string with get, set
-        abstract strokeOpacity: string with get, set
-        abstract strokeWidth: string with get, set
-        abstract tableLayout: string with get, set
-        abstract textAlign: string with get, set
-        abstract textAlignLast: string with get, set
-        abstract textAnchor: string with get, set
-        abstract textDecoration: string with get, set
-        abstract textFillColor: string with get, set
-        abstract textIndent: string with get, set
-        abstract textJustify: string with get, set
-        abstract textKashida: string with get, set
-        abstract textKashidaSpace: string with get, set
-        abstract textOverflow: string with get, set
-        abstract textShadow: string with get, set
-        abstract textTransform: string with get, set
-        abstract textUnderlinePosition: string with get, set
-        abstract top: string with get, set
-        abstract touchAction: string with get, set
-        abstract transform: string with get, set
-        abstract transformOrigin: string with get, set
-        abstract transformStyle: string with get, set
-        abstract transition: string with get, set
-        abstract transitionDelay: string with get, set
-        abstract transitionDuration: string with get, set
-        abstract transitionProperty: string with get, set
-        abstract transitionTimingFunction: string with get, set
-        abstract unicodeBidi: string with get, set
-        abstract verticalAlign: string with get, set
-        abstract visibility: string with get, set
-        abstract whiteSpace: string with get, set
-        abstract widows: string with get, set
-        abstract width: string with get, set
-        abstract wordBreak: string with get, set
-        abstract wordSpacing: string with get, set
-        abstract wordWrap: string with get, set
-        abstract writingMode: string with get, set
-        abstract zIndex: string with get, set
-        abstract zoom: string with get, set
-        [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> string with get, set
-        abstract getPropertyPriority: propertyName: string -> string
-        abstract getPropertyValue: propertyName: string -> string
-        abstract item: index: float -> string
-        abstract removeProperty: propertyName: string -> string
-        abstract setProperty: propertyName: string * value: string * ?priority: string -> unit
+    // and [<AllowNullLiteral>] CSSStyleDeclaration =
+    //     abstract alignContent: string with get, set
+    //     abstract alignItems: string with get, set
+    //     abstract alignSelf: string with get, set
+    //     abstract alignmentBaseline: string with get, set
+    //     abstract animation: string with get, set
+    //     abstract animationDelay: string with get, set
+    //     abstract animationDirection: string with get, set
+    //     abstract animationDuration: string with get, set
+    //     abstract animationFillMode: string with get, set
+    //     abstract animationIterationCount: string with get, set
+    //     abstract animationName: string with get, set
+    //     abstract animationPlayState: string with get, set
+    //     abstract animationTimingFunction: string with get, set
+    //     abstract backfaceVisibility: string with get, set
+    //     abstract background: string with get, set
+    //     abstract backgroundAttachment: string with get, set
+    //     abstract backgroundClip: string with get, set
+    //     abstract backgroundColor: string with get, set
+    //     abstract backgroundImage: string with get, set
+    //     abstract backgroundOrigin: string with get, set
+    //     abstract backgroundPosition: string with get, set
+    //     abstract backgroundPositionX: string with get, set
+    //     abstract backgroundPositionY: string with get, set
+    //     abstract backgroundRepeat: string with get, set
+    //     abstract backgroundSize: string with get, set
+    //     abstract baselineShift: string with get, set
+    //     abstract border: string with get, set
+    //     abstract borderBottom: string with get, set
+    //     abstract borderBottomColor: string with get, set
+    //     abstract borderBottomLeftRadius: string with get, set
+    //     abstract borderBottomRightRadius: string with get, set
+    //     abstract borderBottomStyle: string with get, set
+    //     abstract borderBottomWidth: string with get, set
+    //     abstract borderCollapse: string with get, set
+    //     abstract borderColor: string with get, set
+    //     abstract borderImage: string with get, set
+    //     abstract borderImageOutset: string with get, set
+    //     abstract borderImageRepeat: string with get, set
+    //     abstract borderImageSlice: string with get, set
+    //     abstract borderImageSource: string with get, set
+    //     abstract borderImageWidth: string with get, set
+    //     abstract borderLeft: string with get, set
+    //     abstract borderLeftColor: string with get, set
+    //     abstract borderLeftStyle: string with get, set
+    //     abstract borderLeftWidth: string with get, set
+    //     abstract borderRadius: string with get, set
+    //     abstract borderRight: string with get, set
+    //     abstract borderRightColor: string with get, set
+    //     abstract borderRightStyle: string with get, set
+    //     abstract borderRightWidth: string with get, set
+    //     abstract borderSpacing: string with get, set
+    //     abstract borderStyle: string with get, set
+    //     abstract borderTop: string with get, set
+    //     abstract borderTopColor: string with get, set
+    //     abstract borderTopLeftRadius: string with get, set
+    //     abstract borderTopRightRadius: string with get, set
+    //     abstract borderTopStyle: string with get, set
+    //     abstract borderTopWidth: string with get, set
+    //     abstract borderWidth: string with get, set
+    //     abstract bottom: string with get, set
+    //     abstract boxShadow: string with get, set
+    //     abstract boxSizing: string with get, set
+    //     abstract breakAfter: string with get, set
+    //     abstract breakBefore: string with get, set
+    //     abstract breakInside: string with get, set
+    //     abstract captionSide: string with get, set
+    //     abstract clear: string with get, set
+    //     abstract clip: string with get, set
+    //     abstract clipPath: string with get, set
+    //     abstract clipRule: string with get, set
+    //     abstract color: string with get, set
+    //     abstract colorInterpolationFilters: string with get, set
+    //     abstract columnCount: obj with get, set
+    //     abstract columnFill: string with get, set
+    //     abstract columnGap: obj with get, set
+    //     abstract columnRule: string with get, set
+    //     abstract columnRuleColor: obj with get, set
+    //     abstract columnRuleStyle: string with get, set
+    //     abstract columnRuleWidth: obj with get, set
+    //     abstract columnSpan: string with get, set
+    //     abstract columnWidth: obj with get, set
+    //     abstract columns: string with get, set
+    //     abstract content: string with get, set
+    //     abstract counterIncrement: string with get, set
+    //     abstract counterReset: string with get, set
+    //     abstract cssFloat: string with get, set
+    //     abstract cssText: string with get, set
+    //     abstract cursor: string with get, set
+    //     abstract direction: string with get, set
+    //     abstract display: string with get, set
+    //     abstract dominantBaseline: string with get, set
+    //     abstract emptyCells: string with get, set
+    //     abstract enableBackground: string with get, set
+    //     abstract fill: string with get, set
+    //     abstract fillOpacity: string with get, set
+    //     abstract fillRule: string with get, set
+    //     abstract filter: string with get, set
+    //     abstract flex: string with get, set
+    //     abstract flexBasis: string with get, set
+    //     abstract flexDirection: string with get, set
+    //     abstract flexFlow: string with get, set
+    //     abstract flexGrow: string with get, set
+    //     abstract flexShrink: string with get, set
+    //     abstract flexWrap: string with get, set
+    //     abstract floodColor: string with get, set
+    //     abstract floodOpacity: string with get, set
+    //     abstract font: string with get, set
+    //     abstract fontFamily: string with get, set
+    //     abstract fontFeatureSettings: string with get, set
+    //     abstract fontSize: string with get, set
+    //     abstract fontSizeAdjust: string with get, set
+    //     abstract fontStretch: string with get, set
+    //     abstract fontStyle: string with get, set
+    //     abstract fontVariant: string with get, set
+    //     abstract fontWeight: string with get, set
+    //     abstract glyphOrientationHorizontal: string with get, set
+    //     abstract glyphOrientationVertical: string with get, set
+    //     abstract height: string with get, set
+    //     abstract imeMode: string with get, set
+    //     abstract justifyContent: string with get, set
+    //     abstract kerning: string with get, set
+    //     abstract left: string with get, set
+    //     abstract length: float with get, set
+    //     abstract letterSpacing: string with get, set
+    //     abstract lightingColor: string with get, set
+    //     abstract lineHeight: string with get, set
+    //     abstract listStyle: string with get, set
+    //     abstract listStyleImage: string with get, set
+    //     abstract listStylePosition: string with get, set
+    //     abstract listStyleType: string with get, set
+    //     abstract margin: string with get, set
+    //     abstract marginBottom: string with get, set
+    //     abstract marginLeft: string with get, set
+    //     abstract marginRight: string with get, set
+    //     abstract marginTop: string with get, set
+    //     abstract marker: string with get, set
+    //     abstract markerEnd: string with get, set
+    //     abstract markerMid: string with get, set
+    //     abstract markerStart: string with get, set
+    //     abstract mask: string with get, set
+    //     abstract maxHeight: string with get, set
+    //     abstract maxWidth: string with get, set
+    //     abstract minHeight: string with get, set
+    //     abstract minWidth: string with get, set
+    //     abstract opacity: string with get, set
+    //     abstract order: string with get, set
+    //     abstract orphans: string with get, set
+    //     abstract outline: string with get, set
+    //     abstract outlineColor: string with get, set
+    //     abstract outlineStyle: string with get, set
+    //     abstract outlineWidth: string with get, set
+    //     abstract overflow: string with get, set
+    //     abstract overflowX: string with get, set
+    //     abstract overflowY: string with get, set
+    //     abstract padding: string with get, set
+    //     abstract paddingBottom: string with get, set
+    //     abstract paddingLeft: string with get, set
+    //     abstract paddingRight: string with get, set
+    //     abstract paddingTop: string with get, set
+    //     abstract pageBreakAfter: string with get, set
+    //     abstract pageBreakBefore: string with get, set
+    //     abstract pageBreakInside: string with get, set
+    //     abstract parentRule: CSSRule with get, set
+    //     abstract perspective: string with get, set
+    //     abstract perspectiveOrigin: string with get, set
+    //     abstract pointerEvents: string with get, set
+    //     abstract position: string with get, set
+    //     abstract quotes: string with get, set
+    //     abstract right: string with get, set
+    //     abstract rubyAlign: string with get, set
+    //     abstract rubyOverhang: string with get, set
+    //     abstract rubyPosition: string with get, set
+    //     abstract stopColor: string with get, set
+    //     abstract stopOpacity: string with get, set
+    //     abstract stroke: string with get, set
+    //     abstract strokeDasharray: string with get, set
+    //     abstract strokeDashoffset: string with get, set
+    //     abstract strokeLinecap: string with get, set
+    //     abstract strokeLinejoin: string with get, set
+    //     abstract strokeMiterlimit: string with get, set
+    //     abstract strokeOpacity: string with get, set
+    //     abstract strokeWidth: string with get, set
+    //     abstract tableLayout: string with get, set
+    //     abstract textAlign: string with get, set
+    //     abstract textAlignLast: string with get, set
+    //     abstract textAnchor: string with get, set
+    //     abstract textDecoration: string with get, set
+    //     abstract textFillColor: string with get, set
+    //     abstract textIndent: string with get, set
+    //     abstract textJustify: string with get, set
+    //     abstract textKashida: string with get, set
+    //     abstract textKashidaSpace: string with get, set
+    //     abstract textOverflow: string with get, set
+    //     abstract textShadow: string with get, set
+    //     abstract textTransform: string with get, set
+    //     abstract textUnderlinePosition: string with get, set
+    //     abstract top: string with get, set
+    //     abstract touchAction: string with get, set
+    //     abstract transform: string with get, set
+    //     abstract transformOrigin: string with get, set
+    //     abstract transformStyle: string with get, set
+    //     abstract transition: string with get, set
+    //     abstract transitionDelay: string with get, set
+    //     abstract transitionDuration: string with get, set
+    //     abstract transitionProperty: string with get, set
+    //     abstract transitionTimingFunction: string with get, set
+    //     abstract unicodeBidi: string with get, set
+    //     abstract verticalAlign: string with get, set
+    //     abstract visibility: string with get, set
+    //     abstract whiteSpace: string with get, set
+    //     abstract widows: string with get, set
+    //     abstract width: string with get, set
+    //     abstract wordBreak: string with get, set
+    //     abstract wordSpacing: string with get, set
+    //     abstract wordWrap: string with get, set
+    //     abstract writingMode: string with get, set
+    //     abstract zIndex: string with get, set
+    //     abstract zoom: string with get, set
+    //     [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> string with get, set
+    //     abstract getPropertyPriority: propertyName: string -> string
+    //     abstract getPropertyValue: propertyName: string -> string
+    //     abstract item: index: float -> string
+    //     abstract removeProperty: propertyName: string -> string
+    //     abstract setProperty: propertyName: string * value: string * ?priority: string -> unit
 
-    and [<AllowNullLiteral>] CSSStyleDeclarationType =
-        abstract prototype: CSSStyleDeclaration with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSStyleDeclaration
+    // and [<AllowNullLiteral>] CSSStyleDeclarationType =
+    //     abstract prototype: CSSStyleDeclaration with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSStyleDeclaration
 
-    and [<AllowNullLiteral>] CSSStyleRule =
-        inherit CSSRule
-        abstract readOnly: bool with get, set
-        abstract selectorText: string with get, set
-        abstract style: CSSStyleDeclaration with get, set
+    // and [<AllowNullLiteral>] CSSStyleRule =
+    //     inherit CSSRule
+    //     abstract readOnly: bool with get, set
+    //     abstract selectorText: string with get, set
+    //     abstract style: CSSStyleDeclaration with get, set
 
-    and [<AllowNullLiteral>] CSSStyleRuleType =
-        abstract prototype: CSSStyleRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSStyleRule
+    // and [<AllowNullLiteral>] CSSStyleRuleType =
+    //     abstract prototype: CSSStyleRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSStyleRule
 
-    and [<AllowNullLiteral>] CSSStyleSheet =
-        inherit StyleSheet
-        abstract cssRules: CSSRuleList with get, set
-        abstract cssText: string with get, set
-        abstract href: string with get, set
-        abstract id: string with get, set
-        abstract imports: StyleSheetList with get, set
-        abstract isAlternate: bool with get, set
-        abstract isPrefAlternate: bool with get, set
-        abstract ownerRule: CSSRule with get, set
-        abstract owningElement: Element with get, set
-        abstract pages: StyleSheetPageList with get, set
-        abstract readOnly: bool with get, set
-        abstract rules: CSSRuleList with get, set
-        abstract addImport: bstrURL: string * ?lIndex: float -> float
-        abstract addPageRule: bstrSelector: string * bstrStyle: string * ?lIndex: float -> float
-        abstract addRule: bstrSelector: string * ?bstrStyle: string * ?lIndex: float -> float
-        abstract deleteRule: ?index: float -> unit
-        abstract insertRule: rule: string * ?index: float -> float
-        abstract removeImport: lIndex: float -> unit
-        abstract removeRule: lIndex: float -> unit
+    // and [<AllowNullLiteral>] CSSStyleSheet =
+    //     inherit StyleSheet
+    //     abstract cssRules: CSSRuleList with get, set
+    //     abstract cssText: string with get, set
+    //     abstract href: string with get, set
+    //     abstract id: string with get, set
+    //     abstract imports: StyleSheetList with get, set
+    //     abstract isAlternate: bool with get, set
+    //     abstract isPrefAlternate: bool with get, set
+    //     abstract ownerRule: CSSRule with get, set
+    //     abstract owningElement: Element with get, set
+    //     abstract pages: StyleSheetPageList with get, set
+    //     abstract readOnly: bool with get, set
+    //     abstract rules: CSSRuleList with get, set
+    //     abstract addImport: bstrURL: string * ?lIndex: float -> float
+    //     abstract addPageRule: bstrSelector: string * bstrStyle: string * ?lIndex: float -> float
+    //     abstract addRule: bstrSelector: string * ?bstrStyle: string * ?lIndex: float -> float
+    //     abstract deleteRule: ?index: float -> unit
+    //     abstract insertRule: rule: string * ?index: float -> float
+    //     abstract removeImport: lIndex: float -> unit
+    //     abstract removeRule: lIndex: float -> unit
 
-    and [<AllowNullLiteral>] CSSStyleSheetType =
-        abstract prototype: CSSStyleSheet with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSStyleSheet
+    // and [<AllowNullLiteral>] CSSStyleSheetType =
+    //     abstract prototype: CSSStyleSheet with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSStyleSheet
 
-    and [<AllowNullLiteral>] CSSSupportsRule =
-        inherit CSSConditionRule
+    // and [<AllowNullLiteral>] CSSSupportsRule =
+    //     inherit CSSConditionRule
 
 
-    and [<AllowNullLiteral>] CSSSupportsRuleType =
-        abstract prototype: CSSSupportsRule with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> CSSSupportsRule
+    // and [<AllowNullLiteral>] CSSSupportsRuleType =
+    //     abstract prototype: CSSSupportsRule with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> CSSSupportsRule
 
     and [<AllowNullLiteral>] CanvasGradient =
         abstract addColorStop: offset: float * color: string -> unit
@@ -1684,8 +1684,8 @@ module Browser =
         /// Retrieves a collection of all script objects in the document.
         abstract scripts: HTMLCollection with get, set
         abstract security: string with get, set
-        /// Retrieves a collection of styleSheet objects representing the style sheets that correspond to each instance of a link or style object in the document.
-        abstract styleSheets: StyleSheetList with get, set
+        // /// Retrieves a collection of styleSheet objects representing the style sheets that correspond to each instance of a link or style object in the document.
+        // abstract styleSheets: StyleSheetList with get, set
         /// Contains the title of the document.
         abstract title: string with get, set
         abstract visibilityState: string with get, set
@@ -1715,8 +1715,8 @@ module Browser =
         /// <param name="tagName">The name of an element.</param>
         abstract createElement: tagName: string -> HTMLElement
         abstract createElementNS: namespaceURI: string * qualifiedName: string -> Element
-        abstract createExpression: expression: string * resolver: XPathNSResolver -> XPathExpression
-        abstract createNSResolver: nodeResolver: Node -> XPathNSResolver
+        // abstract createExpression: expression: string * resolver: XPathNSResolver -> XPathExpression
+        // abstract createNSResolver: nodeResolver: Node -> XPathNSResolver
         /// <summary>Creates a NodeIterator object that you can use to traverse filtered lists of nodes or elements in a document.</summary>
         /// <param name="root">The root element or node to start traversing on.</param>
         /// <param name="whatToShow">The type of nodes or elements to appear in the node list</param>
@@ -1741,7 +1741,7 @@ module Browser =
         /// <param name="x">The x-offset</param>
         /// <param name="y">The y-offset</param>
         abstract elementFromPoint: x: float * y: float -> Element
-        abstract evaluate: expression: string * contextNode: Node * resolver: XPathNSResolver * ``type``: float * result: XPathResult -> XPathResult
+        // abstract evaluate: expression: string * contextNode: Node * resolver: XPathNSResolver * ``type``: float * result: XPathResult -> XPathResult
         /// <summary>Executes a command on the current document, current selection, or the given range.</summary>
         /// <param name="commandId">String that specifies the command to execute. This command can be any of the command identifiers that can be executed in script.</param>
         /// <param name="showUI">Display the user interface, defaults to false.</param>
@@ -2556,7 +2556,7 @@ module Browser =
         abstract outerHTML: string with get, set
         abstract outerText: string with get, set
         abstract spellcheck: bool with get, set
-        abstract style: CSSStyleDeclaration with get, set
+        // abstract style: CSSStyleDeclaration with get, set
         abstract tabIndex: float with get, set
         abstract title: string with get, set
         abstract blur: unit -> unit
@@ -3053,7 +3053,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLLinkElement =
         inherit HTMLElement
-        inherit LinkStyle
+        // inherit LinkStyle
         /// Sets or retrieves the character set used to encode the object.
         abstract charset: string with get, set
         abstract disabled: bool with get, set
@@ -3500,7 +3500,7 @@ module Browser =
 
     and [<AllowNullLiteral>] HTMLStyleElement =
         inherit HTMLElement
-        inherit LinkStyle
+        // inherit LinkStyle
         /// Sets or retrieves the media type.
         abstract media: string with get, set
         abstract ``type``: string with get, set
@@ -6439,7 +6439,7 @@ module Browser =
         abstract createSVGTransformFromMatrix: matrix: SVGMatrix -> SVGTransform
         abstract deselectAll: unit -> unit
         abstract forceRedraw: unit -> unit
-        abstract getComputedStyle: elt: Element * ?pseudoElt: string -> CSSStyleDeclaration
+        // abstract getComputedStyle: elt: Element * ?pseudoElt: string -> CSSStyleDeclaration
         abstract getCurrentTime: unit -> float
         abstract getElementById: elementId: string -> Element
         abstract getEnclosureList: rect: SVGRect * referenceElement: SVGElement -> NodeList
@@ -6896,36 +6896,36 @@ module Browser =
         abstract prototype: StyleMedia with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> StyleMedia
 
-    and [<AllowNullLiteral>] StyleSheet =
-        abstract disabled: bool with get, set
-        abstract href: string with get, set
-        abstract media: MediaList with get, set
-        abstract ownerNode: Node with get, set
-        abstract parentStyleSheet: StyleSheet with get, set
-        abstract title: string with get, set
-        abstract ``type``: string with get, set
+    // and [<AllowNullLiteral>] StyleSheet =
+    //     abstract disabled: bool with get, set
+    //     abstract href: string with get, set
+    //     abstract media: MediaList with get, set
+    //     abstract ownerNode: Node with get, set
+    //     abstract parentStyleSheet: StyleSheet with get, set
+    //     abstract title: string with get, set
+    //     abstract ``type``: string with get, set
 
-    and [<AllowNullLiteral>] StyleSheetType =
-        abstract prototype: StyleSheet with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheet
+    // and [<AllowNullLiteral>] StyleSheetType =
+    //     abstract prototype: StyleSheet with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheet
 
-    and [<AllowNullLiteral>] StyleSheetList =
-        abstract length: float with get, set
-        [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> StyleSheet with get, set
-        abstract item: ?index: float -> StyleSheet
+    // and [<AllowNullLiteral>] StyleSheetList =
+    //     abstract length: float with get, set
+    //     [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> StyleSheet with get, set
+    //     abstract item: ?index: float -> StyleSheet
 
-    and [<AllowNullLiteral>] StyleSheetListType =
-        abstract prototype: StyleSheetList with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheetList
+    // and [<AllowNullLiteral>] StyleSheetListType =
+    //     abstract prototype: StyleSheetList with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheetList
 
-    and [<AllowNullLiteral>] StyleSheetPageList =
-        abstract length: float with get, set
-        [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> CSSPageRule with get, set
-        abstract item: index: float -> CSSPageRule
+    // and [<AllowNullLiteral>] StyleSheetPageList =
+    //     abstract length: float with get, set
+    //     [<Emit("$0[$1]{{=$2}}")>] abstract Item: index: int -> CSSPageRule with get, set
+    //     abstract item: index: float -> CSSPageRule
 
-    and [<AllowNullLiteral>] StyleSheetPageListType =
-        abstract prototype: StyleSheetPageList with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheetPageList
+    // and [<AllowNullLiteral>] StyleSheetPageListType =
+    //     abstract prototype: StyleSheetPageList with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheetPageList
 
     and [<AllowNullLiteral>] SubtleCrypto =
         abstract decrypt: algorithm: U2<string, Algorithm> * key: CryptoKey * data: ArrayBufferView -> obj
@@ -8377,8 +8377,8 @@ module Browser =
         abstract close: unit -> unit
         abstract confirm: ?message: string -> bool
         abstract focus: unit -> unit
-        abstract getComputedStyle: elt: Element * ?pseudoElt: string -> CSSStyleDeclaration
-        abstract getMatchedCSSRules: elt: Element * ?pseudoElt: string -> CSSRuleList
+        // abstract getComputedStyle: elt: Element * ?pseudoElt: string -> CSSStyleDeclaration
+        // abstract getMatchedCSSRules: elt: Element * ?pseudoElt: string -> CSSRuleList
         abstract getSelection: unit -> Selection
         abstract matchMedia: mediaQuery: string -> MediaQueryList
         abstract moveBy: ?x: float * ?y: float -> unit
@@ -8482,84 +8482,70 @@ module Browser =
         abstract prototype: XMLHttpRequestUpload with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> XMLHttpRequestUpload
 
-    and [<AllowNullLiteral>] XMLSerializer =
-        abstract serializeToString: target: Node -> string
+    // and [<AllowNullLiteral>] XMLSerializer =
+    //     abstract serializeToString: target: Node -> string
 
-    and [<AllowNullLiteral>] XMLSerializerType =
-        abstract prototype: XMLSerializer with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> XMLSerializer
+    // and [<AllowNullLiteral>] XMLSerializerType =
+    //     abstract prototype: XMLSerializer with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> XMLSerializer
 
-    and [<AllowNullLiteral>] XPathEvaluator =
-        abstract createExpression: expression: string * resolver: XPathNSResolver -> XPathExpression
-        abstract createNSResolver: ?nodeResolver: Node -> XPathNSResolver
-        abstract evaluate: expression: string * contextNode: Node * resolver: XPathNSResolver * ``type``: float * result: XPathResult -> XPathResult
+    // and [<AllowNullLiteral>] XPathEvaluator =
+    //     abstract createExpression: expression: string * resolver: XPathNSResolver -> XPathExpression
+    //     abstract createNSResolver: ?nodeResolver: Node -> XPathNSResolver
+    //     abstract evaluate: expression: string * contextNode: Node * resolver: XPathNSResolver * ``type``: float * result: XPathResult -> XPathResult
 
-    and [<AllowNullLiteral>] XPathEvaluatorType =
-        abstract prototype: XPathEvaluator with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> XPathEvaluator
+    // and [<AllowNullLiteral>] XPathEvaluatorType =
+    //     abstract prototype: XPathEvaluator with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> XPathEvaluator
 
-    and [<AllowNullLiteral>] XPathExpression =
-        abstract evaluate: contextNode: Node * ``type``: float * result: XPathResult -> XPathExpression
+    // and [<AllowNullLiteral>] XPathExpression =
+    //     abstract evaluate: contextNode: Node * ``type``: float * result: XPathResult -> XPathExpression
 
-    and [<AllowNullLiteral>] XPathExpressionType =
-        abstract prototype: XPathExpression with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> XPathExpression
+    // and [<AllowNullLiteral>] XPathExpressionType =
+    //     abstract prototype: XPathExpression with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> XPathExpression
 
-    and [<AllowNullLiteral>] XPathNSResolver =
-        abstract lookupNamespaceURI: prefix: string -> string
+    // and [<AllowNullLiteral>] XPathNSResolver =
+    //     abstract lookupNamespaceURI: prefix: string -> string
 
-    and [<AllowNullLiteral>] XPathNSResolverType =
-        abstract prototype: XPathNSResolver with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> XPathNSResolver
+    // and [<AllowNullLiteral>] XPathNSResolverType =
+    //     abstract prototype: XPathNSResolver with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> XPathNSResolver
 
-    and [<AllowNullLiteral>] XPathResult =
-        abstract booleanValue: bool with get, set
-        abstract invalidIteratorState: bool with get, set
-        abstract numberValue: float with get, set
-        abstract resultType: float with get, set
-        abstract singleNodeValue: Node with get, set
-        abstract snapshotLength: float with get, set
-        abstract stringValue: string with get, set
-        abstract ANY_TYPE: float with get, set
-        abstract ANY_UNORDERED_NODE_TYPE: float with get, set
-        abstract BOOLEAN_TYPE: float with get, set
-        abstract FIRST_ORDERED_NODE_TYPE: float with get, set
-        abstract NUMBER_TYPE: float with get, set
-        abstract ORDERED_NODE_ITERATOR_TYPE: float with get, set
-        abstract ORDERED_NODE_SNAPSHOT_TYPE: float with get, set
-        abstract STRING_TYPE: float with get, set
-        abstract UNORDERED_NODE_ITERATOR_TYPE: float with get, set
-        abstract UNORDERED_NODE_SNAPSHOT_TYPE: float with get, set
-        abstract iterateNext: unit -> Node
-        abstract snapshotItem: index: float -> Node
+    // and [<AllowNullLiteral>] XPathResult =
+    //     abstract booleanValue: bool with get, set
+    //     abstract invalidIteratorState: bool with get, set
+    //     abstract numberValue: float with get, set
+    //     abstract resultType: float with get, set
+    //     abstract singleNodeValue: Node with get, set
+    //     abstract snapshotLength: float with get, set
+    //     abstract stringValue: string with get, set
+    //     abstract ANY_TYPE: float with get, set
+    //     abstract ANY_UNORDERED_NODE_TYPE: float with get, set
+    //     abstract BOOLEAN_TYPE: float with get, set
+    //     abstract FIRST_ORDERED_NODE_TYPE: float with get, set
+    //     abstract NUMBER_TYPE: float with get, set
+    //     abstract ORDERED_NODE_ITERATOR_TYPE: float with get, set
+    //     abstract ORDERED_NODE_SNAPSHOT_TYPE: float with get, set
+    //     abstract STRING_TYPE: float with get, set
+    //     abstract UNORDERED_NODE_ITERATOR_TYPE: float with get, set
+    //     abstract UNORDERED_NODE_SNAPSHOT_TYPE: float with get, set
+    //     abstract iterateNext: unit -> Node
+    //     abstract snapshotItem: index: float -> Node
 
-    and [<AllowNullLiteral>] XPathResultType =
-        abstract prototype: XPathResult with get, set
-        abstract ANY_TYPE: float with get, set
-        abstract ANY_UNORDERED_NODE_TYPE: float with get, set
-        abstract BOOLEAN_TYPE: float with get, set
-        abstract FIRST_ORDERED_NODE_TYPE: float with get, set
-        abstract NUMBER_TYPE: float with get, set
-        abstract ORDERED_NODE_ITERATOR_TYPE: float with get, set
-        abstract ORDERED_NODE_SNAPSHOT_TYPE: float with get, set
-        abstract STRING_TYPE: float with get, set
-        abstract UNORDERED_NODE_ITERATOR_TYPE: float with get, set
-        abstract UNORDERED_NODE_SNAPSHOT_TYPE: float with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> XPathResult
-
-    and [<AllowNullLiteral>] XSLTProcessor =
-        abstract clearParameters: unit -> unit
-        abstract getParameter: namespaceURI: string * localName: string -> obj
-        abstract importStylesheet: style: Node -> unit
-        abstract removeParameter: namespaceURI: string * localName: string -> unit
-        abstract reset: unit -> unit
-        abstract setParameter: namespaceURI: string * localName: string * value: obj -> unit
-        abstract transformToDocument: source: Node -> Document
-        abstract transformToFragment: source: Node * document: Document -> DocumentFragment
-
-    and [<AllowNullLiteral>] XSLTProcessorType =
-        abstract prototype: XSLTProcessor with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> XSLTProcessor
+    // and [<AllowNullLiteral>] XPathResultType =
+    //     abstract prototype: XPathResult with get, set
+    //     abstract ANY_TYPE: float with get, set
+    //     abstract ANY_UNORDERED_NODE_TYPE: float with get, set
+    //     abstract BOOLEAN_TYPE: float with get, set
+    //     abstract FIRST_ORDERED_NODE_TYPE: float with get, set
+    //     abstract NUMBER_TYPE: float with get, set
+    //     abstract ORDERED_NODE_ITERATOR_TYPE: float with get, set
+    //     abstract ORDERED_NODE_SNAPSHOT_TYPE: float with get, set
+    //     abstract STRING_TYPE: float with get, set
+    //     abstract UNORDERED_NODE_ITERATOR_TYPE: float with get, set
+    //     abstract UNORDERED_NODE_SNAPSHOT_TYPE: float with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> XPathResult
 
     and [<AllowNullLiteral>] AbstractWorker =
         abstract onerror: (Event -> 'Out) with get, set
@@ -8610,8 +8596,8 @@ module Browser =
     and [<AllowNullLiteral>] IDBEnvironment =
         abstract indexedDB: IDBFactory with get, set
 
-    and [<AllowNullLiteral>] LinkStyle =
-        abstract sheet: StyleSheet with get, set
+    // and [<AllowNullLiteral>] LinkStyle =
+    //     abstract sheet: StyleSheet with get, set
 
     and [<AllowNullLiteral>] NavigatorContentUtils =
         interface end
@@ -8678,7 +8664,7 @@ module Browser =
 
     and [<AllowNullLiteral>] SVGStylable =
         abstract className: obj with get, set
-        abstract style: CSSStyleDeclaration with get, set
+        // abstract style: CSSStyleDeclaration with get, set
 
     and [<AllowNullLiteral>] SVGTests =
         abstract requiredExtensions: SVGStringList with get, set
@@ -8838,22 +8824,22 @@ module Browser =
     let [<Global>] BiquadFilterNode: BiquadFilterNodeType = jsNative
     let [<Global>] Blob: BlobType = jsNative
     let [<Global>] CDATASection: CDATASectionType = jsNative
-    let [<Global>] CSS: CSS = jsNative
-    let [<Global>] CSSConditionRule: CSSConditionRuleType = jsNative
-    let [<Global>] CSSFontFaceRule: CSSFontFaceRuleType = jsNative
-    let [<Global>] CSSGroupingRule: CSSGroupingRuleType = jsNative
-    let [<Global>] CSSImportRule: CSSImportRuleType = jsNative
-    let [<Global>] CSSKeyframeRule: CSSKeyframeRuleType = jsNative
-    let [<Global>] CSSKeyframesRule: CSSKeyframesRuleType = jsNative
-    let [<Global>] CSSMediaRule: CSSMediaRuleType = jsNative
-    let [<Global>] CSSNamespaceRule: CSSNamespaceRuleType = jsNative
-    let [<Global>] CSSPageRule: CSSPageRuleType = jsNative
-    let [<Global>] CSSRule: CSSRuleType = jsNative
-    let [<Global>] CSSRuleList: CSSRuleListType = jsNative
-    let [<Global>] CSSStyleDeclaration: CSSStyleDeclarationType = jsNative
-    let [<Global>] CSSStyleRule: CSSStyleRuleType = jsNative
-    let [<Global>] CSSStyleSheet: CSSStyleSheetType = jsNative
-    let [<Global>] CSSSupportsRule: CSSSupportsRuleType = jsNative
+    // let [<Global>] CSS: CSS = jsNative
+    // let [<Global>] CSSConditionRule: CSSConditionRuleType = jsNative
+    // let [<Global>] CSSFontFaceRule: CSSFontFaceRuleType = jsNative
+    // let [<Global>] CSSGroupingRule: CSSGroupingRuleType = jsNative
+    // let [<Global>] CSSImportRule: CSSImportRuleType = jsNative
+    // let [<Global>] CSSKeyframeRule: CSSKeyframeRuleType = jsNative
+    // let [<Global>] CSSKeyframesRule: CSSKeyframesRuleType = jsNative
+    // let [<Global>] CSSMediaRule: CSSMediaRuleType = jsNative
+    // let [<Global>] CSSNamespaceRule: CSSNamespaceRuleType = jsNative
+    // let [<Global>] CSSPageRule: CSSPageRuleType = jsNative
+    // let [<Global>] CSSRule: CSSRuleType = jsNative
+    // let [<Global>] CSSRuleList: CSSRuleListType = jsNative
+    // let [<Global>] CSSStyleDeclaration: CSSStyleDeclarationType = jsNative
+    // let [<Global>] CSSStyleRule: CSSStyleRuleType = jsNative
+    // let [<Global>] CSSStyleSheet: CSSStyleSheetType = jsNative
+    // let [<Global>] CSSSupportsRule: CSSSupportsRuleType = jsNative
     let [<Global>] CanvasGradient: CanvasGradientType = jsNative
     let [<Global>] CanvasPattern: CanvasPatternType = jsNative
     let [<Global>] CanvasRenderingContext2D: CanvasRenderingContext2DType = jsNative
@@ -9186,9 +9172,9 @@ module Browser =
     let [<Global>] Storage: StorageType = jsNative
     let [<Global>] StorageEvent: StorageEventType = jsNative
     let [<Global>] StyleMedia: StyleMediaType = jsNative
-    let [<Global>] StyleSheet: StyleSheetType = jsNative
-    let [<Global>] StyleSheetList: StyleSheetListType = jsNative
-    let [<Global>] StyleSheetPageList: StyleSheetPageListType = jsNative
+    // let [<Global>] StyleSheet: StyleSheetType = jsNative
+    // let [<Global>] StyleSheetList: StyleSheetListType = jsNative
+    // let [<Global>] StyleSheetPageList: StyleSheetPageListType = jsNative
     let [<Global>] SubtleCrypto: SubtleCryptoType = jsNative
     let [<Global>] Text: TextType = jsNative
     let [<Global>] TextEvent: TextEventType = jsNative
@@ -9235,12 +9221,11 @@ module Browser =
     let [<Global>] XMLDocument: XMLDocumentType = jsNative
     let [<Global>] XMLHttpRequest: XMLHttpRequestType = jsNative
     let [<Global>] XMLHttpRequestUpload: XMLHttpRequestUploadType = jsNative
-    let [<Global>] XMLSerializer: XMLSerializerType = jsNative
-    let [<Global>] XPathEvaluator: XPathEvaluatorType = jsNative
-    let [<Global>] XPathExpression: XPathExpressionType = jsNative
-    let [<Global>] XPathNSResolver: XPathNSResolverType = jsNative
-    let [<Global>] XPathResult: XPathResultType = jsNative
-    let [<Global>] XSLTProcessor: XSLTProcessorType = jsNative
+    // let [<Global>] XMLSerializer: XMLSerializerType = jsNative
+    // let [<Global>] XPathEvaluator: XPathEvaluatorType = jsNative
+    // let [<Global>] XPathExpression: XPathExpressionType = jsNative
+    // let [<Global>] XPathNSResolver: XPathNSResolverType = jsNative
+    // let [<Global>] XPathResult: XPathResultType = jsNative
     let [<Global>] HTMLTemplateElement: HTMLTemplateElementType = jsNative
     let [<Global>] HTMLPictureElement: HTMLPictureElementType = jsNative
     let [<Global>] Audio: AudioType = jsNative
