@@ -3806,168 +3806,179 @@ module Browser =
         abstract prototype: History with get, set
         [<Emit("new $0($1...)")>] abstract Create: unit -> History
 
-    and [<AllowNullLiteral>] IDBCursor =
-        abstract direction: string with get, set
-        abstract key: obj with get, set
-        abstract primaryKey: obj with get, set
-        abstract source: U2<IDBObjectStore, IDBIndex> with get, set
-        abstract NEXT: string with get, set
-        abstract NEXT_NO_DUPLICATE: string with get, set
-        abstract PREV: string with get, set
-        abstract PREV_NO_DUPLICATE: string with get, set
-        abstract advance: count: float -> unit
-        abstract ``continue``: ?key: obj -> unit
-        abstract delete: unit -> IDBRequest
-        abstract update: value: obj -> IDBRequest
+    // and [<AllowNullLiteral>] IDBCursor =
+    //     abstract direction: string with get, set
+    //     abstract key: obj with get, set
+    //     abstract primaryKey: obj with get, set
+    //     abstract source: U2<IDBObjectStore, IDBIndex> with get, set
+    //     abstract NEXT: string with get, set
+    //     abstract NEXT_NO_DUPLICATE: string with get, set
+    //     abstract PREV: string with get, set
+    //     abstract PREV_NO_DUPLICATE: string with get, set
+    //     abstract advance: count: float -> unit
+    //     abstract ``continue``: ?key: obj -> unit
+    //     abstract delete: unit -> IDBRequest
+    //     abstract update: value: obj -> IDBRequest
 
-    and [<AllowNullLiteral>] IDBCursorType =
-        abstract prototype: IDBCursor with get, set
-        abstract NEXT: string with get, set
-        abstract NEXT_NO_DUPLICATE: string with get, set
-        abstract PREV: string with get, set
-        abstract PREV_NO_DUPLICATE: string with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBCursor
+    // and [<AllowNullLiteral>] IDBCursorType =
+    //     abstract prototype: IDBCursor with get, set
+    //     abstract NEXT: string with get, set
+    //     abstract NEXT_NO_DUPLICATE: string with get, set
+    //     abstract PREV: string with get, set
+    //     abstract PREV_NO_DUPLICATE: string with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBCursor
 
-    and [<AllowNullLiteral>] IDBCursorWithValue =
-        inherit IDBCursor
-        abstract value: obj with get, set
+    // and [<AllowNullLiteral>] IDBCursorWithValue =
+    //     inherit IDBCursor
+    //     abstract value: obj with get, set
 
-    and [<AllowNullLiteral>] IDBCursorWithValueType =
-        abstract prototype: IDBCursorWithValue with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBCursorWithValue
+    // and [<AllowNullLiteral>] IDBCursorWithValueType =
+    //     abstract prototype: IDBCursorWithValue with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBCursorWithValue
 
-    and [<AllowNullLiteral>] IDBDatabase =
-        inherit EventTarget
-        abstract name: string with get, set
-        abstract objectStoreNames: DOMStringList with get, set
-        abstract onabort: (Event -> 'Out) with get, set
-        abstract onerror: (Event -> 'Out) with get, set
-        abstract version: float with get, set
-        abstract close: unit -> unit
-        abstract createObjectStore: name: string * ?optionalParameters: IDBObjectStoreParameters -> IDBObjectStore
-        abstract deleteObjectStore: name: string -> unit
-        abstract transaction: storeNames: U2<string, ResizeArray<string>> * ?mode: string -> IDBTransaction
-        abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
+    // and [<AllowNullLiteral>] IDBDatabase =
+    //     inherit EventTarget
+    //     abstract name: string with get, set
+    //     abstract objectStoreNames: DOMStringList with get, set
+    //     abstract onabort: (Event -> 'Out) with get, set
+    //     abstract onerror: (Event -> 'Out) with get, set
+    //     abstract version: float with get, set
+    //     abstract close: unit -> unit
+    //     abstract createObjectStore: name: string * ?optionalParameters: IDBObjectStoreParameters -> IDBObjectStore
+    //     abstract deleteObjectStore: name: string -> unit
+    //     abstract transaction: storeNames: U2<string, ResizeArray<string>> * ?mode: string -> IDBTransaction
+    //     abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
 
-    and [<AllowNullLiteral>] IDBDatabaseType =
-        abstract prototype: IDBDatabase with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBDatabase
+    // and [<AllowNullLiteral>] IDBDatabaseType =
+    //     abstract prototype: IDBDatabase with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBDatabase
 
-    and [<AllowNullLiteral>] IDBFactory =
-        abstract cmp: first: obj * second: obj -> float
-        abstract deleteDatabase: name: string -> IDBOpenDBRequest
-        abstract ``open``: name: string * ?version: float -> IDBOpenDBRequest
+    // and [<AllowNullLiteral>] IDBFactory =
+    //     abstract cmp: first: obj * second: obj -> float
+    //     abstract deleteDatabase: name: string -> IDBOpenDBRequest
+    //     abstract ``open``: name: string * ?version: float -> IDBOpenDBRequest
 
-    and [<AllowNullLiteral>] IDBFactoryType =
-        abstract prototype: IDBFactory with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBFactory
+    // and [<AllowNullLiteral>] IDBFactoryType =
+    //     abstract prototype: IDBFactory with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBFactory
 
-    and [<AllowNullLiteral>] IDBIndex =
-        abstract keyPath: U2<string, ResizeArray<string>> with get, set
-        abstract name: string with get, set
-        abstract objectStore: IDBObjectStore with get, set
-        abstract unique: bool with get, set
-        abstract multiEntry: bool with get, set
-        abstract count: ?key: obj -> IDBRequest
-        abstract get: key: obj -> IDBRequest
-        abstract getKey: key: obj -> IDBRequest
-        abstract openCursor: ?range: IDBKeyRange * ?direction: string -> IDBRequest
-        abstract openKeyCursor: ?range: IDBKeyRange * ?direction: string -> IDBRequest
+    // and [<AllowNullLiteral>] IDBIndex =
+    //     abstract keyPath: U2<string, ResizeArray<string>> with get, set
+    //     abstract name: string with get, set
+    //     abstract objectStore: IDBObjectStore with get, set
+    //     abstract unique: bool with get, set
+    //     abstract multiEntry: bool with get, set
+    //     abstract count: ?key: obj -> IDBRequest
+    //     abstract get: key: obj -> IDBRequest
+    //     abstract getKey: key: obj -> IDBRequest
+    //     abstract openCursor: ?range: IDBKeyRange * ?direction: string -> IDBRequest
+    //     abstract openKeyCursor: ?range: IDBKeyRange * ?direction: string -> IDBRequest
 
-    and [<AllowNullLiteral>] IDBIndexType =
-        abstract prototype: IDBIndex with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBIndex
+    // and [<AllowNullLiteral>] IDBIndexType =
+    //     abstract prototype: IDBIndex with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBIndex
 
-    and [<AllowNullLiteral>] IDBKeyRange =
-        abstract lower: obj with get, set
-        abstract lowerOpen: bool with get, set
-        abstract upper: obj with get, set
-        abstract upperOpen: bool with get, set
+    // and [<AllowNullLiteral>] IDBKeyRange =
+    //     abstract lower: obj with get, set
+    //     abstract lowerOpen: bool with get, set
+    //     abstract upper: obj with get, set
+    //     abstract upperOpen: bool with get, set
 
-    and [<AllowNullLiteral>] IDBKeyRangeType =
-        abstract prototype: IDBKeyRange with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBKeyRange
-        abstract bound: lower: obj * upper: obj * ?lowerOpen: bool * ?upperOpen: bool -> IDBKeyRange
-        abstract lowerBound: bound: obj * ?``open``: bool -> IDBKeyRange
-        abstract only: value: obj -> IDBKeyRange
-        abstract upperBound: bound: obj * ?``open``: bool -> IDBKeyRange
+    // and [<AllowNullLiteral>] IDBKeyRangeType =
+    //     abstract prototype: IDBKeyRange with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBKeyRange
+    //     abstract bound: lower: obj * upper: obj * ?lowerOpen: bool * ?upperOpen: bool -> IDBKeyRange
+    //     abstract lowerBound: bound: obj * ?``open``: bool -> IDBKeyRange
+    //     abstract only: value: obj -> IDBKeyRange
+    //     abstract upperBound: bound: obj * ?``open``: bool -> IDBKeyRange
 
-    and [<AllowNullLiteral>] IDBObjectStore =
-        abstract indexNames: DOMStringList with get, set
-        abstract keyPath: U2<string, ResizeArray<string>> with get, set
-        abstract name: string with get, set
-        abstract transaction: IDBTransaction with get, set
-        abstract autoIncrement: bool with get, set
-        abstract add: value: obj * ?key: obj -> IDBRequest
-        abstract clear: unit -> IDBRequest
-        abstract count: ?key: obj -> IDBRequest
-        abstract createIndex: name: string * keyPath: U2<string, ResizeArray<string>> * ?optionalParameters: IDBIndexParameters -> IDBIndex
-        abstract delete: key: obj -> IDBRequest
-        abstract deleteIndex: indexName: string -> unit
-        abstract get: key: obj -> IDBRequest
-        abstract index: name: string -> IDBIndex
-        abstract openCursor: ?range: obj * ?direction: string -> IDBRequest
-        abstract put: value: obj * ?key: obj -> IDBRequest
+    // and [<AllowNullLiteral>] IDBObjectStore =
+    //     abstract indexNames: DOMStringList with get, set
+    //     abstract keyPath: U2<string, ResizeArray<string>> with get, set
+    //     abstract name: string with get, set
+    //     abstract transaction: IDBTransaction with get, set
+    //     abstract autoIncrement: bool with get, set
+    //     abstract add: value: obj * ?key: obj -> IDBRequest
+    //     abstract clear: unit -> IDBRequest
+    //     abstract count: ?key: obj -> IDBRequest
+    //     abstract createIndex: name: string * keyPath: U2<string, ResizeArray<string>> * ?optionalParameters: IDBIndexParameters -> IDBIndex
+    //     abstract delete: key: obj -> IDBRequest
+    //     abstract deleteIndex: indexName: string -> unit
+    //     abstract get: key: obj -> IDBRequest
+    //     abstract index: name: string -> IDBIndex
+    //     abstract openCursor: ?range: obj * ?direction: string -> IDBRequest
+    //     abstract put: value: obj * ?key: obj -> IDBRequest
 
-    and [<AllowNullLiteral>] IDBObjectStoreType =
-        abstract prototype: IDBObjectStore with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBObjectStore
+    // and [<AllowNullLiteral>] IDBObjectStoreType =
+    //     abstract prototype: IDBObjectStore with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBObjectStore
 
-    and [<AllowNullLiteral>] IDBOpenDBRequest =
-        inherit IDBRequest
-        abstract onblocked: (Event -> 'Out) with get, set
-        abstract onupgradeneeded: (IDBVersionChangeEvent -> 'Out) with get, set
-        abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
+    // and [<AllowNullLiteral>] IDBOpenDBRequest =
+    //     inherit IDBRequest
+    //     abstract onblocked: (Event -> 'Out) with get, set
+    //     abstract onupgradeneeded: (IDBVersionChangeEvent -> 'Out) with get, set
+    //     abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
 
-    and [<AllowNullLiteral>] IDBOpenDBRequestType =
-        abstract prototype: IDBOpenDBRequest with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBOpenDBRequest
+    // and [<AllowNullLiteral>] IDBOpenDBRequestType =
+    //     abstract prototype: IDBOpenDBRequest with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBOpenDBRequest
 
-    and [<AllowNullLiteral>] IDBRequest =
-        inherit EventTarget
-        abstract error: DOMError with get, set
-        abstract onerror: (Event -> 'Out) with get, set
-        abstract onsuccess: (Event -> 'Out) with get, set
-        abstract readyState: string with get, set
-        abstract result: obj with get, set
-        abstract source: U3<IDBObjectStore, IDBIndex, IDBCursor> with get, set
-        abstract transaction: IDBTransaction with get, set
-        abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
+    // and [<AllowNullLiteral>] IDBRequest =
+    //     inherit EventTarget
+    //     abstract error: DOMError with get, set
+    //     abstract onerror: (Event -> 'Out) with get, set
+    //     abstract onsuccess: (Event -> 'Out) with get, set
+    //     abstract readyState: string with get, set
+    //     abstract result: obj with get, set
+    //     abstract source: U3<IDBObjectStore, IDBIndex, IDBCursor> with get, set
+    //     abstract transaction: IDBTransaction with get, set
+    //     abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
 
-    and [<AllowNullLiteral>] IDBRequestType =
-        abstract prototype: IDBRequest with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBRequest
+    // and [<AllowNullLiteral>] IDBRequestType =
+    //     abstract prototype: IDBRequest with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBRequest
 
-    and [<AllowNullLiteral>] IDBTransaction =
-        inherit EventTarget
-        abstract db: IDBDatabase with get, set
-        abstract error: DOMError with get, set
-        abstract mode: string with get, set
-        abstract onabort: (Event -> 'Out) with get, set
-        abstract oncomplete: (Event -> 'Out) with get, set
-        abstract onerror: (Event -> 'Out) with get, set
-        abstract READ_ONLY: string with get, set
-        abstract READ_WRITE: string with get, set
-        abstract VERSION_CHANGE: string with get, set
-        abstract abort: unit -> unit
-        abstract objectStore: name: string -> IDBObjectStore
-        abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
+    // and [<AllowNullLiteral>] IDBTransaction =
+    //     inherit EventTarget
+    //     abstract db: IDBDatabase with get, set
+    //     abstract error: DOMError with get, set
+    //     abstract mode: string with get, set
+    //     abstract onabort: (Event -> 'Out) with get, set
+    //     abstract oncomplete: (Event -> 'Out) with get, set
+    //     abstract onerror: (Event -> 'Out) with get, set
+    //     abstract READ_ONLY: string with get, set
+    //     abstract READ_WRITE: string with get, set
+    //     abstract VERSION_CHANGE: string with get, set
+    //     abstract abort: unit -> unit
+    //     abstract objectStore: name: string -> IDBObjectStore
+    //     abstract addEventListener: ``type``: string * listener: (Event->unit) * ?useCapture: bool -> unit
 
-    and [<AllowNullLiteral>] IDBTransactionType =
-        abstract prototype: IDBTransaction with get, set
-        abstract READ_ONLY: string with get, set
-        abstract READ_WRITE: string with get, set
-        abstract VERSION_CHANGE: string with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBTransaction
+    // and [<AllowNullLiteral>] IDBTransactionType =
+    //     abstract prototype: IDBTransaction with get, set
+    //     abstract READ_ONLY: string with get, set
+    //     abstract READ_WRITE: string with get, set
+    //     abstract VERSION_CHANGE: string with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBTransaction
 
-    and [<AllowNullLiteral>] IDBVersionChangeEvent =
-        inherit Event
-        abstract newVersion: float with get, set
-        abstract oldVersion: float with get, set
+    // and [<AllowNullLiteral>] IDBVersionChangeEvent =
+    //     inherit Event
+    //     abstract newVersion: float with get, set
+    //     abstract oldVersion: float with get, set
 
-    and [<AllowNullLiteral>] IDBVersionChangeEventType =
-        abstract prototype: IDBVersionChangeEvent with get, set
-        [<Emit("new $0($1...)")>] abstract Create: unit -> IDBVersionChangeEvent
+    // and [<AllowNullLiteral>] IDBVersionChangeEventType =
+    //     abstract prototype: IDBVersionChangeEvent with get, set
+    //     [<Emit("new $0($1...)")>] abstract Create: unit -> IDBVersionChangeEvent
+
+    // and [<AllowNullLiteral>] IDBObjectStoreParameters =
+    //     abstract keyPath: U2<string, ResizeArray<string>> option with get, set
+    //     abstract autoIncrement: bool option with get, set
+
+    // and [<AllowNullLiteral>] IDBIndexParameters =
+    //     abstract unique: bool option with get, set
+    //     abstract multiEntry: bool option with get, set
+
+    // and [<AllowNullLiteral>] IDBEnvironment =
+    //     abstract indexedDB: IDBFactory with get, set
 
     and [<AllowNullLiteral>] IIRFilterNode =
         inherit AudioNode
@@ -6917,6 +6928,9 @@ module Browser =
     //     abstract prototype: StyleSheetPageList with get, set
     //     [<Emit("new $0($1...)")>] abstract Create: unit -> StyleSheetPageList
 
+    // and [<AllowNullLiteral>] LinkStyle =
+    //     abstract sheet: StyleSheet with get, set
+
     and [<AllowNullLiteral>] SubtleCrypto =
         abstract decrypt: algorithm: U2<string, Algorithm> * key: CryptoKey * data: ArrayBufferView -> obj
         abstract deriveBits: algorithm: U2<string, Algorithm> * baseKey: CryptoKey * length: float -> obj
@@ -8243,7 +8257,7 @@ module Browser =
         inherit WindowLocalStorage
         inherit WindowConsole
         inherit GlobalEventHandlers
-        inherit IDBEnvironment
+        // inherit IDBEnvironment
         inherit WindowBase64
         abstract animationStartTime: float with get, set
         abstract applicationCache: ApplicationCache with get, set
@@ -8590,12 +8604,6 @@ module Browser =
         /// Sets or retrieves how text and other content are vertically aligned within the object that contains them.
         abstract vAlign: string with get, set
 
-    and [<AllowNullLiteral>] IDBEnvironment =
-        abstract indexedDB: IDBFactory with get, set
-
-    // and [<AllowNullLiteral>] LinkStyle =
-    //     abstract sheet: StyleSheet with get, set
-
     and [<AllowNullLiteral>] NavigatorContentUtils =
         interface end
 
@@ -8717,14 +8725,6 @@ module Browser =
         abstract newValue: string option with get, set
         abstract url: string with get, set
         abstract storageArea: Storage option with get, set
-
-    and [<AllowNullLiteral>] IDBObjectStoreParameters =
-        abstract keyPath: U2<string, ResizeArray<string>> option with get, set
-        abstract autoIncrement: bool option with get, set
-
-    and [<AllowNullLiteral>] IDBIndexParameters =
-        abstract unique: bool option with get, set
-        abstract multiEntry: bool option with get, set
 
     and [<AllowNullLiteral>] NodeListOf<'TNode> =
         inherit NodeList
@@ -8973,17 +8973,17 @@ module Browser =
     let [<Global>] HTMLVideoElement: HTMLVideoElementType = jsNative
     let [<Global>] HashChangeEvent: HashChangeEventType = jsNative
     let [<Global>] History: HistoryType = jsNative
-    let [<Global>] IDBCursor: IDBCursorType = jsNative
-    let [<Global>] IDBCursorWithValue: IDBCursorWithValueType = jsNative
-    let [<Global>] IDBDatabase: IDBDatabaseType = jsNative
-    let [<Global>] IDBFactory: IDBFactoryType = jsNative
-    let [<Global>] IDBIndex: IDBIndexType = jsNative
-    let [<Global>] IDBKeyRange: IDBKeyRangeType = jsNative
-    let [<Global>] IDBObjectStore: IDBObjectStoreType = jsNative
-    let [<Global>] IDBOpenDBRequest: IDBOpenDBRequestType = jsNative
-    let [<Global>] IDBRequest: IDBRequestType = jsNative
-    let [<Global>] IDBTransaction: IDBTransactionType = jsNative
-    let [<Global>] IDBVersionChangeEvent: IDBVersionChangeEventType = jsNative
+    // let [<Global>] IDBCursor: IDBCursorType = jsNative
+    // let [<Global>] IDBCursorWithValue: IDBCursorWithValueType = jsNative
+    // let [<Global>] IDBDatabase: IDBDatabaseType = jsNative
+    // let [<Global>] IDBFactory: IDBFactoryType = jsNative
+    // let [<Global>] IDBIndex: IDBIndexType = jsNative
+    // let [<Global>] IDBKeyRange: IDBKeyRangeType = jsNative
+    // let [<Global>] IDBObjectStore: IDBObjectStoreType = jsNative
+    // let [<Global>] IDBOpenDBRequest: IDBOpenDBRequestType = jsNative
+    // let [<Global>] IDBRequest: IDBRequestType = jsNative
+    // let [<Global>] IDBTransaction: IDBTransactionType = jsNative
+    // let [<Global>] IDBVersionChangeEvent: IDBVersionChangeEventType = jsNative
     let [<Global>] IIRFilterNode: IIRFilterNodeType = jsNative
     let [<Global>] ImageData: ImageDataType = jsNative
     let [<Global>] KeyboardEvent: KeyboardEventType = jsNative
@@ -9363,7 +9363,7 @@ module Browser =
     let [<Global>] mutable onpointerover: (PointerEvent -> obj) = jsNative
     let [<Global>] mutable onpointerup: (PointerEvent -> obj) = jsNative
     let [<Global>] mutable onwheel: (WheelEvent -> obj) = jsNative
-    let [<Global>] indexedDB: IDBFactory = jsNative
+    // let [<Global>] indexedDB: IDBFactory = jsNative
     let [<Global>] Headers: Headers = jsNative
     let [<Global>] Response: Response = jsNative
     let [<Global>] Request: Request = jsNative
