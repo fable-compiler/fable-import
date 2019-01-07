@@ -2266,32 +2266,32 @@ open Fable.Import.Browser
             type [<AllowNullLiteral>] ComponentRestrictions =
                 abstract country: U2<string, ResizeArray<string>> with get, set
 
-            type LocationBias =
-                U7<LatLng, LatLngLiteral, LatLngBounds, LatLngBoundsLiteral, Circle, CircleLiteral, string>
+            type LocationBias = obj
+                //U7<LatLng, LatLngLiteral, LatLngBounds, LatLngBoundsLiteral, Circle, CircleLiteral, string>
 
-            [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-            module LocationBias =
-                let ofLatLng v: LocationBias = v |> U7.Case1
-                let isLatLng (v: LocationBias) = match v with U7.Case1 _ -> true | _ -> false
-                let asLatLng (v: LocationBias) = match v with U7.Case1 o -> Some o | _ -> None
-                let ofLatLngLiteral v: LocationBias = v |> U7.Case2
-                let isLatLngLiteral (v: LocationBias) = match v with U7.Case2 _ -> true | _ -> false
-                let asLatLngLiteral (v: LocationBias) = match v with U7.Case2 o -> Some o | _ -> None
-                let ofLatLngBounds v: LocationBias = v |> U7.Case3
-                let isLatLngBounds (v: LocationBias) = match v with U7.Case3 _ -> true | _ -> false
-                let asLatLngBounds (v: LocationBias) = match v with U7.Case3 o -> Some o | _ -> None
-                let ofLatLngBoundsLiteral v: LocationBias = v |> U7.Case4
-                let isLatLngBoundsLiteral (v: LocationBias) = match v with U7.Case4 _ -> true | _ -> false
-                let asLatLngBoundsLiteral (v: LocationBias) = match v with U7.Case4 o -> Some o | _ -> None
-                let ofCircle v: LocationBias = v |> U7.Case5
-                let isCircle (v: LocationBias) = match v with U7.Case5 _ -> true | _ -> false
-                let asCircle (v: LocationBias) = match v with U7.Case5 o -> Some o | _ -> None
-                let ofCircleLiteral v: LocationBias = v |> U7.Case6
-                let isCircleLiteral (v: LocationBias) = match v with U7.Case6 _ -> true | _ -> false
-                let asCircleLiteral (v: LocationBias) = match v with U7.Case6 o -> Some o | _ -> None
-                let ofString v: LocationBias = v |> U7.Case7
-                let isString (v: LocationBias) = match v with U7.Case7 _ -> true | _ -> false
-                let asString (v: LocationBias) = match v with U7.Case7 o -> Some o | _ -> None
+            // [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+            // module LocationBias =
+            //     let ofLatLng v: LocationBias = v |> U7.Case1
+            //     let isLatLng (v: LocationBias) = match v with U7.Case1 _ -> true | _ -> false
+            //     let asLatLng (v: LocationBias) = match v with U7.Case1 o -> Some o | _ -> None
+            //     let ofLatLngLiteral v: LocationBias = v |> U7.Case2
+            //     let isLatLngLiteral (v: LocationBias) = match v with U7.Case2 _ -> true | _ -> false
+            //     let asLatLngLiteral (v: LocationBias) = match v with U7.Case2 o -> Some o | _ -> None
+            //     let ofLatLngBounds v: LocationBias = v |> U7.Case3
+            //     let isLatLngBounds (v: LocationBias) = match v with U7.Case3 _ -> true | _ -> false
+            //     let asLatLngBounds (v: LocationBias) = match v with U7.Case3 o -> Some o | _ -> None
+            //     let ofLatLngBoundsLiteral v: LocationBias = v |> U7.Case4
+            //     let isLatLngBoundsLiteral (v: LocationBias) = match v with U7.Case4 _ -> true | _ -> false
+            //     let asLatLngBoundsLiteral (v: LocationBias) = match v with U7.Case4 o -> Some o | _ -> None
+            //     let ofCircle v: LocationBias = v |> U7.Case5
+            //     let isCircle (v: LocationBias) = match v with U7.Case5 _ -> true | _ -> false
+            //     let asCircle (v: LocationBias) = match v with U7.Case5 o -> Some o | _ -> None
+            //     let ofCircleLiteral v: LocationBias = v |> U7.Case6
+            //     let isCircleLiteral (v: LocationBias) = match v with U7.Case6 _ -> true | _ -> false
+            //     let asCircleLiteral (v: LocationBias) = match v with U7.Case6 o -> Some o | _ -> None
+            //     let ofString v: LocationBias = v |> U7.Case7
+            //     let isString (v: LocationBias) = match v with U7.Case7 _ -> true | _ -> false
+            //     let asString (v: LocationBias) = match v with U7.Case7 o -> Some o | _ -> None
 
             type [<AllowNullLiteral>] PlaceAspectRating =
                 abstract rating: float with get, set
