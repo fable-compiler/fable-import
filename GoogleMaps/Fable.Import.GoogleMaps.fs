@@ -2398,12 +2398,12 @@ open Fable.Import.Browser
 
             type [<AllowNullLiteral>] FindPlaceFromQueryRequest =
                 abstract fields: ResizeArray<string> with get, set
-                abstract locationBias: LocationBias option with get, set
+                abstract locationBias: obj option with get, set
                 abstract query: string with get, set
 
             type [<AllowNullLiteral>] FindPlaceFromPhoneNumberRequest =
                 abstract fields: ResizeArray<string> with get, set
-                abstract locationBias: LocationBias option with get, set
+                abstract locationBias: obj option with get, set
                 abstract query: string with get, set
 
         module Drawing =
