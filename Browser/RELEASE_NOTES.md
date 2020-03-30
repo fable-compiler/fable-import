@@ -1,3 +1,7 @@
+### 1.4.0
+
+* Add `navigator.languages` (by @nelson831002)
+
 ### 1.3.0
 
 * Override 1.2.0-beta-001 release
