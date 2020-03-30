@@ -6558,6 +6558,7 @@ module Browser =
         abstract systemLanguage: string with get, set
         abstract userLanguage: string with get, set
         abstract webdriver: bool with get, set
+        abstract languages: string[] with get, set
         abstract getGamepads: unit -> ResizeArray<Gamepad>
         abstract javaEnabled: unit -> bool
         abstract msLaunchUri: uri: string * ?successCallback: MSLaunchUriCallback * ?noHandlerCallback: MSLaunchUriCallback -> unit
